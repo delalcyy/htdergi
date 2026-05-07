@@ -3,32 +3,48 @@ import Link from "next/link";
 
 export const metadata = { title: "Kullanıcılar | Admin" };
 
+const PAGE_SIZE = 25;
+
+const ROLES = [
+  { key: "ALL",          label: "Tümü" },
+  { key: "FREE",         label: "Ücretsiz" },
+  { key: "SUBSCRIBER",   label: "Abonelikli" },
+  { key: "SERIAL_USER",  label: "Seri" },
+  { key: "COVER_BUYER",  label: "Kapak" },
+];
+
+const ROLE_CLASS: Record<string, string> = {
+  FREE:        "role-badge role-free",
+  SUBSCRIBER:  "role-badge role-subscriber",
+  SERIAL_USER: "role-badge role-serial",
+  COVER_BUYER: "role-badge role-cover",
+  ADMIN:       "role-badge role-admin",
+};
+const ROLE_LABEL: Record<string, string> = {
+  FREE: "Ücretsiz", SUBSCRIBER: "Abonelikli", SERIAL_USER: "Seri",
+  COVER_BUYER: "Kapak", ADMIN: "Admin",
+};
+
 type Props = {
   searchParams: Promise<{ rol?: string; q?: string; sayfa?: string }>;
 };
 
-const PAGE_SIZE = 25;
-
 export default async function KullanicilarPage({ searchParams }: Props) {
   const params = await searchParams;
-  const rol = params.rol || "ALL";
-  const q = params.q || "";
-  const sayfa = parseInt(params.sayfa || "1", 10);
-  const skip = (sayfa - 1) * PAGE_SIZE;
+  const rol   = params.rol  || "ALL";
+  const q     = params.q    || "";
+  const sayfa = Math.max(1, parseInt(params.sayfa || "1"));
+  const skip  = (sayfa - 1) * PAGE_SIZE;
 
-  const where = {
-    deletedAt: null as null | Date,
-    ...(rol !== "ALL" ? { role: rol as "FREE" | "SUBSCRIBER" | "SERIAL_USER" | "COVER_BUYER" } : {}),
-    ...(q
-      ? {
-          OR: [
-            { email:     { contains: q } },
-            { firstName: { contains: q } },
-            { lastName:  { contains: q } },
-          ],
-        }
-      : {}),
-  };
+  const where: Record<string, unknown> = { deletedAt: null };
+  if (rol !== "ALL") where["role"] = rol;
+  if (q) {
+    where["OR"] = [
+      { email:     { contains: q } },
+      { firstName: { contains: q } },
+      { lastName:  { contains: q } },
+    ];
+  }
 
   const [users, total] = await Promise.all([
     prisma.user.findMany({
@@ -37,14 +53,8 @@ export default async function KullanicilarPage({ searchParams }: Props) {
       skip,
       take: PAGE_SIZE,
       select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        role: true,
-        status: true,
-        emailVerified: true,
-        createdAt: true,
+        id: true, email: true, firstName: true, lastName: true,
+        role: true, status: true, emailVerified: true, createdAt: true,
       },
     }),
     prisma.user.count({ where }),
@@ -52,29 +62,16 @@ export default async function KullanicilarPage({ searchParams }: Props) {
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
-  const roles = [
-    { key: "ALL", label: "Tümü" },
-    { key: "FREE", label: "Ücretsiz" },
-    { key: "SUBSCRIBER", label: "Abonelikli" },
-    { key: "SERIAL_USER", label: "Seri Numaralı" },
-    { key: "COVER_BUYER", label: "Kapak" },
-  ];
-
-  const roleClasses: Record<string, string> = {
-    FREE: "role-badge role-free",
-    SUBSCRIBER: "role-badge role-subscriber",
-    SERIAL_USER: "role-badge role-serial",
-    COVER_BUYER: "role-badge role-cover",
-    ADMIN: "role-badge role-admin",
-  };
-
   return (
     <div>
-      <h1 className="admin-section-title">Kullanıcılar</h1>
+      <div className="admin-page-head">
+        <h1 className="admin-section-title" style={{ marginBottom: 0 }}>
+          Kullanıcılar
+        </h1>
+      </div>
 
-      {/* Filtreler */}
       <div className="admin-filters">
-        {roles.map((r) => (
+        {ROLES.map((r) => (
           <Link
             key={r.key}
             href={`/admin/kullanicilar?rol=${r.key}${q ? `&q=${q}` : ""}`}
@@ -88,20 +85,14 @@ export default async function KullanicilarPage({ searchParams }: Props) {
           <input
             name="q"
             defaultValue={q}
-            placeholder="Ad, soyad veya e-posta ara..."
-            style={{
-              border: "1px solid #e2e8f0",
-              borderRadius: "8px",
-              padding: "0.375rem 0.75rem",
-              fontSize: "0.8125rem",
-              outline: "none",
-              width: "240px",
-            }}
+            placeholder="Ad, soyad veya e-posta ara…"
+            className="admin-input"
+            style={{ width: 240 }}
           />
         </form>
       </div>
 
-      <div className="admin-card">
+      <div className="admin-card" style={{ padding: 0 }}>
         <div className="admin-table-wrap">
           <table className="admin-table">
             <thead>
@@ -110,6 +101,7 @@ export default async function KullanicilarPage({ searchParams }: Props) {
                 <th>E-posta</th>
                 <th>Rol</th>
                 <th>Durum</th>
+                <th>E-posta Doğrulama</th>
                 <th>Kayıt Tarihi</th>
                 <th></th>
               </tr>
@@ -117,25 +109,38 @@ export default async function KullanicilarPage({ searchParams }: Props) {
             <tbody>
               {users.map((u) => (
                 <tr key={u.id}>
-                  <td>{u.firstName} {u.lastName}</td>
-                  <td style={{ color: "#64748b" }}>{u.email}</td>
-                  <td><span className={roleClasses[u.role] || "role-badge"}>{u.role}</span></td>
+                  <td style={{ fontWeight: 500 }}>
+                    {u.firstName} {u.lastName}
+                  </td>
+                  <td style={{ color: "var(--ad-muted)", fontSize: 12 }}>{u.email}</td>
+                  <td>
+                    <span className={ROLE_CLASS[u.role] || "role-badge role-free"}>
+                      {ROLE_LABEL[u.role] || u.role}
+                    </span>
+                  </td>
                   <td>
                     <span className={u.status === "ACTIVE" ? "badge-active" : "badge-expired"}>
                       {u.status === "ACTIVE" ? "Aktif" : u.status === "SUSPENDED" ? "Askıda" : "Silindi"}
                     </span>
                   </td>
-                  <td style={{ color: "#94a3b8", fontSize: "0.8125rem" }}>
+                  <td>
+                    <span style={{ fontSize: 11, color: u.emailVerified ? "#166534" : "var(--ad-muted)" }}>
+                      {u.emailVerified ? "✓ Doğrulandı" : "Bekliyor"}
+                    </span>
+                  </td>
+                  <td style={{ fontSize: 12, color: "var(--ad-muted)", whiteSpace: "nowrap" }}>
                     {new Date(u.createdAt).toLocaleDateString("tr-TR")}
                   </td>
                   <td>
-                    <Link href={`/admin/kullanicilar/${u.id}`}>Detay</Link>
+                    <Link href={`/admin/kullanicilar/${u.id}`} className="admin-filter-btn" style={{ whiteSpace: "nowrap" }}>
+                      Detay →
+                    </Link>
                   </td>
                 </tr>
               ))}
               {users.length === 0 && (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: "center", color: "#94a3b8", padding: "2rem" }}>
+                  <td colSpan={7} style={{ textAlign: "center", color: "var(--ad-muted)", padding: "36px" }}>
                     Kullanıcı bulunamadı.
                   </td>
                 </tr>
@@ -144,15 +149,14 @@ export default async function KullanicilarPage({ searchParams }: Props) {
           </table>
         </div>
 
-        {/* Sayfalama */}
         {totalPages > 1 && (
-          <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", marginTop: "1rem", flexWrap: "wrap" }}>
+          <div className="admin-pagination" style={{ padding: "16px 24px" }}>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
               <Link
                 key={p}
                 href={`/admin/kullanicilar?rol=${rol}&q=${q}&sayfa=${p}`}
                 className={`admin-filter-btn ${p === sayfa ? "active" : ""}`}
-                style={{ padding: "0.25rem 0.625rem", minWidth: "32px", textAlign: "center" }}
+                style={{ padding: "4px 10px", minWidth: 32, textAlign: "center" }}
               >
                 {p}
               </Link>
@@ -161,8 +165,8 @@ export default async function KullanicilarPage({ searchParams }: Props) {
         )}
       </div>
 
-      <div style={{ fontSize: "0.8125rem", color: "#94a3b8" }}>
-        Toplam: {total} kullanıcı
+      <div style={{ fontSize: 11, color: "var(--ad-muted)", marginTop: 8 }}>
+        Toplam {total} kullanıcı
       </div>
     </div>
   );

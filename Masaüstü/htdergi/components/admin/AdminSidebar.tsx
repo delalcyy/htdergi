@@ -26,6 +26,12 @@ const navGroups = [
     ],
   },
   {
+    section: "Siparişler",
+    items: [
+      { href: "/admin/siparisler", label: "Sipariş Listesi" },
+    ],
+  },
+  {
     section: "İçerik",
     items: [
       { href: "/admin/sablonlar", label: "Kapak Şablonları" },
