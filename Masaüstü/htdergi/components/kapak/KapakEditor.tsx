@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { updateDraft, type DraftData } from "@/lib/kapak/draft-store";
 import "@/styles/KapakTasarim.css";
 
@@ -14,21 +16,21 @@ type Props = {
 /* ── Sabitler ── */
 
 const ARKA_PLAN_RENKLERI = [
-  { label: "Siyah",    value: "#111111", koyu: false },
-  { label: "Antrasit", value: "#2c2c2c", koyu: false },
-  { label: "Gri",      value: "#6b6b6b", koyu: false },
-  { label: "Krem",     value: "#e8e0d0", koyu: true  },
-  { label: "Beyaz",    value: "#f5f5f0", koyu: true  },
-  { label: "Altın",    value: "#a98947", koyu: false },
+  { key: "siyah",    value: "#111111", koyu: false },
+  { key: "antrasit", value: "#2c2c2c", koyu: false },
+  { key: "gri",      value: "#6b6b6b", koyu: false },
+  { key: "krem",     value: "#e8e0d0", koyu: true  },
+  { key: "beyaz",    value: "#f5f5f0", koyu: true  },
+  { key: "altin",    value: "#a98947", koyu: false },
 ];
 
 const LOGO_RENKLERI = [
-  { label: "Orijinal",  filtre: "none",                                                                       onizleme: "#e8e8e8", koyu: true  },
-  { label: "Altın",     filtre: "sepia(1) saturate(4) hue-rotate(8deg)",                                     onizleme: "#c9a050", koyu: false },
-  { label: "Gümüş",     filtre: "brightness(0.65) saturate(0)",                                              onizleme: "#888888", koyu: false },
-  { label: "Siyah",     filtre: "brightness(0) saturate(100%)",                                              onizleme: "#111111", koyu: false },
-  { label: "Açık Mavi", filtre: "sepia(1) saturate(10) hue-rotate(170deg) brightness(0.75) contrast(1.55)", onizleme: "#1F3A8A", koyu: false },
-  { label: "Pembe",     filtre: "sepia(1) saturate(5) hue-rotate(295deg) brightness(0.9)",                   onizleme: "#e060a8", koyu: false },
+  { key: "orijinal",  filtre: "none",                                                                       onizleme: "#e8e8e8", koyu: true  },
+  { key: "altin",     filtre: "sepia(1) saturate(4) hue-rotate(8deg)",                                     onizleme: "#c9a050", koyu: false },
+  { key: "gumus",     filtre: "brightness(0.65) saturate(0)",                                              onizleme: "#888888", koyu: false },
+  { key: "siyah",     filtre: "brightness(0) saturate(100%)",                                              onizleme: "#111111", koyu: false },
+  { key: "acikMavi",  filtre: "sepia(1) saturate(10) hue-rotate(170deg) brightness(0.75) contrast(1.55)", onizleme: "#1F3A8A", koyu: false },
+  { key: "pembe",     filtre: "sepia(1) saturate(5) hue-rotate(295deg) brightness(0.9)",                   onizleme: "#e060a8", koyu: false },
 ];
 
 const FONTLAR = [
@@ -68,7 +70,7 @@ type Yazi = {
 
 type YaziKey = "sol1" | "sag1" | "sol2" | "sag2";
 
-const VARSAYILAN_YAZILAR: Record<YaziKey, Yazi> = {
+const VARSAYILAN_YAZILAR_TR: Record<YaziKey, Yazi> = {
   sol1: { metin: "MODANIN KALBİ\nTÜRKİYE'DE ATACAK", renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 1,  y: 55 },
   sag1: { metin: "ÖZEL RÖPORTAJLAR\nGÜÇLÜ İSİMLER\nYENİ SEZON",      renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 59, y: 32 },
   sol2: { metin: "YENİ KOLEKSİYON",                                    renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 1,  y: 70 },
@@ -98,6 +100,9 @@ function kelimeSiniri(metin: string): string {
    Ana Bileşen
    ══════════════════════════════ */
 export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Props) {
+  const router = useRouter();
+  const { t } = useTranslation("common");
+
   /* Arka plan */
   const [bgFoto, setBgFoto]     = useState<string | null>(null);
   const [bgBase64, setBgBase64] = useState<string | null>(null);
@@ -125,8 +130,15 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
   const [ad, setAd]               = useState(userName);
   const [altBaslik, setAltBaslik] = useState("");
 
+  const VARSAYILAN_YAZILAR: Record<YaziKey, Yazi> = {
+    sol1: { metin: t("cover.editor.defaultTexts.sol1"), renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 1,  y: 55 },
+    sag1: { metin: t("cover.editor.defaultTexts.sag1"), renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 59, y: 32 },
+    sol2: { metin: t("cover.editor.defaultTexts.sol2"), renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 1,  y: 70 },
+    sag2: { metin: t("cover.editor.defaultTexts.sag2"), renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 59, y: 48 },
+  };
+
   /* Yan yazılar */
-  const [yazilar, setYazilar] = useState<Record<YaziKey, Yazi>>({ ...VARSAYILAN_YAZILAR });
+  const [yazilar, setYazilar] = useState<Record<YaziKey, Yazi>>({ ...VARSAYILAN_YAZILAR_TR });
 
   /* UI */
   const [dışaAktariliyor, setDışaAktariliyor] = useState(false);
@@ -156,15 +168,15 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
   /* ── Arka plan fotoğraf ── */
   function bgDosyaIsle(dosya: File | null | undefined) {
     if (!dosya) return;
-    if (!dosya.type.startsWith("image/")) { gosterToast("Sadece görsel dosyası"); return; }
-    if (dosya.size > 20 * 1024 * 1024)   { gosterToast("Maks. 20 MB"); return; }
+    if (!dosya.type.startsWith("image/")) { gosterToast(t("cover.editor.toastImageOnly")); return; }
+    if (dosya.size > 20 * 1024 * 1024)   { gosterToast(t("cover.editor.toastMaxSize")); return; }
     if (bgFoto) URL.revokeObjectURL(bgFoto);
     setBgZoom(1); setBgDon(0); setBgAyna(false); setBgX(0); setBgY(0);
     setBgFoto(URL.createObjectURL(dosya));
     const r = new FileReader();
     r.onload = () => setBgBase64(r.result as string);
     r.readAsDataURL(dosya);
-    gosterToast("Fotoğraf yüklendi");
+    gosterToast(t("cover.editor.toastUploaded"));
   }
 
   function onBgDegis(e: React.ChangeEvent<HTMLInputElement>) {
@@ -316,9 +328,9 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
       link.download = `hatira-dergi-kapak-${Date.now()}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
-      gosterToast("Kapak indirildi");
+      gosterToast(t("cover.editor.toastDownloaded"));
     } catch {
-      gosterToast("Dışa aktarma başarısız");
+      gosterToast(t("cover.editor.toastExportFailed"));
     } finally {
       setDışaAktariliyor(false);
     }
@@ -333,10 +345,12 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
         personName: ad.trim().substring(0, 60) || null,
         subtitle:   altBaslik.trim().substring(0, 120) || null,
       });
-      gosterToast("Kapak kaydedildi!");
+      gosterToast(t("cover.editor.toastSaved"));
+      setTimeout(() => {
+        router.push(`/kapak-tasarla/roportaj/yeni?coverDraftId=${draft.id}`);
+      }, 600);
     } catch {
-      gosterToast("Kayıt başarısız");
-    } finally {
+      gosterToast(t("cover.editor.toastSaveFailed"));
       setKaydediliyor(false);
     }
   }
@@ -349,8 +363,8 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
     setOnFoto(null); setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0); setSuruklHedef("bg");
     setBgRenk("#111111"); setLogoFiltre("none"); setBaslikRenk("#ffffff");
     setAd(userName); setAltBaslik("");
-    setYazilar({ ...VARSAYILAN_YAZILAR });
-    gosterToast("Editör sıfırlandı");
+    setYazilar({ ...VARSAYILAN_YAZILAR_TR });
+    gosterToast(t("cover.editor.toastReset"));
   }
 
   const gosterAd = ad.trim() || userName || "Ad Soyad";
@@ -368,7 +382,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
           <div className="kt-bolum">
             <div className="kt-bolum-bas">
               <span className="kt-bolum-no">01</span>
-              <span className="kt-bolum-ad">Kapak Fotoğrafı</span>
+              <span className="kt-bolum-ad">{t("cover.editor.section01")}</span>
             </div>
 
             <div
@@ -383,8 +397,8 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                   <path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>
                 </svg>
               </div>
-              <span className="kt-yukle-baslik">Fotoğraf seç veya sürükle</span>
-              <span className="kt-yukle-hint">JPG · PNG · Maks. 20 MB</span>
+              <span className="kt-yukle-baslik">{t("cover.editor.uploadTitle")}</span>
+              <span className="kt-yukle-hint">{t("cover.editor.uploadHint")}</span>
               <input ref={dosyaRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onBgDegis} />
             </div>
 
@@ -394,14 +408,14 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                 <button className="kt-kucuk-sil" onClick={() => {
                   URL.revokeObjectURL(bgFoto); setBgFoto(null); setBgBase64(null);
                   setBgZoom(1); setBgDon(0); setBgAyna(false); setBgX(0); setBgY(0);
-                }}>✕ Kaldır</button>
+                }}>{t("cover.editor.remove")}</button>
               </div>
             )}
 
             {bgFoto && (
               <div className="kt-kontrol">
                 <div className="kt-ctrl-satir">
-                  <span className="kt-ctrl-etiket">Boyut</span>
+                  <span className="kt-ctrl-etiket">{t("cover.editor.size")}</span>
                   <button className="kt-ctrl-btn" onClick={() => setBgZoom(z => Math.max(0.3, +(z - 0.1).toFixed(2)))}>−</button>
                   <input type="range" min="30" max="300" step="5"
                     value={Math.round(bgZoom * 100)}
@@ -411,12 +425,12 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                   <span className="kt-ctrl-deger">%{Math.round(bgZoom * 100)}</span>
                 </div>
                 <div className="kt-ctrl-satir">
-                  <span className="kt-ctrl-etiket">Döndür</span>
+                  <span className="kt-ctrl-etiket">{t("cover.editor.rotate")}</span>
                   <button className="kt-ctrl-btn" onClick={() => setBgDon(d => d - 90)}>↺</button>
                   <span className="kt-ctrl-deger kt-ctrl-orta">{((bgDon % 360) + 360) % 360}°</span>
                   <button className="kt-ctrl-btn" onClick={() => setBgDon(d => d + 90)}>↻</button>
                   <button className={`kt-ctrl-btn kt-ctrl-btn--ayna ${bgAyna ? "kt-ctrl-btn--aktif" : ""}`}
-                    onClick={() => setBgAyna(a => !a)}>⟺ Ayna</button>
+                    onClick={() => setBgAyna(a => !a)}>{t("cover.editor.mirror")}</button>
                 </div>
               </div>
             )}
@@ -428,8 +442,8 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                   <path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>
                 </svg>
               </div>
-              <span className="kt-yukle-baslik">Kişi / Ön Plan PNG</span>
-              <span className="kt-yukle-hint">Arka planı silinmiş PNG · Logo önünde görünür</span>
+              <span className="kt-yukle-baslik">{t("cover.editor.fgTitle")}</span>
+              <span className="kt-yukle-hint">{t("cover.editor.fgHint")}</span>
               <input ref={onDosyaRef} type="file" accept="image/png" style={{ display: "none" }} onChange={onDosyaIsle} />
             </div>
 
@@ -439,14 +453,14 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                 <button className="kt-kucuk-sil" onClick={() => {
                   URL.revokeObjectURL(onFoto!); setOnFoto(null);
                   setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0); setSuruklHedef("bg");
-                }}>✕ Kaldır</button>
+                }}>{t("cover.editor.remove")}</button>
               </div>
             )}
 
             {onFoto && (
               <div className="kt-kontrol">
                 <div className="kt-ctrl-satir">
-                  <span className="kt-ctrl-etiket">Boyut</span>
+                  <span className="kt-ctrl-etiket">{t("cover.editor.size")}</span>
                   <button className="kt-ctrl-btn" onClick={() => setOnZoom(z => Math.max(0.3, +(z - 0.1).toFixed(2)))}>−</button>
                   <input type="range" min="30" max="300" step="5"
                     value={Math.round(onZoom * 100)}
@@ -456,19 +470,19 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                   <span className="kt-ctrl-deger">%{Math.round(onZoom * 100)}</span>
                 </div>
                 <div className="kt-ctrl-satir">
-                  <span className="kt-ctrl-etiket">Döndür</span>
+                  <span className="kt-ctrl-etiket">{t("cover.editor.rotate")}</span>
                   <button className="kt-ctrl-btn" onClick={() => setOnDon(d => d - 90)}>↺</button>
                   <span className="kt-ctrl-deger kt-ctrl-orta">{((onDon % 360) + 360) % 360}°</span>
                   <button className="kt-ctrl-btn" onClick={() => setOnDon(d => d + 90)}>↻</button>
                   <button className={`kt-ctrl-btn kt-ctrl-btn--ayna ${onAyna ? "kt-ctrl-btn--aktif" : ""}`}
-                    onClick={() => setOnAyna(a => !a)}>⟺ Ayna</button>
+                    onClick={() => setOnAyna(a => !a)}>{t("cover.editor.mirror")}</button>
                 </div>
                 <div className="kt-ctrl-satir">
-                  <span className="kt-ctrl-etiket">Sürükle</span>
+                  <span className="kt-ctrl-etiket">{t("cover.editor.drag")}</span>
                   <button className={`kt-ctrl-btn ${suruklHedef === "bg" ? "kt-ctrl-btn--aktif" : ""}`}
-                    onClick={() => setSuruklHedef("bg")}>Arka</button>
+                    onClick={() => setSuruklHedef("bg")}>{t("cover.editor.bgLayer")}</button>
                   <button className={`kt-ctrl-btn ${suruklHedef === "fg" ? "kt-ctrl-btn--aktif" : ""}`}
-                    onClick={() => setSuruklHedef("fg")}>Ön</button>
+                    onClick={() => setSuruklHedef("fg")}>{t("cover.editor.fgLayer")}</button>
                 </div>
               </div>
             )}
@@ -478,14 +492,14 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
           <div className="kt-bolum">
             <div className="kt-bolum-bas">
               <span className="kt-bolum-no">02</span>
-              <span className="kt-bolum-ad">Metinler</span>
+              <span className="kt-bolum-ad">{t("cover.editor.section02")}</span>
             </div>
             <div className="kt-alanlar">
               <div className="kt-alan kt-alan-tam">
                 <div className="kt-etiket-satir">
-                  <label className="kt-etiket">Ad Soyad</label>
+                  <label className="kt-etiket">{t("cover.editor.nameLabel")}</label>
                   <label className="kt-renk-kap">
-                    <span>Renk</span>
+                    <span>{t("cover.editor.colorLabel")}</span>
                     <input type="color" value={baslikRenk}
                       onChange={e => setBaslikRenk(e.target.value)}
                       className="kt-renk-giris" />
@@ -493,13 +507,13 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                 </div>
                 <input className="kt-giris" type="text" value={ad}
                   onChange={e => setAd(e.target.value)}
-                  placeholder="Adınız Soyadınız" maxLength={40} />
+                  placeholder={t("cover.editor.namePlaceholder")} maxLength={40} />
               </div>
               <div className="kt-alan kt-alan-tam">
-                <label className="kt-etiket">Alt Başlık <span className="kt-isteğe-bagli">(İsteğe bağlı)</span></label>
+                <label className="kt-etiket">{t("cover.editor.subtitleLabel")} <span className="kt-isteğe-bagli">{t("cover.editor.optional")}</span></label>
                 <textarea className="kt-giris" value={altBaslik}
                   onChange={e => setAltBaslik(e.target.value)}
-                  placeholder="Kısa bir alt başlık…" maxLength={120} rows={2} />
+                  placeholder={t("cover.editor.subtitlePlaceholder")} maxLength={120} rows={2} />
               </div>
             </div>
           </div>
@@ -508,20 +522,18 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
           <div className="kt-bolum">
             <div className="kt-bolum-bas">
               <span className="kt-bolum-no">03</span>
-              <span className="kt-bolum-ad">Yan Yazılar</span>
+              <span className="kt-bolum-ad">{t("cover.editor.section03")}</span>
             </div>
-            <p className="kt-surukle-ipucu">
-              Önizlemede yazılara <strong>tıklayarak</strong> düzenleyebilir, <strong>basılı tutarak</strong> sürükleyebilirsiniz.
-            </p>
+            <p className="kt-surukle-ipucu">{t("cover.editor.dragTip")}</p>
 
             {(["sol1", "sag1", "sol2", "sag2"] as YaziKey[]).map((key) => {
-              const etiket = { sol1: "Sol Yazı 1", sag1: "Sağ Yazı 1", sol2: "Sol Yazı 2", sag2: "Sağ Yazı 2" }[key];
+              const etiket = t(`cover.editor.textLabel_${key}`);
               return (
                 <div key={key} className="kt-yan-grup">
                   <div className="kt-yan-bas">
                     <span className="kt-yan-etiket">{etiket}</span>
                     <label className="kt-renk-kap">
-                      <span>Renk</span>
+                      <span>{t("cover.editor.colorLabel")}</span>
                       <input type="color" value={yazilar[key].renk}
                         onChange={e => yaziGuncelle(key, "renk", e.target.value)}
                         className="kt-renk-giris" />
@@ -536,7 +548,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                     {FONTLAR.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
                   </select>
                   <div className="kt-ctrl-satir">
-                    <span className="kt-ctrl-etiket" style={{ color: "var(--kt-etiket)" }}>Boyut</span>
+                    <span className="kt-ctrl-etiket" style={{ color: "var(--kt-etiket)" }}>{t("cover.editor.size")}</span>
                     <button className="kt-ctrl-btn"
                       onClick={() => yaziGuncelle(key, "boyut", Math.max(0.8, +(yazilar[key].boyut - 0.1).toFixed(1)))}>−</button>
                     <span className="kt-ctrl-deger" style={{ color: "var(--kt-etiket)" }}>
@@ -554,14 +566,14 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
           <div className="kt-bolum">
             <div className="kt-bolum-bas">
               <span className="kt-bolum-no">04</span>
-              <span className="kt-bolum-ad">Arka Plan Rengi</span>
+              <span className="kt-bolum-ad">{t("cover.editor.section04")}</span>
             </div>
             <div className="kt-palet">
               {ARKA_PLAN_RENKLERI.map(c => (
                 <button key={c.value}
                   className={`kt-renk-kare ${bgRenk === c.value ? "kt-renk-kare--aktif" : ""}`}
                   style={{ background: c.value }}
-                  onClick={() => setBgRenk(c.value)} title={c.label}>
+                  onClick={() => setBgRenk(c.value)} title={t(`cover.editor.bgColors.${c.key}`)}>
                   {bgRenk === c.value && (
                     <span className="kt-renk-tik" style={{ color: c.koyu ? "#111" : "#fff" }}>✓</span>
                   )}
@@ -575,14 +587,14 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
             <div className="kt-bolum">
               <div className="kt-bolum-bas">
                 <span className="kt-bolum-no">05</span>
-                <span className="kt-bolum-ad">Logo Rengi</span>
+                <span className="kt-bolum-ad">{t("cover.editor.section05")}</span>
               </div>
               <div className="kt-palet">
                 {LOGO_RENKLERI.map(c => (
                   <button key={c.filtre}
                     className={`kt-renk-kare ${logoFiltre === c.filtre ? "kt-renk-kare--aktif" : ""}`}
                     style={{ background: c.onizleme }}
-                    onClick={() => setLogoFiltre(c.filtre)} title={c.label}>
+                    onClick={() => setLogoFiltre(c.filtre)} title={t(`cover.editor.logoColors.${c.key}`)}>
                     {logoFiltre === c.filtre && (
                       <span className="kt-renk-tik" style={{ color: c.koyu ? "#111" : "#fff" }}>✓</span>
                     )}
@@ -593,7 +605,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                 {LOGO_RENKLERI.map(c => (
                   <span key={c.filtre}
                     className={`kt-logo-etiket ${logoFiltre === c.filtre ? "kt-logo-etiket--aktif" : ""}`}
-                    onClick={() => setLogoFiltre(c.filtre)}>{c.label}</span>
+                    onClick={() => setLogoFiltre(c.filtre)}>{t(`cover.editor.logoColors.${c.key}`)}</span>
                 ))}
               </div>
             </div>
@@ -601,16 +613,16 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
 
           {/* Mobil butonlar */}
           <div className="kt-panel-aksiyonlar">
-            <button className="kt-btn kt-btn-ghost" onClick={handleSifirla}>Sıfırla</button>
+            <button className="kt-btn kt-btn-ghost" onClick={handleSifirla}>{t("cover.editor.resetBtn")}</button>
             <button className="kt-btn kt-btn-koyu" onClick={handleIndir} disabled={dışaAktariliyor || !bgFoto}>
-              {dışaAktariliyor ? "İşleniyor…" : "Kapağı İndir"}
+              {dışaAktariliyor ? t("cover.editor.processing") : t("cover.editor.downloadBtn")}
             </button>
           </div>
 
           <div className="kt-devam">
             <div className="kt-devam-cizgi" />
             <button className="kt-devam-btn" onClick={handleKaydetDevam} disabled={kaydediliyor}>
-              {kaydediliyor ? "Kaydediliyor…" : "Kapağı Kaydet & Röportaja Geç"}
+              {kaydediliyor ? t("cover.editor.saving") : t("cover.editor.saveBtn")}
               <span className="kt-ok">→</span>
             </button>
           </div>
@@ -620,7 +632,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
 
       {/* ══════ ÖNİZLEME ══════ */}
       <section className="kt-onizleme">
-        <span className="kt-on-etiket">Canlı Önizleme</span>
+        <span className="kt-on-etiket">{t("cover.editor.previewLabel")}</span>
 
         <div className="kt-kapak-sahne" style={{ background: bgRenk }}>
           <div
@@ -650,8 +662,8 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
                     <path d="M3 16l5-5 4 4 3-3 6 6"/>
                   </svg>
                 </div>
-                <div className="kt-kapak-bos-baslik">Önizleme burada</div>
-                <div className="kt-kapak-bos-alt">Fotoğraf yükleyin</div>
+                <div className="kt-kapak-bos-baslik">{t("cover.editor.previewEmptyTitle")}</div>
+                <div className="kt-kapak-bos-alt">{t("cover.editor.previewEmptyHint")}</div>
               </div>
             )}
 
@@ -718,15 +730,15 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
           </div>
         </div>
 
-        <span className="kt-on-boyut">21,6 × 27,9 cm · 300 dpi</span>
+        <span className="kt-on-boyut">{t("cover.editor.previewSize")}</span>
 
         <div className="kt-on-aksiyonlar">
-          <button className="kt-btn kt-btn-ghost" onClick={handleSifirla}>Sıfırla</button>
+          <button className="kt-btn kt-btn-ghost" onClick={handleSifirla}>{t("cover.editor.resetBtn")}</button>
           <button className="kt-btn kt-btn-koyu" onClick={handleIndir} disabled={dışaAktariliyor || !bgFoto}>
-            {dışaAktariliyor ? "İşleniyor…" : "↓ PNG İndir"}
+            {dışaAktariliyor ? t("cover.editor.processing") : t("cover.editor.downloadBtnShort")}
           </button>
           <button className="kt-btn kt-btn-altin" onClick={handleKaydetDevam} disabled={kaydediliyor}>
-            {kaydediliyor ? "Kaydediliyor…" : "Kaydet & Röportaja Geç →"}
+            {kaydediliyor ? t("cover.editor.saving") : t("cover.editor.saveBtnShort")}
           </button>
         </div>
       </section>
@@ -736,7 +748,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
       {dışaAktariliyor && (
         <div className="kt-overlay">
           <div className="kt-spinner" />
-          <div className="kt-overlay-yazi">Dışa aktarılıyor…</div>
+          <div className="kt-overlay-yazi">{t("cover.editor.exporting")}</div>
         </div>
       )}
     </div>,

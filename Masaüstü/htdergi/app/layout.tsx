@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
+import I18nProvider from "@/components/i18n/I18nProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const cormorant = Cormorant_Garamond({
@@ -25,7 +26,7 @@ export default function RootLayout({
 className={`${inter.variable} ${cormorant.variable} ${inter.className}`}
         suppressHydrationWarning
       >
-        {children}
+        <I18nProvider>{children}</I18nProvider>
       </body>
     </html>
   );

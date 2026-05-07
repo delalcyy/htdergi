@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import { requireAuth, requireRole } from "../middleware/auth";
+import type { OrderStatus } from "@prisma/client";
 import { prisma } from "../config/prisma";
 
 const router = Router();
@@ -235,8 +236,8 @@ router.put(
     if (currentLocation !== undefined) data["currentLocation"] = currentLocation;
     if (estimatedDate !== undefined)   data["estimatedDate"]   = new Date(estimatedDate);
     if (notes !== undefined)           data["notes"]           = notes;
-    if (status === "SHIPPED")          data["shippedAt"]       = new Date();
-    if (status === "DELIVERED")        data["deliveredAt"]     = new Date();
+    if (status === "PICKED_UP" || status === "IN_TRANSIT") data["shippedAt"]   = new Date();
+    if (status === "DELIVERED")                            data["deliveredAt"] = new Date();
 
     const cargo = await prisma.cargoTracking.upsert({
       where:  { orderId: req.params.id as string },
@@ -244,10 +245,17 @@ router.put(
       update: data,
     });
 
-    if (status === "SHIPPED" || status === "DELIVERED") {
+    // Kargo durumunu sipariş durumuna yansıt
+    const orderStatusMap: Record<string, string> = {
+      PICKED_UP:  "SHIPPED",
+      IN_TRANSIT: "SHIPPED",
+      DELIVERED:  "DELIVERED",
+      RETURNED:   "REFUNDED",
+    };
+    if (status && orderStatusMap[status]) {
       await prisma.order.update({
         where: { id: req.params.id as string },
-        data:  { status: status === "SHIPPED" ? "SHIPPED" : "DELIVERED" },
+        data:  { status: orderStatusMap[status] as OrderStatus },
       });
     }
 

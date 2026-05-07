@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { infoFormSchema, type InfoFormInput } from "@/lib/validation/kapak";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,6 +21,7 @@ type FormInput = z.infer<typeof formWithSerialSchema>;
 export default function BilgiFormu() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation("common");
   const planId = searchParams.get("planId");
   const [serverError, setServerError] = useState("");
   const [showSerial, setShowSerial] = useState(false);
@@ -45,7 +47,7 @@ export default function BilgiFormu() {
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
-        setServerError(json.error || "Seri numarası geçersiz.");
+        setServerError(json.error || t("cover.bilgiFormu.serialInvalid"));
         return;
       }
       router.push("/kapak-tasarla/editor");
@@ -61,7 +63,7 @@ export default function BilgiFormu() {
     });
     const json = await res.json();
     if (!res.ok || !json.success) {
-      setServerError(json.error || "Hata oluştu.");
+      setServerError(json.error || t("cover.bilgiFormu.genericError"));
       return;
     }
 
@@ -81,48 +83,48 @@ export default function BilgiFormu() {
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="kapak-field">
-          <label htmlFor="fullName">Ad Soyad</label>
+          <label htmlFor="fullName">{t("cover.bilgiFormu.fullName")}</label>
           <Input id="fullName" {...register("fullName")} />
           {errors.fullName && <div className="kapak-field-error">{errors.fullName.message}</div>}
         </div>
 
         <div className="kapak-field">
-          <label htmlFor="phone">Telefon</label>
+          <label htmlFor="phone">{t("cover.bilgiFormu.phone")}</label>
           <Input id="phone" {...register("phone")} placeholder="05XX XXX XX XX" />
           {errors.phone && <div className="kapak-field-error">{errors.phone.message}</div>}
         </div>
 
         <div className="kapak-form-section">
-          <div className="kapak-form-section-title">Adres Bilgileri</div>
+          <div className="kapak-form-section-title">{t("cover.bilgiFormu.addressSection")}</div>
 
           <div className="kapak-field">
-            <label htmlFor="addressLine">Adres</label>
+            <label htmlFor="addressLine">{t("cover.bilgiFormu.address")}</label>
             <Input id="addressLine" {...register("addressLine")} />
             {errors.addressLine && <div className="kapak-field-error">{errors.addressLine.message}</div>}
           </div>
 
           <div className="kapak-grid-2">
             <div className="kapak-field">
-              <label htmlFor="city">Şehir</label>
+              <label htmlFor="city">{t("cover.bilgiFormu.city")}</label>
               <Input id="city" {...register("city")} />
               {errors.city && <div className="kapak-field-error">{errors.city.message}</div>}
             </div>
             <div className="kapak-field">
-              <label htmlFor="district">İlçe</label>
+              <label htmlFor="district">{t("cover.bilgiFormu.district")}</label>
               <Input id="district" {...register("district")} />
               {errors.district && <div className="kapak-field-error">{errors.district.message}</div>}
             </div>
           </div>
 
           <div className="kapak-field">
-            <label htmlFor="postalCode">Posta Kodu (opsiyonel)</label>
+            <label htmlFor="postalCode">{t("cover.bilgiFormu.postalCode")}</label>
             <Input id="postalCode" {...register("postalCode")} placeholder="34000" />
           </div>
         </div>
 
         {/* Seri numarası bölümü */}
         <div className="kapak-form-section">
-          <div className="kapak-form-section-title">Seri Numarası</div>
+          <div className="kapak-form-section-title">{t("cover.bilgiFormu.serialSection")}</div>
           <button
             type="button"
             onClick={() => setShowSerial(!showSerial)}
@@ -137,12 +139,12 @@ export default function BilgiFormu() {
               marginBottom: "0.75rem",
             }}
           >
-            {showSerial ? "Seri numaramı iptal et" : "Seri numaramı kullanmak istiyorum"}
+            {showSerial ? t("cover.bilgiFormu.serialToggleOff") : t("cover.bilgiFormu.serialToggleOn")}
           </button>
 
           {showSerial && (
             <div className="kapak-field">
-              <label htmlFor="serialCode">Seri Numarası</label>
+              <label htmlFor="serialCode">{t("cover.bilgiFormu.serialCode")}</label>
               <Input
                 id="serialCode"
                 {...register("serialCode")}
@@ -151,7 +153,7 @@ export default function BilgiFormu() {
               />
               {errors.serialCode && <div className="kapak-field-error">{errors.serialCode.message}</div>}
               <div style={{ fontSize: "0.75rem", color: "#9ca3af", marginTop: "0.25rem" }}>
-                Seri numaranız 1 yıllık abonelik tanımlayacak.
+                {t("cover.bilgiFormu.serialHint")}
               </div>
             </div>
           )}
@@ -159,7 +161,11 @@ export default function BilgiFormu() {
 
         <div style={{ marginTop: "1.5rem" }}>
           <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? "İşleniyor..." : showSerial ? "Seri Numarasını Kullan" : "Ödemeye Geç"}
+            {isSubmitting
+              ? t("cover.bilgiFormu.submitting")
+              : showSerial
+                ? t("cover.bilgiFormu.submitWithSerial")
+                : t("cover.bilgiFormu.submitToPayment")}
           </Button>
         </div>
       </form>

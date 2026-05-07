@@ -51,6 +51,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  serverExternalPackages: ["iyzipay"],
   images: {
     remotePatterns: [
       {

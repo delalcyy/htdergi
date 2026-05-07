@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ const COVER_PRICE = 299; // Tek kapak fiyatı
 
 export default function OdemeFormu({ planId, purchaseType, planPrice }: Props) {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const [discountCode, setDiscountCode] = useState("");
   const [discountInfo, setDiscountInfo] = useState<{
     id: string;
@@ -51,13 +53,13 @@ export default function OdemeFormu({ planId, purchaseType, planPrice }: Props) {
       });
       const json = await res.json();
       if (!json.success) {
-        setDiscountError(json.error || "Geçersiz kod.");
+        setDiscountError(json.error || t("cover.odeme.invalidCode"));
         setDiscountInfo(null);
       } else {
         setDiscountInfo(json.data);
       }
     } catch {
-      setDiscountError("Bağlantı hatası.");
+      setDiscountError(t("cover.odeme.connectionError"));
     } finally {
       setIsApplying(false);
     }
@@ -78,7 +80,7 @@ export default function OdemeFormu({ planId, purchaseType, planPrice }: Props) {
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
-        setServerError(json.error || "Ödeme başlatılamadı.");
+        setServerError(json.error || t("cover.odeme.paymentError"));
         return;
       }
       // Ödeme sağlayıcısına yönlendirme (iyzico checkout url)
@@ -103,29 +105,29 @@ export default function OdemeFormu({ planId, purchaseType, planPrice }: Props) {
       {/* Fiyat özeti */}
       <div style={{ marginBottom: "1.5rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-          <span style={{ color: "#6b7280", fontSize: "0.875rem" }}>Tutar</span>
+          <span style={{ color: "#6b7280", fontSize: "0.875rem" }}>{t("cover.odeme.amount")}</span>
           <span style={{ fontWeight: 600, color: "#1a1a1a" }}>₺{basePrice.toLocaleString("tr-TR")}</span>
         </div>
         {discountInfo && (
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-            <span style={{ color: "#059669", fontSize: "0.875rem" }}>İndirim</span>
+            <span style={{ color: "#059669", fontSize: "0.875rem" }}>{t("cover.odeme.discount")}</span>
             <span style={{ fontWeight: 600, color: "#059669" }}>-₺{discount.toLocaleString("tr-TR")}</span>
           </div>
         )}
         <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #e5e7eb", paddingTop: "0.75rem" }}>
-          <span style={{ fontWeight: 700, color: "#1a1a1a" }}>Toplam</span>
+          <span style={{ fontWeight: 700, color: "#1a1a1a" }}>{t("cover.odeme.total")}</span>
           <span style={{ fontWeight: 700, fontSize: "1.125rem", color: "#1a1a1a" }}>₺{finalPrice.toLocaleString("tr-TR")}</span>
         </div>
       </div>
 
       {/* İndirim kodu */}
       <div className="kapak-form-section">
-        <div className="kapak-form-section-title">İndirim Kodu</div>
+        <div className="kapak-form-section-title">{t("cover.odeme.discountSection")}</div>
         <div style={{ display: "flex", gap: "0.75rem" }}>
           <Input
             value={discountCode}
             onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
-            placeholder="İNDİRİM KODUNU GİRİN"
+            placeholder={t("cover.odeme.discountPlaceholder")}
             style={{ fontFamily: "monospace", letterSpacing: "0.05em", flex: 1 }}
             disabled={!!discountInfo}
           />
@@ -135,7 +137,7 @@ export default function OdemeFormu({ planId, purchaseType, planPrice }: Props) {
               variant="outline"
               onClick={() => { setDiscountInfo(null); setDiscountCode(""); }}
             >
-              Kaldır
+              {t("cover.odeme.remove")}
             </Button>
           ) : (
             <Button
@@ -144,24 +146,26 @@ export default function OdemeFormu({ planId, purchaseType, planPrice }: Props) {
               onClick={applyDiscount}
               disabled={!discountCode || isApplying}
             >
-              {isApplying ? "..." : "Uygula"}
+              {isApplying ? "..." : t("cover.odeme.apply")}
             </Button>
           )}
         </div>
         {discountError && <div className="kapak-field-error">{discountError}</div>}
         {discountInfo && (
           <div style={{ fontSize: "0.8125rem", color: "#059669", marginTop: "0.375rem" }}>
-            İndirim uygulandı!
+            {t("cover.odeme.discountApplied")}
           </div>
         )}
       </div>
 
       <div style={{ marginTop: "1.5rem" }}>
         <Button onClick={handlePayment} disabled={isSubmitting} className="w-full" size="lg">
-          {isSubmitting ? "Yönlendiriliyor..." : `₺${finalPrice.toLocaleString("tr-TR")} Öde`}
+          {isSubmitting
+            ? t("cover.odeme.redirecting")
+            : `${t("cover.odeme.payBtnPrefix")} ₺${finalPrice.toLocaleString("tr-TR")}`}
         </Button>
         <p style={{ fontSize: "0.75rem", color: "#9ca3af", textAlign: "center", marginTop: "0.75rem" }}>
-          Güvenli ödeme. Bilgileriniz şifrelenerek işlenir.
+          {t("cover.odeme.secureNote")}
         </p>
       </div>
     </div>

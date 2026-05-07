@@ -1,0 +1,767 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "subscription": "Abonnement",
+    "howItWorks": "So funktioniert's",
+    "contact": "Kontakt",
+    "myPanel": "Mein Panel",
+    "designCover": "Cover gestalten",
+    "menuOpen": "Menü öffnen",
+    "menuClose": "Menü schließen"
+  },
+  "footer": {
+    "tagline": "Bringe deine Erinnerungen auf ein Magazin-Cover. Erstelle deine eigene Sonderausgabe.",
+    "colProduct": "Produkt",
+    "colCompany": "Unternehmen",
+    "colAccount": "Konto",
+    "colContact": "Kontakt",
+    "linkDesign": "Cover gestalten",
+    "linkPlans": "Abonnementpläne",
+    "linkHowItWorks": "So funktioniert's",
+    "linkAbout": "Über uns",
+    "linkFaq": "FAQ",
+    "linkContact": "Kontakt",
+    "linkLogin": "Anmelden",
+    "linkRegister": "Registrieren",
+    "linkPanel": "Mein Panel",
+    "city": "Istanbul, Türkei",
+    "copyright": "Alle Rechte vorbehalten.",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Nutzungsbedingungen"
+  },
+  "home": {
+    "hero": {
+      "kicker": "Jeder kann auf dem Cover seines eigenen Magazins sein",
+      "quote": "In der Zukunft",
+      "quoteEm": "Wird Jeder Berühmt Sein",
+      "author": "Andy Warhol",
+      "lede": "Werde der Star auf dem Cover eines fashiontv Magazins. Schreibe deine Geschichte, erstelle dein Interview und nimm deinen Platz in einem Luxus-Lifestyle-Magazin ein.",
+      "ctaPrimary": "Jetzt starten",
+      "ctaSecondary": "Pläne ansehen"
+    },
+    "marquee": {
+      "items": [
+        "Geburtstag",
+        "Hochzeit",
+        "Karriere",
+        "Baby",
+        "Abschluss"
+      ]
+    },
+    "steps": {
+      "eyebrow": "So funktioniert's",
+      "title": "Dein eigenes Magazin",
+      "titleEm": "in vier Schritten",
+      "lede": "Gestalte dein Cover, erstelle dein Interview und werde in wenigen Minuten zum Cover-Star.",
+      "items": [
+        {
+          "n": "01",
+          "title": "Registrieren",
+          "desc": "Erstelle ein kostenloses Konto mit deinem Namen, E-Mail und Passwort."
+        },
+        {
+          "n": "02",
+          "title": "Abonnieren",
+          "desc": "Vervollständige deine Adressdaten und starte deine Mitgliedschaft."
+        },
+        {
+          "n": "03",
+          "title": "Cover gestalten",
+          "desc": "Wähle deine Kategorie, lade deine Fotos hoch und fülle die Interviewfragen aus."
+        },
+        {
+          "n": "04",
+          "title": "PDF erhalten",
+          "desc": "Deine persönliche Magazinseite wird sofort erstellt und ist zum Download bereit."
+        }
+      ]
+    },
+    "categories": {
+      "eyebrow": "Kategorien",
+      "title": "Für jeden besonderen Moment",
+      "titleEm": "Eine besondere Seite",
+      "items": [
+        "Geburtstag",
+        "Hochzeit",
+        "Karriere",
+        "Baby",
+        "Abschluss"
+      ]
+    },
+    "gallery": {
+      "eyebrow": "Galerie",
+      "title": "Momente",
+      "titleEm": "aus deinem Leben"
+    },
+    "testimonials": {
+      "eyebrow": "Bewertungen",
+      "title": "Was unsere Nutzer",
+      "titleEm": "sagen",
+      "items": [
+        { "name": "Elif K.",   "title": "Istanbul",       "text": "Ich habe es als Geburtstagsüberraschung für meinen Mann vorbereitet. Er war erstaunt, sein Foto auf dem fashiontv-Magazin-Cover zu sehen. Der Interview-Teil hat ihn noch mehr bewegt. Es hängt jetzt am auffälligsten Platz zu Hause." },
+        { "name": "Murat B.",  "title": "Istanbul",       "text": "Ich habe es für meinen Abschluss gemacht. Ehrlich gesagt hätte ich nicht erwartet, dass mein Foto auf dem Cover so gut aussieht. Meine Freunde dachten wirklich, ich wäre im echten Magazin. Der Interview-Teil hat alle besonders beeindruckt." },
+        { "name": "Selin T.",  "title": "Ankara",         "text": "Ich habe es für meine Mutter vorbereitet. Sie konnte es lange nicht glauben, als sie sich auf dem fashiontv-Cover sah. Sie liest das Interview jedem vor. Am Ende ließ sie es einrahmen und hängte es ins Wohnzimmer." },
+        { "name": "Ahmet Y.",  "title": "Izmir",          "text": "Ich wollte meiner Freundin eine besondere Überraschung bereiten. Sie liebte es, sich auf dem Fashiontv Magazine-Cover zu sehen. Sie hielt die Interview-Seiten lange in den Händen. Es war wirklich ein sehr besonderes Geschenk." },
+        { "name": "Zeynep D.", "title": "Neue Mutter",   "text": "Wir haben es nach der Geburt unseres Babys als Erinnerung gemacht. Es wurde ein ganz besonderes Andenken, das wir Jahre später aufschlagen werden. Unsere eigene Familie auf dem Cover zu sehen war wunderschön." },
+        { "name": "Ceren A.",  "title": "Bursa",          "text": "Ich habe es für das Karrierejubiläum meines Vaters vorbereitet. Zuerst war er überrascht, dann fing er leise an, das Interview zu lesen. Am Ende sagte er: 'Das hebe ich auf.' Dieser Moment hat alles lohnenswert gemacht." }
+      ]
+    },
+    "cta": {
+      "title": "Teile deine Geschichte",
+      "titleEm": "mit der Welt",
+      "subtitle": "Jetzt registrieren und deine erste Seite erstellen.",
+      "button": "Kostenlos starten"
+    }
+  },
+  "about": {
+    "eyebrow": "Hatıra Dergi",
+    "heroTitle": "Wer",
+    "heroTitleEm": "sind wir?",
+    "heroDesc": "Wir verewigen deine Erinnerungen auf einem professionellen Magazin-Cover. Jeder Moment, jede Geschichte, jeder Mensch verdient es, auf einem Cover zu sein.",
+    "storyEyebrow": "Unsere Geschichte",
+    "storyTitle": "Erinnerungen auf",
+    "storyTitleEm": "das Cover bringen",
+    "storyP1": "Hatıra Dergi wurde für alle gegründet, die ihren Lieben oder sich selbst eine außergewöhnliche Überraschung bereiten möchten.",
+    "storyP2": "Inspiriert vom fashiontv Magazine-Stil laden Sie einfach Ihr Foto hoch und beantworten unsere Fragen — den Rest erledigen wir.",
+    "storyP3": "Jedes gestaltete Cover wird mit einer einzigartigen Seriennummer dokumentiert, die nur Ihrem Moment gehört.",
+    "quoteText": "Eines Tages wird jeder berühmt sein. Wir warten nicht darauf, dass dieser Tag kommt — wir erschaffen ihn heute.",
+    "quoteAuthor": "Hatıra Dergi",
+    "quoteAuthorTitle": "Gründungsteam Manifest",
+    "mvEyebrow": "Unsere Richtung",
+    "mvTitle": "Mission &",
+    "mvTitleEm": "Vision",
+    "missionIcon": "◈",
+    "missionTitle": "Unsere Mission",
+    "missionText": "Jedem Menschen zu ermöglichen, seine besonderen Momente mit professioneller Magazinqualität zu dokumentieren.",
+    "visionIcon": "◇",
+    "visionTitle": "Unsere Vision",
+    "visionText": "Die Philosophie, dass jeder ein Cover-Star ist, von der Türkei in die Welt zu tragen.",
+    "valuesEyebrow": "Unsere Grundsätze",
+    "valuesTitle": "Die Werte hinter",
+    "valuesTitleEm": "jeder Entscheidung",
+    "valuesLede": "Bei der Gestaltung der Plattform haben wir bei jedem Schritt gefragt: Fügt das dem Andenken des Nutzers wirklich Wert hinzu?",
+    "values": [
+      {
+        "num": "01",
+        "title": "Einzigartigkeit",
+        "text": "Jedes Design wird mit einer einzigartigen Seriennummer dokumentiert. Dein Moment, deine Unterschrift."
+      },
+      {
+        "num": "02",
+        "title": "Qualität",
+        "text": "Jede Seite wird sorgfältig mit professionellem Magazinlayout und Druckqualität vorbereitet."
+      },
+      {
+        "num": "03",
+        "title": "Einfachheit",
+        "text": "Gestalte dein Cover in Minuten — kein technisches Wissen erforderlich."
+      },
+      {
+        "num": "04",
+        "title": "Emotion",
+        "text": "Mehr als ein Foto: dein Interview, deine Worte und das wahre Gewicht des Moments."
+      }
+    ],
+    "statsEyebrow": "Zahlen",
+    "stats": [
+      {
+        "num": "10.000+",
+        "label": "Gestaltete Cover"
+      },
+      {
+        "num": "98%",
+        "label": "Kundenzufriedenheit"
+      },
+      {
+        "num": "5",
+        "label": "Verschiedene Kategorien"
+      },
+      {
+        "num": "2022",
+        "label": "Gegründet"
+      }
+    ],
+    "timelineEyebrow": "Geschichte",
+    "timelineTitle": "Wie haben",
+    "timelineTitleEm": "wir angefangen?",
+    "timelineP1": "Wie jede große Idee entstand Hatıra Dergi aus einem gewöhnlichen Bedürfnis heraus.",
+    "timelineP2": "Ein kleines Team machte sich mit einem großen Traum auf den Weg.",
+    "timeline": [
+      {
+        "year": "2022",
+        "title": "Die erste Idee",
+        "desc": "Die Magazincover-Idee entstand beim Suchen nach einer anderen Überraschung für unsere Lieben."
+      },
+      {
+        "year": "2023",
+        "title": "Plattform-Launch",
+        "desc": "Unsere ersten Nutzer schlossen ihre Cover-Designs ab und das Feedback war vielversprechend."
+      },
+      {
+        "year": "2024",
+        "title": "Wachstumsphase",
+        "desc": "Tausende von Menschen verwandelten Geburtstags-, Abschluss- und Karriereerinnerungen in Cover."
+      },
+      {
+        "year": "2025",
+        "title": "Neue Funktionen",
+        "desc": "Die Plattform erweiterte sich mit dem Interview-Modul, erweiterten Vorlagen und Sammlungsseiten."
+      }
+    ],
+    "ctaTitle": "Werde auch du",
+    "ctaTitleEm": "ein Cover-Star",
+    "ctaSub": "Alles, was du brauchst, um deinen Moment zu verewigen, ist anzufangen.",
+    "ctaPrimary": "Jetzt starten",
+    "ctaSecondary": "Pläne ansehen"
+  },
+  "howItWorks": {
+    "eyebrow": "Prozess",
+    "heroTitle": "Wie funktioniert",
+    "heroTitleEm": "es?",
+    "heroDesc": "Von der Cover-Gestaltung bis zum Interview, vom Foto-Upload bis zum PDF — erstelle deine eigene Magazinseite in vier Schritten. Durchschnittliche Bearbeitungszeit: 15 Minuten.",
+    "steps": [
+      {
+        "num": "01",
+        "tag": "Erster Schritt",
+        "cardTitle": "Cover gestalten",
+        "cardDesc": "Öffne den Editor, lade dein Foto hoch und personalisiere dein Cover.",
+        "title": "Dein Cover",
+        "titleEm": "gestalten",
+        "desc": "Wenn du den Cover-Editor öffnest, erwartet dich eine voll ausgestattete Design-Oberfläche.",
+        "bullets": [
+          "Foto hochladen",
+          "6 Hintergrundfarben",
+          "Logo-Farbe wählen",
+          "Text hinzufügen",
+          "Drag & Drop"
+        ],
+        "chips": [
+          "Foto hochladen",
+          "Hintergrund",
+          "Logo-Farbe",
+          "Text",
+          "Drag & Drop",
+          "Schriftart"
+        ]
+      },
+      {
+        "num": "02",
+        "tag": "Zweiter Schritt",
+        "cardTitle": "Zum Interview & Kategorie wählen",
+        "cardDesc": "Wenn du mit dem Cover-Design fertig bist, klicke auf Zum Interview und wähle deine Kategorie.",
+        "title": "Zum Interview,",
+        "titleEm": "Kategorie wählen",
+        "desc": "Wenn du mit dem Cover fertig bist, gehst du direkt zum Interview-Bereich.",
+        "bullets": [
+          "Auf 'Zum Interview' klicken",
+          "Kategorie auswählen",
+          "Jede Kategorie hat eigene Fragen",
+          "Kann später geändert werden"
+        ],
+        "chips": [
+          "Geburtstag",
+          "Abschluss",
+          "Karriere",
+          "Baby",
+          "Hochzeit"
+        ]
+      },
+      {
+        "num": "03",
+        "tag": "Dritter Schritt",
+        "cardTitle": "Foto hochladen",
+        "cardDesc": "Lade dein Foto für die Interview-Seite hoch.",
+        "title": "Dein Foto",
+        "titleEm": "hochladen",
+        "desc": "Nach der Kategorienauswahl lädst du ein separates Foto für deine Interview-Seite hoch.",
+        "bullets": [
+          "Klares, gut beleuchtetes Foto wählen",
+          "Hochformat empfohlen",
+          "Mind. 1500×2000 Pixel",
+          "Von Handy oder Computer hochladen"
+        ],
+        "chips": [
+          "Hohe Auflösung",
+          "Hochformat",
+          "Automatische Anpassung"
+        ]
+      },
+      {
+        "num": "04",
+        "tag": "Vierter Schritt",
+        "cardTitle": "Fragen beantworten & PDF erhalten",
+        "cardDesc": "Fülle die Interview-Fragen aus und dein druckfertiges PDF ist bereit.",
+        "title": "Fragen beantworten,",
+        "titleEm": "PDF erhalten",
+        "desc": "Beantworte die Interview-Fragen deiner gewählten Kategorie. Wenn du fertig bist, ist dein PDF sofort bereit.",
+        "bullets": [
+          "Fragen mit eigenen Worten beantworten",
+          "Fragen überspringen oder neue hinzufügen",
+          "Als Entwurf speichern",
+          "'PDF erstellen' klicken",
+          "Druckfertiges PDF herunterladen"
+        ],
+        "chips": [
+          "Persönliche Fragen",
+          "Entwurf speichern",
+          "Sofortiges PDF",
+          "Eindeutige Seriennummer",
+          "Druckfertig"
+        ]
+      }
+    ],
+    "tipsEyebrow": "Profi-Tipps",
+    "tipsTitle": "Tipps für",
+    "tipsTitleEm": "beste Ergebnisse",
+    "tips": [
+      {
+        "num": "01",
+        "title": "Cover-Foto scharf halten",
+        "text": "Gut beleuchtete, scharfe Hochformat-Fotos geben das beste Cover-Ergebnis."
+      },
+      {
+        "num": "02",
+        "title": "Hintergrund und Logo-Farbe abstimmen",
+        "text": "Gold oder Silber sieht auf dunklen Hintergründen toll aus. Schwarzes Logo für helle Hintergründe."
+      },
+      {
+        "num": "03",
+        "title": "Text durch Ziehen positionieren",
+        "text": "Du kannst Text per Drag & Drop genau dort platzieren, wo du ihn haben möchtest."
+      },
+      {
+        "num": "04",
+        "title": "Die richtige Kategorie wählen",
+        "text": "Jede Kategorie hat ihre eigenen speziellen Fragen. Die richtige Kategorie macht dein Interview bedeutsamer."
+      },
+      {
+        "num": "05",
+        "title": "Ehrlich und aufrichtig im Interview sein",
+        "text": "Gib Antworten, die deine wahren Gefühle widerspiegeln, statt Klischees."
+      },
+      {
+        "num": "06",
+        "title": "Die Entwurfsfunktion nutzen",
+        "text": "Du musst nicht alles in einer Sitzung erledigen. Als Entwurf speichern, jederzeit weitermachen."
+      }
+    ],
+    "ctaTitle": "Bereit?",
+    "ctaTitleEm": "Jetzt starten",
+    "ctaSub": "Erstelle dein eigenes Magazin-Cover in 15 Minuten.",
+    "ctaPrimary": "Cover gestalten",
+    "ctaSecondary": "Pläne ansehen"
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "heroTitle": "Wir sind für",
+    "heroTitleEm": "Sie da",
+    "heroTitleRest": "",
+    "heroDesc": "Haben Sie eine Frage, möchten Sie Feedback geben oder haben Sie ein besonderes Projekt? Füllen Sie das Formular aus und wir melden uns so schnell wie möglich.",
+    "emailLabel": "E-Mail",
+    "locationLabel": "Standort",
+    "location": "Istanbul, Türkei",
+    "responseLabel": "Antwortzeit",
+    "responseTime": "Durchschnittlich 24 Stunden",
+    "formEyebrow": "Nachricht senden",
+    "formTitle": "Schreiben Sie",
+    "formTitleEm": "uns",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail",
+    "phone": "Telefon (Optional)",
+    "phonePlaceholder": "+49 ___________",
+    "subject": "Betreff",
+    "selectSubject": "Betreff auswählen",
+    "subjects": {
+      "general": "Allgemeine Information",
+      "technical": "Technischer Support",
+      "payment": "Zahlung & Rechnung",
+      "refund": "Rückerstattungsanfrage",
+      "corporate": "Unternehmens- & Großbestellung",
+      "other": "Sonstiges"
+    },
+    "message": "Ihre Nachricht",
+    "messagePlaceholder": "Schreiben Sie hier Ihre Nachricht…",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet…",
+    "successTitle": "Nachricht übermittelt",
+    "successDesc": "Wir werden uns spätestens innerhalb von 24 Stunden bei Ihnen melden. Vielen Dank.",
+    "sendAnother": "Neue Nachricht senden",
+    "infoTitle": "Kontaktinformationen",
+    "supportEmail": "support@hatiradergi.com",
+    "workHours": "Mo – Fr, 09:00 – 18:00",
+    "workHoursLabel": "Arbeitszeiten",
+    "responseBoxLabel": "Durchschnittliche Antwortzeit",
+    "responseBoxText": "Wir antworten innerhalb von 24 Stunden. Am Wochenende kann es 48 Stunden dauern.",
+    "socialTitle": "Soziale Medien",
+    "privacyNote": "Ihre Daten werden nur für Kommunikationszwecke verwendet und nicht an Dritte weitergegeben.",
+    "faqEyebrow": "Häufig gestellte Fragen",
+    "faqTitle": "Antworten auf",
+    "faqTitleEm": "Ihre Fragen",
+    "faqLede": "Schauen Sie sich die häufig gestellten Fragen an, bevor Sie das Formular ausfüllen.",
+    "faqs": [
+      {
+        "q": "Wie kann ich meine Bestellung verfolgen?",
+        "a": "Sie können alle Ihre Designs und den Download-Verlauf in Ihrem Benutzerpanel einsehen."
+      },
+      {
+        "q": "Kann ich mein Design erneut herunterladen?",
+        "a": "Ja. Alle erstellten Designs werden im Bereich 'Meine Designs' in Ihrem Panel gespeichert."
+      },
+      {
+        "q": "Ich weiß nicht, ob mein Foto geeignet ist.",
+        "a": "Wählen Sie ein klares, gut beleuchtetes Hochformat-Foto. Wenn Sie unsicher sind, senden Sie es uns."
+      },
+      {
+        "q": "Ich habe bezahlt, aber mein Konto wurde nicht aktiviert.",
+        "a": "Normalerweise wird es innerhalb weniger Minuten aktiviert. Wenn es nach 15 Minuten immer noch nicht aktiviert ist, schreiben Sie uns."
+      },
+      {
+        "q": "Ich möchte eine Rückerstattung beantragen.",
+        "a": "Wir bieten eine vollständige Rückerstattung innerhalb der ersten 7 Tage an, wenn Sie noch keine Designs erstellt haben."
+      },
+      {
+        "q": "Gibt es Großbestellungen oder Unternehmenspakete?",
+        "a": "Ja, kontaktieren Sie uns für spezielle Preise."
+      }
+    ]
+  },
+  "subscription": {
+    "heroEyebrow": "Abonnementpläne",
+    "heroTitle": "Wählen Sie den Plan,",
+    "heroTitleEm": "der zu Ihnen passt",
+    "heroDesc": "Wählen Sie aus unseren Paketen, die für jedes Budget und jeden Bedarf geeignet sind.",
+    "plansEyebrow": "Pakete",
+    "plansTitle": "Sechs verschiedene",
+    "plansTitleEm": "Optionen",
+    "plansLede": "Es gibt ein Paket für jeden, vom Einmalgeschenk bis zum Familienplan.",
+    "noPlans": "Derzeit sind keine aktiven Abonnementpläne verfügbar.",
+    "compareNote": "Alle Preise inkl. MwSt. · Jederzeit kündbar",
+    "selectBtn": "Auswählen & Starten",
+    "perMonth": "Monat",
+    "perYear": "Jahr",
+    "perDays": "Tage",
+    "featured_popular": "Am beliebtesten",
+    "featured_value": "Bestes Angebot",
+    "infoEyebrow": "Was ist enthalten?",
+    "infoTitle": "In jedem Paket",
+    "infoTitleEm": "finden Sie dies",
+    "infoLede": "Welchen Plan Sie auch wählen, alle wesentlichen Funktionen für ein qualitatives Erlebnis werden bereitgestellt.",
+    "infoItems": [
+      {
+        "icon": "◈",
+        "title": "Sofortzugang",
+        "text": "Nach der Zahlung wird Ihr Konto aktiviert und Sie können sofort loslegen."
+      },
+      {
+        "icon": "◇",
+        "title": "PDF-Download",
+        "text": "Jedes fertiggestellte Design wird im hochauflösenden PDF-Format zum Drucken heruntergeladen."
+      },
+      {
+        "icon": "◉",
+        "title": "Eindeutige Seriennr.",
+        "text": "Jedes Cover-Design wird mit einer für Sie eindeutig erstellten Seriennummer dokumentiert."
+      },
+      {
+        "icon": "◌",
+        "title": "Sichere Zahlung",
+        "text": "Alle Zahlungen werden über SSL-verschlüsselte Infrastruktur verarbeitet."
+      },
+      {
+        "icon": "◐",
+        "title": "24/7 Support",
+        "text": "Bei Problemen ist unser Support-Team immer für Sie da."
+      },
+      {
+        "icon": "◑",
+        "title": "Einfache Kündigung",
+        "text": "Sie können Ihr Abonnement jederzeit kündigen, keine zusätzlichen Gebühren."
+      }
+    ],
+    "faqEyebrow": "Häufig gestellte Fragen",
+    "faqTitle": "Fragen auf",
+    "faqTitleEm": "Ihrem Kopf",
+    "faqs": [
+      {
+        "q": "Welchen Plan soll ich wählen?",
+        "a": "Wenn Sie ein Design für einen einzelnen besonderen Moment erstellen, ist das Geschenk- oder Starterpaket ausreichend."
+      },
+      {
+        "q": "Kann ich mein Design zum Drucken senden?",
+        "a": "Ja. In allen Plänen wird Ihr Design als hochauflösendes PDF erstellt."
+      },
+      {
+        "q": "Was passiert, wenn das Paket abläuft?",
+        "a": "Wenn es abläuft, wird Ihr Recht, neue Designs zu erstellen, ausgesetzt; Sie können jedoch weiterhin auf Ihre vorhandenen Designs zugreifen."
+      },
+      {
+        "q": "Sind Interviewfragen vorher festgelegt?",
+        "a": "Ja, wir haben nach Kategorien vorbereitete Fragen. Sie können auch Ihre eigenen Fragen hinzufügen."
+      },
+      {
+        "q": "Für wie viele Personen gilt das Familienpaket?",
+        "a": "Das Familienpaket ermöglicht 5 verschiedene Benutzerprofile unter einem einzigen Konto."
+      },
+      {
+        "q": "Was ist die Rückerstattungsrichtlinie?",
+        "a": "Innerhalb der ersten 7 Tage können Sie eine Rückerstattung beantragen, wenn Sie noch keine Designs erstellt haben."
+      }
+    ],
+    "guaranteeEyebrow": "Unsere Garantie",
+    "guaranteeTitle": "Risikofrei",
+    "guaranteeTitleEm": "ausprobieren",
+    "guaranteeDesc": "Wenn Sie innerhalb der ersten 7 Tage nicht zufrieden sind und noch kein Design erstellt haben, erstatten wir den vollen Betrag.",
+    "badge1Label": "7 Tage Geld-zurück",
+    "badge1Sub": "Nicht zufrieden? Wir erstatten Ihnen",
+    "badge2Label": "SSL-sichere Zahlung",
+    "badge2Sub": "Geschützt mit 256-Bit-Verschlüsselung",
+    "badge3Label": "Jederzeit kündbar",
+    "badge3Sub": "Keine Bindung, keine versteckten Gebühren"
+  },
+  "planFeatures": {
+    "Hediye": {
+      "badge": "Einmalig",
+      "tagline": "Perfekter Start für ein besonderes Geschenk",
+      "features": [
+        "1 Cover-Design-Recht",
+        "Grundvorlagen",
+        "PDF-Download",
+        "30-tägiger Zugang"
+      ]
+    },
+    "Başlangıç": {
+      "badge": "Basis",
+      "tagline": "Günstige Option für den persönlichen Gebrauch",
+      "features": [
+        "3 Cover-Design-Rechte",
+        "Alle Vorlagen",
+        "Interview-Modul",
+        "PDF-Download",
+        "30-tägiger Zugang"
+      ]
+    },
+    "Standart": {
+      "badge": "Am beliebtesten",
+      "tagline": "Die Wahl der Stammkunden",
+      "features": [
+        "6 Cover-Design-Rechte",
+        "Alle Vorlagen",
+        "Interview-Modul",
+        "Entwürfe speichern",
+        "PDF-Download",
+        "Benutzer-Panel"
+      ]
+    },
+    "Premium": {
+      "badge": "Premium",
+      "tagline": "Alle Funktionen, unbegrenzter Zugang",
+      "features": [
+        "Unbegrenzte Cover-Designs",
+        "Alle Vorlagen",
+        "Interview-Modul",
+        "Entwürfe speichern",
+        "Hochauflösendes PDF",
+        "Prioritäts-Support"
+      ]
+    },
+    "Yıllık": {
+      "badge": "Bestes Angebot",
+      "tagline": "Maximale Ersparnis mit Jahreszahlung",
+      "features": [
+        "Unbegrenzte Cover-Designs",
+        "Alle Vorlagen",
+        "Interview-Modul",
+        "Entwürfe speichern",
+        "Hochauflösendes PDF",
+        "Prioritäts-Support",
+        "12 Monate ununterbrochener Zugang"
+      ]
+    },
+    "Aile": {
+      "badge": "Familie",
+      "tagline": "Erinnerungen mit Ihren Lieben sammeln",
+      "features": [
+        "5 Benutzerkonten",
+        "Unbegrenzte Cover-Designs",
+        "Alle Vorlagen",
+        "Interview-Modul",
+        "Entwürfe speichern",
+        "Hochauflösendes PDF",
+        "Prioritäts-Support",
+        "Benutzerdefinierte Seriennummer"
+      ]
+    }
+  },
+  "cover": {
+    "layout": {
+      "homeLink": "← Startseite"
+    },
+    "loading": "Wird geladen...",
+    "error": {
+      "title": "Verbindungsfehler",
+      "desc": "Ein Datenbankverbindungsfehler ist aufgetreten. Stellen Sie sicher, dass der Backend-Server läuft und aktualisieren Sie die Seite.",
+      "retry": "Nochmal versuchen",
+      "home": "Startseite"
+    },
+    "bilgiFormu": {
+      "pageTitle": "Kontakt- & Adressdaten",
+      "pageDesc": "Geben Sie Ihre Daten ein, um auf den Cover-Design-Bereich zuzugreifen. Sie können hier Ihre Seriennummer eingeben, falls Sie eine haben.",
+      "fullName": "Vor- und Nachname",
+      "phone": "Telefon",
+      "addressSection": "Adressdaten",
+      "address": "Adresse",
+      "city": "Stadt",
+      "district": "Bezirk",
+      "postalCode": "Postleitzahl (optional)",
+      "serialSection": "Seriennummer",
+      "serialToggleOn": "Ich möchte meine Seriennummer verwenden",
+      "serialToggleOff": "Seriennummer abbrechen",
+      "serialCode": "Seriennummer",
+      "serialHint": "Ihre Seriennummer gewährt ein 1-Jahres-Abonnement.",
+      "submitting": "Verarbeitung...",
+      "submitWithSerial": "Seriennummer verwenden",
+      "submitToPayment": "Zur Zahlung",
+      "serialInvalid": "Ungültige Seriennummer.",
+      "genericError": "Ein Fehler ist aufgetreten."
+    },
+    "seriNumarasi": {
+      "pageTitle": "Zugang mit Seriennummer",
+      "pageDesc": "Geben Sie Ihre Seriennummer ein, um auf den Cover-Design-Editor zuzugreifen. Ihre Nummer ist einmalig verwendbar.",
+      "codeLabel": "Seriennummer",
+      "addressSection": "Adressdaten",
+      "fullName": "Vor- und Nachname",
+      "phone": "Telefon",
+      "address": "Adresse",
+      "city": "Stadt",
+      "district": "Bezirk",
+      "postalCode": "Postleitzahl (optional)",
+      "checking": "Wird geprüft...",
+      "submit": "Seriennummer verwenden",
+      "invalidError": "Seriennummer ist ungültig oder bereits verwendet.",
+      "tooShort": "Seriennummer ist zu kurz",
+      "tooLong": "Seriennummer ist zu lang",
+      "formatError": "Seriennummer darf nur Großbuchstaben, Zahlen und Bindestriche enthalten"
+    },
+    "odeme": {
+      "pageTitle": "Zahlung",
+      "coverPurchase": "Cover-Kauf",
+      "amount": "Betrag",
+      "discount": "Rabatt",
+      "total": "Gesamt",
+      "discountSection": "Rabattcode",
+      "discountPlaceholder": "RABATTCODE EINGEBEN",
+      "remove": "Entfernen",
+      "apply": "Anwenden",
+      "invalidCode": "Ungültiger Code.",
+      "discountApplied": "Rabatt angewendet!",
+      "connectionError": "Verbindungsfehler.",
+      "redirecting": "Weiterleitung...",
+      "payBtnPrefix": "Zahlen",
+      "secureNote": "Sichere Zahlung. Ihre Daten werden verschlüsselt verarbeitet.",
+      "paymentError": "Zahlung konnte nicht eingeleitet werden."
+    },
+    "sablon": {
+      "noTemplates": "Noch keine aktiven Vorlagen.",
+      "noPreview": "Keine Vorschau",
+      "preparing": "Wird vorbereitet...",
+      "startBtn": "Mit dieser Vorlage beginnen →"
+    },
+    "editor": {
+      "section01": "Titelfoto",
+      "section02": "Texte",
+      "section03": "Seitentexte",
+      "section04": "Hintergrundfarbe",
+      "section05": "Logo-Farbe",
+      "uploadTitle": "Foto auswählen oder hierher ziehen",
+      "uploadHint": "JPG · PNG · Max. 20 MB",
+      "fgTitle": "Person / Vordergrund PNG",
+      "fgHint": "PNG mit entferntem Hintergrund · Erscheint vor dem Logo",
+      "remove": "✕ Entfernen",
+      "size": "Größe",
+      "rotate": "Drehen",
+      "mirror": "⟺ Spiegeln",
+      "drag": "Ziehen",
+      "bgLayer": "Hinten",
+      "fgLayer": "Vorne",
+      "nameLabel": "Vor- und Nachname",
+      "colorLabel": "Farbe",
+      "subtitleLabel": "Untertitel",
+      "optional": "(Optional)",
+      "namePlaceholder": "Ihr Name",
+      "subtitlePlaceholder": "Ein kurzer Untertitel…",
+      "dragTip": "Klicken Sie auf Texte in der Vorschau zum Bearbeiten, halten Sie zum Ziehen gedrückt.",
+      "textLabel_sol1": "Linker Text 1",
+      "textLabel_sag1": "Rechter Text 1",
+      "textLabel_sol2": "Linker Text 2",
+      "textLabel_sag2": "Rechter Text 2",
+      "resetBtn": "Zurücksetzen",
+      "downloadBtn": "Cover herunterladen",
+      "saveBtn": "Cover speichern & zum Interview",
+      "saveBtnShort": "Speichern & Interview →",
+      "downloadBtnShort": "↓ PNG herunterladen",
+      "processing": "Verarbeitung…",
+      "saving": "Speichern…",
+      "previewLabel": "Live-Vorschau",
+      "previewSize": "21,6 × 27,9 cm · 300 dpi",
+      "previewEmptyTitle": "Vorschau hier",
+      "previewEmptyHint": "Foto hochladen",
+      "toastUploaded": "Foto hochgeladen",
+      "toastDownloaded": "Cover heruntergeladen",
+      "toastExportFailed": "Export fehlgeschlagen",
+      "toastSaved": "Cover gespeichert!",
+      "toastSaveFailed": "Speichern fehlgeschlagen",
+      "toastReset": "Editor zurückgesetzt",
+      "toastImageOnly": "Nur Bilddateien",
+      "toastMaxSize": "Max. 20 MB",
+      "exporting": "Wird exportiert…",
+      "bgColors": {
+        "siyah": "Schwarz",
+        "antrasit": "Anthrazit",
+        "gri": "Grau",
+        "krem": "Creme",
+        "beyaz": "Weiß",
+        "altin": "Gold"
+      },
+      "logoColors": {
+        "orijinal": "Original",
+        "altin": "Gold",
+        "gumus": "Silber",
+        "siyah": "Schwarz",
+        "acikMavi": "Hellblau",
+        "pembe": "Pink"
+      },
+      "defaultTexts": {
+        "sol1": "HERZ DER MODE\nSCHLÄGT IN DER TÜRKEI",
+        "sag1": "EXKLUSIVE INTERVIEWS\nSTARKE NAMEN\nNEUE SAISON",
+        "sol2": "NEUE KOLLEKTION",
+        "sag2": "TREND BERICHT"
+      }
+    },
+    "kategori": {
+      "pageTitle": "Interview",
+      "pageDesc": "In welcher Kategorie möchten Sie ein Interview führen?",
+      "noCategories": "Noch keine aktiven Kategorien.",
+      "error": "Ein Fehler ist aufgetreten.",
+      "creating": "Wird erstellt...",
+      "startBtn": "Mit dieser Kategorie beginnen →"
+    },
+    "roportaj": {
+      "successTitle": "Ihr Formular wurde empfangen",
+      "successDesc": "Ihr Interview wird vorbereitet und mit Ihnen geteilt. Vielen Dank.",
+      "goToPanel": "Zum Panel",
+      "back": "← Zurück",
+      "brand": "Magazin-Editor",
+      "formLabel": "Interviewformular",
+      "categoryLabel": "Kategorie:",
+      "questionsTitle": "Interviewfragen",
+      "questionsDesc": "{{count}} Fragen — beantworten Sie so viele Sie möchten",
+      "answerPlaceholder": "Schreiben Sie Ihre Antwort hier…",
+      "submitting": "Wird gesendet…",
+      "submitBtn": "Formular absenden",
+      "submitNote": "Unser Team wird Sie nach dem Absenden des Formulars kontaktieren.",
+      "genericError": "Beim Absenden ist ein Fehler aufgetreten."
+    }
+  }
+}

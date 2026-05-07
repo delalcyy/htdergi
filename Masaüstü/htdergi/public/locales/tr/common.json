@@ -1,0 +1,767 @@
+{
+  "nav": {
+    "home": "Anasayfa",
+    "about": "Hakkımızda",
+    "subscription": "Abonelik",
+    "howItWorks": "Nasıl Çalışır",
+    "contact": "İletişim",
+    "myPanel": "Panelim",
+    "designCover": "Kapak Tasarla",
+    "menuOpen": "Menüyü aç",
+    "menuClose": "Menüyü kapat"
+  },
+  "footer": {
+    "tagline": "Anılarını dergi kapağına taşı. Kendi özel sayını oluştur.",
+    "colProduct": "Ürün",
+    "colCompany": "Şirket",
+    "colAccount": "Hesap",
+    "colContact": "İletişim",
+    "linkDesign": "Kapak Tasarla",
+    "linkPlans": "Abonelik Planları",
+    "linkHowItWorks": "Nasıl Çalışır",
+    "linkAbout": "Hakkımızda",
+    "linkFaq": "Sık Sorulan Sorular",
+    "linkContact": "İletişim",
+    "linkLogin": "Giriş Yap",
+    "linkRegister": "Kayıt Ol",
+    "linkPanel": "Panelim",
+    "city": "İstanbul, Türkiye",
+    "copyright": "Tüm hakları saklıdır.",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Şartları"
+  },
+  "home": {
+    "hero": {
+      "kicker": "Herkes Kendi Dergisinin Kapağı Olabilir",
+      "quote": "Bir Gün Herkes",
+      "quoteEm": "Ünlü Olacak",
+      "author": "Andy Warhol",
+      "lede": "fashiontv magazine kapağının yıldızı siz olun. Hikâyenizi yazın, röportajınızı oluşturun ve lüks bir lifestyle dergide yerinizi alın.",
+      "ctaPrimary": "Hemen Başla",
+      "ctaSecondary": "Planları Gör"
+    },
+    "marquee": {
+      "items": [
+        "Doğum Günü",
+        "Evlilik",
+        "Kariyer",
+        "Bebek",
+        "Mezuniyet"
+      ]
+    },
+    "steps": {
+      "eyebrow": "Nasıl Çalışır",
+      "title": "Dört Adımda",
+      "titleEm": "Kendi Derginiz",
+      "lede": "Kapak tasarla, röportajını oluştur ve birkaç dakika içinde kapak yıldızı ol.",
+      "items": [
+        {
+          "n": "01",
+          "title": "Kayıt Olun",
+          "desc": "Adınızı, e-postanızı ve şifrenizi girerek ücretsiz hesap oluşturun."
+        },
+        {
+          "n": "02",
+          "title": "Abone Olun",
+          "desc": "Adres bilgilerinizi tamamlayın ve üyeliğinizi başlatın."
+        },
+        {
+          "n": "03",
+          "title": "Kapak Tasarlayın",
+          "desc": "Kategorinizi seçin, fotoğraflarınızı yükleyin ve röportaj sorularını doldurun."
+        },
+        {
+          "n": "04",
+          "title": "PDF'inizi Alın",
+          "desc": "Kişisel dergi sayfanız anında oluşturulur, indirmeye hazır."
+        }
+      ]
+    },
+    "categories": {
+      "eyebrow": "Kategoriler",
+      "title": "Her Özel Ana",
+      "titleEm": "Özel Bir Sayfa",
+      "items": [
+        "Doğum Günü",
+        "Evlilik",
+        "Kariyer",
+        "Bebek",
+        "Mezuniyet"
+      ]
+    },
+    "gallery": {
+      "eyebrow": "Galeri",
+      "title": "Anlarınızdan",
+      "titleEm": "Kareler"
+    },
+    "testimonials": {
+      "eyebrow": "Yorumlar",
+      "title": "Kullanıcılarımız",
+      "titleEm": "Ne Diyor?",
+      "items": [
+        { "name": "Elif K.",   "title": "İstanbul",  "text": "Eşime doğum günü sürprizi olarak hazırladım. Kendi fotoğrafını fashiontv dergisi üzerinde görünce çok şaşırdı. Röportaj kısmını okuyunca daha da duygulandı. Şimdi evde en görünür yerde duruyor." },
+        { "name": "Murat B.",  "title": "İstanbul",  "text": "Mezuniyetim için yaptırdım. Açıkçası fotoğrafımın kapakta bu kadar iyi duracağını beklemiyordum. Sayfaları görünce arkadaşlarım gerçekten kapakta yer aldığımı düşündü. En çok da röportaj kısmı çok hoşlarına gitti." },
+        { "name": "Selin T.",  "title": "Ankara",    "text": "Annem için hazırladım. Kendi fotoğrafını fashiontv magazine derginin kapağında görünce uzun süre inanamadı. Röportaj kısmını herkese tek tek okutuyor. Sonunda çerçeveletip salona astı." },
+        { "name": "Ahmet Y.",  "title": "İzmir",     "text": "Sevgilim için farklı bir sürpriz yapmak istedim. Kendi kapağıyla Fashiontv Magazine'nin kapağında yer aldığını görmesi çok hoşuna gitti. Röportaj sayfalarını görünce uzun süre elinden bırakmadı. Gerçekten çok özel bir hediye oldu." },
+        { "name": "Zeynep D.", "title": "Yeni Anne", "text": "Bebeğimiz doğduktan sonra anı olarak yaptırdık. Yıllar sonra açıp bakacağımız çok özel bir hatıra oldu. Kapakta kendi ailemizi görmek çok güzel hissettirdi." },
+        { "name": "Ceren A.",  "title": "Bursa",     "text": "Babamın kariyer yıldönümü için hazırladım. İlk görünce şaşırdı, sonra röportaj kısmını sessizce okumaya başladı. Sonunda 'bunu saklayacağım' dedi. O an her şeye değdi." }
+      ]
+    },
+    "cta": {
+      "title": "Hikâyenizi Dünyayla",
+      "titleEm": "Paylaşın",
+      "subtitle": "Hemen kayıt olun, ilk sayfanızı oluşturun.",
+      "button": "Ücretsiz Başla"
+    }
+  },
+  "about": {
+    "eyebrow": "Hatıra Dergi",
+    "heroTitle": "Biz",
+    "heroTitleEm": "Kimiz?",
+    "heroDesc": "Sıradan bir fotoğrafın ötesine geçerek anılarınızı profesyonel bir dergi kapağında ölümsüzleştiriyoruz. Her an, her hikaye, her kişi bir kapak olmayı hak ediyor.",
+    "storyEyebrow": "Hikayemiz",
+    "storyTitle": "Anıları",
+    "storyTitleEm": "Kapağa Taşıyoruz",
+    "storyP1": "Hatıra Dergi, sevdiklerinize ya da kendinize bambaşka bir sürpriz yapmak isteyenler için kuruldu. Çünkü inanıyoruz ki her özel an — bir doğum günü, bir mezuniyet, bir kariyer dönüm noktası — sadece bir fotoğraftan fazlasını hak eder.",
+    "storyP2": "fashiontv magazine estetiğinden ilham alarak tasarladığımız platformda, siz yalnızca fotoğrafınızı yükler ve sorularımıza yanıt verirsiniz; gerisi bizden. Dakikalar içinde elinizde baskıya hazır, profesyonel bir dergi sayfası olur.",
+    "storyP3": "Tasarlanan her kapak, benzersiz bir seri numarasıyla belgelenir. Bu numara yalnızca sizin anınıza aittir — tıpkı o anın kendisi gibi tekrarlanamaz ve değiştirilemez.",
+    "quoteText": "Bir gün herkes ünlü olacak. Biz o günün gelmesini beklemiyoruz — o günü bugün yaratıyoruz.",
+    "quoteAuthor": "Hatıra Dergi",
+    "quoteAuthorTitle": "Kurucu Ekip Manifestosu",
+    "mvEyebrow": "Yönümüz",
+    "mvTitle": "Misyon &",
+    "mvTitleEm": "Vizyon",
+    "missionIcon": "◈",
+    "missionTitle": "Misyonumuz",
+    "missionText": "Her bireyin özel anlarını, profesyonel dergi kalitesinde belgelemesini mümkün kılmak. Teknoloji ve tasarımı bir araya getirerek herkesin erişebildiği, kişisel ve anlamlı hatıralar üretmek.",
+    "visionIcon": "◇",
+    "visionTitle": "Vizyonumuz",
+    "visionText": "\"Herkes bir kapak yıldızıdır\" anlayışını Türkiye'den dünyaya taşımak. Anıların dijital çöpe gitmediği, aksine zamanla değer kazanan birer eser haline geldiği bir kültür inşa etmek.",
+    "valuesEyebrow": "İlkelerimiz",
+    "valuesTitle": "Her Kararın Arkasındaki",
+    "valuesTitleEm": "Değerler",
+    "valuesLede": "Bir platform tasarlarken sadece özellik listesi yapmadık. Her adımda şu soruyu sorduk: bu kullanıcının anısına gerçekten değer katıyor mu?",
+    "values": [
+      {
+        "num": "01",
+        "title": "Özgünlük",
+        "text": "Her tasarım benzersiz bir seri numarasıyla belgelenir. Sizin anınız, sizin imzanız."
+      },
+      {
+        "num": "02",
+        "title": "Kalite",
+        "text": "Profesyonel dergi düzeni ve baskı kalitesiyle her sayfa özenle hazırlanır."
+      },
+      {
+        "num": "03",
+        "title": "Kolaylık",
+        "text": "Dakikalar içinde kendi kapağınızı tasarlayın; teknik bilgiye gerek yok."
+      },
+      {
+        "num": "04",
+        "title": "Duygu",
+        "text": "Bir fotoğrafın ötesinde: röportajınız, sözleriniz ve anının gerçek ağırlığı."
+      }
+    ],
+    "statsEyebrow": "Rakamlar",
+    "stats": [
+      {
+        "num": "10.000+",
+        "label": "Tasarlanan Kapak"
+      },
+      {
+        "num": "98%",
+        "label": "Müşteri Memnuniyeti"
+      },
+      {
+        "num": "5",
+        "label": "Farklı Kategori"
+      },
+      {
+        "num": "2022",
+        "label": "Kuruluş Yılı"
+      }
+    ],
+    "timelineEyebrow": "Tarihçe",
+    "timelineTitle": "Nasıl",
+    "timelineTitleEm": "Başladık?",
+    "timelineP1": "Her büyük fikir gibi, Hatıra Dergi de sıradan bir ihtiyaçtan doğdu. Sevdiklerimize \"farklı bir şey\" vermek isterken hiçbir platformun gerçek anlamda kişiselleştirilmiş ve baskı kalitesinde bir ürün sunmadığını fark ettik.",
+    "timelineP2": "Küçük bir ekip, büyük bir hayalle yola çıktı. Bugün on binlerce özel an, arşivlerde değil çerçevelerde yaşıyor.",
+    "timeline": [
+      {
+        "year": "2022",
+        "title": "İlk Fikir Doğdu",
+        "desc": "Sevdiklerimize farklı bir sürpriz yapmak isterken dergi kapağı fikri hayat buldu."
+      },
+      {
+        "year": "2023",
+        "title": "Platform Yayına Girdi",
+        "desc": "İlk kullanıcılarımız kapak tasarımlarını tamamladı ve geri bildirimler umut verici oldu."
+      },
+      {
+        "year": "2024",
+        "title": "Büyüme Dönemi",
+        "desc": "Binlerce kişi doğum günü, mezuniyet ve kariyer anılarını kapak yaptı."
+      },
+      {
+        "year": "2025",
+        "title": "Yeni Özellikler",
+        "desc": "Röportaj modülü, gelişmiş şablonlar ve koleksiyon sayfalarıyla platform genişledi."
+      }
+    ],
+    "ctaTitle": "Siz de",
+    "ctaTitleEm": "Kapak Yıldızı Olun",
+    "ctaSub": "Anınızı ölümsüzleştirmek için tek yapmanız gereken başlamak.",
+    "ctaPrimary": "Hemen Başla",
+    "ctaSecondary": "Planları Gör"
+  },
+  "howItWorks": {
+    "eyebrow": "Süreç",
+    "heroTitle": "Nasıl",
+    "heroTitleEm": "Çalışır?",
+    "heroDesc": "Kapak tasarımından röportaja, fotoğraf yüklemeden PDF'e — dört adımda kendi dergi sayfanı oluştur. Ortalama tamamlanma süresi: 15 dakika.",
+    "steps": [
+      {
+        "num": "01",
+        "tag": "Birinci Adım",
+        "cardTitle": "Kapak Tasarla",
+        "cardDesc": "Editörü aç, fotoğrafını yükle ve kapağını kişiselleştir. Arka plan, logo rengi, yazılar, fontlar — her şey senin elinde.",
+        "title": "Kapağını",
+        "titleEm": "Tasarla",
+        "desc": "Kapak editörüne girdiğinde seni tam donanımlı bir tasarım arayüzü karşılar. Fotoğrafını yükle, dilediğin arka plan rengini seç, logo rengini ayarla ve kapağın üzerine istediğin yazıları ekle.",
+        "bullets": [
+          "Fotoğrafını yükle — kapak otomatik çerçevelenir",
+          "6 arka plan rengi arasından seçim yap (Siyah, Antrasit, Gri, Krem, Beyaz, Altın)",
+          "Logo rengini belirle (Orijinal, Altın, Gümüş, Siyah, Açık Mavi, Pembe)",
+          "Kapağa yazı ekle, sürükle & bırak ile istediğin yere taşı",
+          "7 farklı font seçeneğiyle yazı stilini özelleştir"
+        ],
+        "chips": [
+          "Fotoğraf Yükle",
+          "Arka Plan Seç",
+          "Logo Rengi",
+          "Yazı Ekle",
+          "Sürükle & Bırak",
+          "Font Seçimi"
+        ]
+      },
+      {
+        "num": "02",
+        "tag": "İkinci Adım",
+        "cardTitle": "Röportaja Geç & Kategori Seç",
+        "cardDesc": "Kapak tasarımını tamamlayınca Röportaja Geç butonuna tıkla ve anına en uygun kategoriyi seç.",
+        "title": "Röportaja Geç,",
+        "titleEm": "Kategori Seç",
+        "desc": "Kapak tasarımını bitirdiğinde editörden doğrudan röportaj bölümüne geçersin. Burada özel anını en iyi anlatan kategoriyi seçmen yeterli.",
+        "bullets": [
+          "Editördeki 'Röportaja Geç' butonuna tıkla",
+          "Doğum Günü, Mezuniyet, Kariyer, Bebek veya Evlilik kategorilerinden birini seç",
+          "Her kategori kendine özel sorularla gelir",
+          "Kategori seçimi bir kez yapılır, sonradan değiştirilebilir"
+        ],
+        "chips": [
+          "Doğum Günü",
+          "Mezuniyet",
+          "Kariyer",
+          "Bebek",
+          "Evlilik"
+        ]
+      },
+      {
+        "num": "03",
+        "tag": "Üçüncü Adım",
+        "cardTitle": "Fotoğrafını Yükle",
+        "cardDesc": "Kategoriyi seçtikten sonra röportaj sayfan için fotoğrafını yükle.",
+        "title": "Fotoğrafını",
+        "titleEm": "Yükle",
+        "desc": "Kategoriyi seçtikten sonra röportaj sayfan için ayrı bir fotoğraf yüklersin. Bu fotoğraf dergi iç sayfalarında kullanılır.",
+        "bullets": [
+          "Röportaj sayfan için net ve aydınlık bir fotoğraf seç",
+          "Dikey (portre) formatta fotoğraflar en iyi sonucu verir",
+          "En az 1500×2000 piksel çözünürlük önerilir",
+          "Telefon galerisinden ya da bilgisayardan yükleyebilirsin"
+        ],
+        "chips": [
+          "Yüksek Çözünürlük",
+          "Dikey Format",
+          "Otomatik Düzenleme"
+        ]
+      },
+      {
+        "num": "04",
+        "tag": "Dördüncü Adım",
+        "cardTitle": "Soruları Cevapla & PDF Al",
+        "cardDesc": "Kategorine özel soruları doldur, tasarımın anında oluşur ve baskıya hazır PDF'in hazır olur.",
+        "title": "Soruları Cevapla,",
+        "titleEm": "PDF'ini Al",
+        "desc": "Seçtiğin kategoriye göre hazırlanmış röportaj sorularını cevapla. Tamamladığında benzersiz seri numaralı PDF'in anında hazır olur.",
+        "bullets": [
+          "Kategoriye özel hazırlanmış soruları kendi kelimelerinle yanıtla",
+          "İstediğin soruları atlayabilir ya da yenilerini ekleyebilirsin",
+          "Taslak olarak kaydedip daha sonra tamamlayabilirsin",
+          "Bitirince 'PDF Oluştur' butonuna tıkla",
+          "Benzersiz seri numaralı, baskıya hazır PDF'ini indir"
+        ],
+        "chips": [
+          "Kişisel Sorular",
+          "Taslak Kaydet",
+          "Anında PDF",
+          "Benzersiz Seri No",
+          "Baskıya Hazır"
+        ]
+      }
+    ],
+    "tipsEyebrow": "Profesyonel Tüyolar",
+    "tipsTitle": "En İyi Sonuç İçin",
+    "tipsTitleEm": "İpuçları",
+    "tips": [
+      {
+        "num": "01",
+        "title": "Kapak Fotoğrafı Net Olsun",
+        "text": "İyi ışıklı, net çekilmiş dikey fotoğraflar en iyi kapak görünümünü verir."
+      },
+      {
+        "num": "02",
+        "title": "Arka Plan ile Logo Rengini Uyumlu Seç",
+        "text": "Koyu arka planlarda Altın veya Gümüş logo çok şık durur. Açık arka planlarda Siyah logo tercih et."
+      },
+      {
+        "num": "03",
+        "title": "Yazıları Sürükleyerek Yerleştir",
+        "text": "Sürükle & bırak ile yazıları tam istediğin yere taşıyabilirsin. Deneme yanılmayla en estetik düzeni bul."
+      },
+      {
+        "num": "04",
+        "title": "Anına Uygun Kategori Seç",
+        "text": "Her kategorinin kendine özel soruları var. Doğru kategoriyi seçmek röportajını çok daha anlamlı kılar."
+      },
+      {
+        "num": "05",
+        "title": "Röportajda Dürüst ve Samimi Ol",
+        "text": "Klişe cevaplar yerine gerçek hislerini anlatan cevaplar ver. Yıllar sonra bu sayfaları okuduğunda o anı canlı hissedeceksin."
+      },
+      {
+        "num": "06",
+        "title": "Taslak Özelliğini Kullan",
+        "text": "Her şeyi tek oturumda bitirmek zorunda değilsin. Taslak olarak kaydet, istediğin zaman devam et."
+      }
+    ],
+    "ctaTitle": "Hazır mısın?",
+    "ctaTitleEm": "Hemen Başla",
+    "ctaSub": "15 dakikada kendi dergi kapağını oluştur.",
+    "ctaPrimary": "Kapak Tasarla",
+    "ctaSecondary": "Planları Gör"
+  },
+  "contact": {
+    "eyebrow": "İletişim",
+    "heroTitle": "Size",
+    "heroTitleEm": "Yardımcı Olmak",
+    "heroTitleRest": "İçin Buradayız",
+    "heroDesc": "Bir sorunuz mu var, geri bildirim mi vermek istiyorsunuz yoksa özel bir proje mi düşünüyorsunuz? Formu doldurun, en kısa sürede geri dönelim.",
+    "emailLabel": "E-posta",
+    "locationLabel": "Konum",
+    "location": "İstanbul, Türkiye",
+    "responseLabel": "Yanıt Süresi",
+    "responseTime": "Ortalama 24 saat",
+    "formEyebrow": "Mesaj Gönderin",
+    "formTitle": "Bize",
+    "formTitleEm": "Yazın",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-posta",
+    "phone": "Telefon (Opsiyonel)",
+    "phonePlaceholder": "+90 5__ ___ __ __",
+    "subject": "Konu",
+    "selectSubject": "Konuyu seçin",
+    "subjects": {
+      "general": "Genel Bilgi",
+      "technical": "Teknik Destek",
+      "payment": "Ödeme & Fatura",
+      "refund": "İade Talebi",
+      "corporate": "Kurumsal & Toplu Sipariş",
+      "other": "Diğer"
+    },
+    "message": "Mesajınız",
+    "messagePlaceholder": "Mesajınızı buraya yazın…",
+    "send": "Mesaj Gönder",
+    "sending": "Gönderiliyor…",
+    "successTitle": "Mesajınız İletildi",
+    "successDesc": "En geç 24 saat içinde size geri dönüş sağlayacağız. Teşekkür ederiz.",
+    "sendAnother": "Yeni Mesaj Gönder",
+    "infoTitle": "İletişim Bilgileri",
+    "supportEmail": "destek@hatiradergi.com",
+    "workHours": "Pzt – Cum, 09:00 – 18:00",
+    "workHoursLabel": "Çalışma Saatleri",
+    "responseBoxLabel": "Ortalama Yanıt Süresi",
+    "responseBoxText": "24 saat içinde dönüş yapıyoruz. Hafta sonları 48 saate uzayabilir.",
+    "socialTitle": "Sosyal Medya",
+    "privacyNote": "Bilgileriniz yalnızca iletişim amacıyla kullanılır ve üçüncü taraflarla paylaşılmaz.",
+    "faqEyebrow": "Sık Sorulan Sorular",
+    "faqTitle": "Yanıt Aradığınız",
+    "faqTitleEm": "Sorular",
+    "faqLede": "Formu doldurmadan önce aşağıdaki sık sorulan sorulara göz atın — cevabınız burada olabilir.",
+    "faqs": [
+      {
+        "q": "Siparişimi nasıl takip edebilirim?",
+        "a": "Kullanıcı panelinizden tüm tasarımlarınızı ve indirme geçmişinizi görebilirsiniz."
+      },
+      {
+        "q": "Tasarımımı yeniden indirebilir miyim?",
+        "a": "Evet. Oluşturduğunuz tüm tasarımlar panelinizdeki 'Tasarımlarım' bölümünde saklanır."
+      },
+      {
+        "q": "Fotoğrafım uygun mu bilmiyorum, ne yapmalıyım?",
+        "a": "Net, iyi ışıklı ve dikey formatta bir fotoğraf tercih edin. Emin değilseniz bize gönderin, değerlendirip dönelim."
+      },
+      {
+        "q": "Ödeme yaptım ama hesabım aktive olmadı.",
+        "a": "Genellikle birkaç dakika içinde aktive olur. 15 dakika geçmesine rağmen aktive olmazsa ödeme belgenizle bize yazın."
+      },
+      {
+        "q": "İade talep etmek istiyorum.",
+        "a": "İlk 7 gün içinde ve henüz tasarım oluşturmamışsanız tam iade yapıyoruz."
+      },
+      {
+        "q": "Toplu sipariş veya kurumsal paket var mı?",
+        "a": "Evet, özel fiyatlandırma için bizimle iletişime geçin."
+      }
+    ]
+  },
+  "subscription": {
+    "heroEyebrow": "Abonelik Planları",
+    "heroTitle": "Size Uygun",
+    "heroTitleEm": "Planı Seçin",
+    "heroDesc": "Her bütçeye, her ihtiyaca uygun paketlerimizden birini seçin ve dakikalar içinde kendi dergi kapağınızı oluşturmaya başlayın.",
+    "plansEyebrow": "Paketler",
+    "plansTitle": "Altı Farklı",
+    "plansTitleEm": "Seçenek",
+    "plansLede": "Tek seferlik bir hediyeden aile planına kadar herkes için bir paket var.",
+    "noPlans": "Şu anda aktif abonelik paketi bulunmuyor.",
+    "compareNote": "Tüm planlar KDV dahildir · İstediğiniz zaman iptal edebilirsiniz",
+    "selectBtn": "Seç & Başla",
+    "perMonth": "ay",
+    "perYear": "yıl",
+    "perDays": "gün",
+    "featured_popular": "En Popüler",
+    "featured_value": "En İyi Değer",
+    "infoEyebrow": "Neler Dahil?",
+    "infoTitle": "Her Pakette",
+    "infoTitleEm": "Bunları Bulacaksınız",
+    "infoLede": "Hangi planı seçerseniz seçin, kaliteli bir deneyim için gereken tüm temel özellikler sunulur.",
+    "infoItems": [
+      {
+        "icon": "◈",
+        "title": "Anında Erişim",
+        "text": "Ödemenizin ardından hesabınız aktive olur ve hemen tasarlamaya başlayabilirsiniz."
+      },
+      {
+        "icon": "◇",
+        "title": "PDF İndirme",
+        "text": "Tamamlanan her tasarım, baskıya hazır yüksek kaliteli PDF formatında indirilir."
+      },
+      {
+        "icon": "◉",
+        "title": "Benzersiz Seri No",
+        "text": "Her kapak tasarımı, size özel üretilen benzersiz bir seri numarasıyla belgelenir."
+      },
+      {
+        "icon": "◌",
+        "title": "Güvenli Ödeme",
+        "text": "Tüm ödemeler SSL şifreli altyapı üzerinden işlenir, kartınız güvendedir."
+      },
+      {
+        "icon": "◐",
+        "title": "7/24 Destek",
+        "text": "Herhangi bir sorun yaşarsanız destek ekibimiz her zaman yanınızdadır."
+      },
+      {
+        "icon": "◑",
+        "title": "İptal Kolaylığı",
+        "text": "İstediğiniz zaman aboneliğinizi iptal edebilirsiniz, ek ücret alınmaz."
+      }
+    ],
+    "faqEyebrow": "Sık Sorulan Sorular",
+    "faqTitle": "Aklınızdaki",
+    "faqTitleEm": "Sorular",
+    "faqs": [
+      {
+        "q": "Hangi planı seçmeliyim?",
+        "a": "Tek bir özel an için tasarım yapacaksanız Hediye veya Başlangıç paketi yeterlidir."
+      },
+      {
+        "q": "Tasarımımı baskıya gönderebilir miyim?",
+        "a": "Evet. Tüm planlarda tasarımınız baskıya hazır yüksek çözünürlüklü PDF olarak oluşturulur."
+      },
+      {
+        "q": "Paket süresi dolarsa ne olur?",
+        "a": "Süre dolduğunda yeni tasarım oluşturma hakkınız askıya alınır; ancak mevcut tasarımlarınıza erişmeye devam edersiniz."
+      },
+      {
+        "q": "Röportaj soruları önceden belirlenmiş mi?",
+        "a": "Evet, kategoriye göre hazırlanmış sorularımız var. Aynı zamanda istediğiniz soruları kendiniz de ekleyebilirsiniz."
+      },
+      {
+        "q": "Aile paketi kaç kişi için geçerli?",
+        "a": "Aile paketi tek bir hesap altında 5 farklı kullanıcı profiline imkân tanır."
+      },
+      {
+        "q": "İade politikası nedir?",
+        "a": "İlk 7 gün içinde herhangi bir tasarım oluşturmamışsanız iade talebinde bulunabilirsiniz."
+      }
+    ],
+    "guaranteeEyebrow": "Güvencemiz",
+    "guaranteeTitle": "Risksiz",
+    "guaranteeTitleEm": "Deneyin",
+    "guaranteeDesc": "İlk 7 gün içinde memnun kalmazsanız ve henüz tasarım oluşturmadıysanız ücretin tamamını iade ediyoruz.",
+    "badge1Label": "7 Gün İade Garantisi",
+    "badge1Sub": "Memnun değilseniz iade ediyoruz",
+    "badge2Label": "SSL Güvenli Ödeme",
+    "badge2Sub": "256-bit şifreleme ile korumalı",
+    "badge3Label": "İstediğiniz Zaman İptal",
+    "badge3Sub": "Bağlayıcılık yok, gizli ücret yok"
+  },
+  "planFeatures": {
+    "Hediye": {
+      "badge": "Tek Seferlik",
+      "tagline": "Bir sürpriz için mükemmel başlangıç",
+      "features": [
+        "1 kapak tasarımı hakkı",
+        "Temel şablonlar",
+        "PDF olarak indirme",
+        "30 günlük erişim"
+      ]
+    },
+    "Başlangıç": {
+      "badge": "Temel",
+      "tagline": "Kişisel kullanım için uygun seçenek",
+      "features": [
+        "3 kapak tasarımı hakkı",
+        "Tüm şablonlar",
+        "Röportaj modülü",
+        "PDF olarak indirme",
+        "30 günlük erişim"
+      ]
+    },
+    "Standart": {
+      "badge": "En Popüler",
+      "tagline": "Düzenli kullanıcıların tercihi",
+      "features": [
+        "6 kapak tasarımı hakkı",
+        "Tüm şablonlar",
+        "Röportaj modülü",
+        "Taslak kaydetme",
+        "PDF olarak indirme",
+        "Kullanıcı paneli"
+      ]
+    },
+    "Premium": {
+      "badge": "Premium",
+      "tagline": "Tüm özellikler, sınırsız erişim",
+      "features": [
+        "Sınırsız kapak tasarımı",
+        "Tüm şablonlar",
+        "Röportaj modülü",
+        "Taslak kaydetme",
+        "Yüksek çözünürlük PDF",
+        "Öncelikli destek"
+      ]
+    },
+    "Yıllık": {
+      "badge": "En İyi Değer",
+      "tagline": "Yıllık ödeme ile maksimum tasarruf",
+      "features": [
+        "Sınırsız kapak tasarımı",
+        "Tüm şablonlar",
+        "Röportaj modülü",
+        "Taslak kaydetme",
+        "Yüksek çözünürlük PDF",
+        "Öncelikli destek",
+        "12 aylık kesintisiz erişim"
+      ]
+    },
+    "Aile": {
+      "badge": "Aile",
+      "tagline": "Sevdiklerinizle birlikte anı biriktirin",
+      "features": [
+        "5 kullanıcı hesabı",
+        "Sınırsız kapak tasarımı",
+        "Tüm şablonlar",
+        "Röportaj modülü",
+        "Taslak kaydetme",
+        "Yüksek çözünürlük PDF",
+        "Öncelikli destek",
+        "Özel seri numarası"
+      ]
+    }
+  },
+  "cover": {
+    "layout": {
+      "homeLink": "← Ana Sayfa"
+    },
+    "loading": "Yükleniyor...",
+    "error": {
+      "title": "Bağlantı Hatası",
+      "desc": "Veritabanı bağlantısında bir sorun oluştu. Backend sunucusunun çalıştığından emin olun ve sayfayı yenileyin.",
+      "retry": "Tekrar Dene",
+      "home": "Ana Sayfa"
+    },
+    "bilgiFormu": {
+      "pageTitle": "İletişim ve Adres Bilgileri",
+      "pageDesc": "Kapak tasarlama alanına erişmek için bilgilerinizi girin. Seri numaranız varsa bu adımda girebilirsiniz.",
+      "fullName": "Ad Soyad",
+      "phone": "Telefon",
+      "addressSection": "Adres Bilgileri",
+      "address": "Adres",
+      "city": "Şehir",
+      "district": "İlçe",
+      "postalCode": "Posta Kodu (opsiyonel)",
+      "serialSection": "Seri Numarası",
+      "serialToggleOn": "Seri numaramı kullanmak istiyorum",
+      "serialToggleOff": "Seri numaramı iptal et",
+      "serialCode": "Seri Numarası",
+      "serialHint": "Seri numaranız 1 yıllık abonelik tanımlayacak.",
+      "submitting": "İşleniyor...",
+      "submitWithSerial": "Seri Numarasını Kullan",
+      "submitToPayment": "Ödemeye Geç",
+      "serialInvalid": "Seri numarası geçersiz.",
+      "genericError": "Hata oluştu."
+    },
+    "seriNumarasi": {
+      "pageTitle": "Seri Numarası ile Erişim",
+      "pageDesc": "Seri numaranızı girerek kapak tasarım editörüne erişim kazanın. Numaranız tek kullanımlıktır.",
+      "codeLabel": "Seri Numarası",
+      "addressSection": "Adres Bilgileri",
+      "fullName": "Ad Soyad",
+      "phone": "Telefon",
+      "address": "Adres",
+      "city": "Şehir",
+      "district": "İlçe",
+      "postalCode": "Posta Kodu (opsiyonel)",
+      "checking": "Kontrol ediliyor...",
+      "submit": "Seri Numarasını Kullan",
+      "invalidError": "Seri numarası geçersiz veya kullanılmış.",
+      "tooShort": "Seri numarası çok kısa",
+      "tooLong": "Seri numarası çok uzun",
+      "formatError": "Seri numarası yalnızca büyük harf, rakam ve tire içerebilir"
+    },
+    "odeme": {
+      "pageTitle": "Ödeme",
+      "coverPurchase": "Kapak satın alımı",
+      "amount": "Tutar",
+      "discount": "İndirim",
+      "total": "Toplam",
+      "discountSection": "İndirim Kodu",
+      "discountPlaceholder": "İNDİRİM KODUNU GİRİN",
+      "remove": "Kaldır",
+      "apply": "Uygula",
+      "invalidCode": "Geçersiz kod.",
+      "discountApplied": "İndirim uygulandı!",
+      "connectionError": "Bağlantı hatası.",
+      "redirecting": "Yönlendiriliyor...",
+      "payBtnPrefix": "Öde",
+      "secureNote": "Güvenli ödeme. Bilgileriniz şifrelenerek işlenir.",
+      "paymentError": "Ödeme başlatılamadı."
+    },
+    "sablon": {
+      "noTemplates": "Henüz aktif şablon bulunmuyor.",
+      "noPreview": "Önizleme Yok",
+      "preparing": "Hazırlanıyor...",
+      "startBtn": "Bu Şablonla Başla →"
+    },
+    "editor": {
+      "section01": "Kapak Fotoğrafı",
+      "section02": "Metinler",
+      "section03": "Yan Yazılar",
+      "section04": "Arka Plan Rengi",
+      "section05": "Logo Rengi",
+      "uploadTitle": "Fotoğraf seç veya sürükle",
+      "uploadHint": "JPG · PNG · Maks. 20 MB",
+      "fgTitle": "Kişi / Ön Plan PNG",
+      "fgHint": "Arka planı silinmiş PNG · Logo önünde görünür",
+      "remove": "✕ Kaldır",
+      "size": "Boyut",
+      "rotate": "Döndür",
+      "mirror": "⟺ Ayna",
+      "drag": "Sürükle",
+      "bgLayer": "Arka",
+      "fgLayer": "Ön",
+      "nameLabel": "Ad Soyad",
+      "colorLabel": "Renk",
+      "subtitleLabel": "Alt Başlık",
+      "optional": "(İsteğe bağlı)",
+      "namePlaceholder": "Adınız Soyadınız",
+      "subtitlePlaceholder": "Kısa bir alt başlık…",
+      "dragTip": "Önizlemede yazılara tıklayarak düzenleyebilir, basılı tutarak sürükleyebilirsiniz.",
+      "textLabel_sol1": "Sol Yazı 1",
+      "textLabel_sag1": "Sağ Yazı 1",
+      "textLabel_sol2": "Sol Yazı 2",
+      "textLabel_sag2": "Sağ Yazı 2",
+      "resetBtn": "Sıfırla",
+      "downloadBtn": "Kapağı İndir",
+      "saveBtn": "Kapağı Kaydet & Röportaja Geç",
+      "saveBtnShort": "Kaydet & Röportaja Geç →",
+      "downloadBtnShort": "↓ PNG İndir",
+      "processing": "İşleniyor…",
+      "saving": "Kaydediliyor…",
+      "previewLabel": "Canlı Önizleme",
+      "previewSize": "21,6 × 27,9 cm · 300 dpi",
+      "previewEmptyTitle": "Önizleme burada",
+      "previewEmptyHint": "Fotoğraf yükleyin",
+      "toastUploaded": "Fotoğraf yüklendi",
+      "toastDownloaded": "Kapak indirildi",
+      "toastExportFailed": "Dışa aktarma başarısız",
+      "toastSaved": "Kapak kaydedildi!",
+      "toastSaveFailed": "Kayıt başarısız",
+      "toastReset": "Editör sıfırlandı",
+      "toastImageOnly": "Sadece görsel dosyası",
+      "toastMaxSize": "Maks. 20 MB",
+      "exporting": "Dışa aktarılıyor…",
+      "bgColors": {
+        "siyah": "Siyah",
+        "antrasit": "Antrasit",
+        "gri": "Gri",
+        "krem": "Krem",
+        "beyaz": "Beyaz",
+        "altin": "Altın"
+      },
+      "logoColors": {
+        "orijinal": "Orijinal",
+        "altin": "Altın",
+        "gumus": "Gümüş",
+        "siyah": "Siyah",
+        "acikMavi": "Açık Mavi",
+        "pembe": "Pembe"
+      },
+      "defaultTexts": {
+        "sol1": "MODANIN KALBİ\nTÜRKİYE'DE ATACAK",
+        "sag1": "ÖZEL RÖPORTAJLAR\nGÜÇLÜ İSİMLER\nYENİ SEZON",
+        "sol2": "YENİ KOLEKSİYON",
+        "sag2": "TREND RAPORU"
+      }
+    },
+    "kategori": {
+      "pageTitle": "Röportaj",
+      "pageDesc": "Hangi kategoride röportaj yapmak istiyorsunuz?",
+      "noCategories": "Henüz aktif kategori bulunmuyor.",
+      "error": "Hata oluştu.",
+      "creating": "Oluşturuluyor...",
+      "startBtn": "Bu Kategoriyle Başla →"
+    },
+    "roportaj": {
+      "successTitle": "Formunuz Alındı",
+      "successDesc": "Röportajınız hazırlanacak ve sizinle paylaşılacak. Teşekkür ederiz.",
+      "goToPanel": "Panele Git",
+      "back": "← Geri Dön",
+      "brand": "Dergi Editörü",
+      "formLabel": "Röportaj Formu",
+      "categoryLabel": "Kategori:",
+      "questionsTitle": "Röportaj Soruları",
+      "questionsDesc": "{{count}} soru — istediğiniz kadar doldurun",
+      "answerPlaceholder": "Cevabınızı buraya yazın…",
+      "submitting": "Gönderiliyor…",
+      "submitBtn": "Formu Gönder",
+      "submitNote": "Formunuz gönderildikten sonra ekibimiz sizinle iletişime geçecek.",
+      "genericError": "Gönderim sırasında bir hata oluştu."
+    }
+  }
+}

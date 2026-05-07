@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import "@/styles/footer.css";
 
 export default function Footer() {
+  const { t } = useTranslation("common");
+
   return (
     <footer className="ftr-root">
       <div className="ftr-inner">
@@ -9,9 +14,7 @@ export default function Footer() {
           {/* Marka */}
           <div className="ftr-brand">
             <Link href="/" className="ftr-logo">Hatıra Dergi</Link>
-            <p className="ftr-tagline">
-              Anılarını dergi kapağına taşı. Kendi özel sayını oluştur.
-            </p>
+            <p className="ftr-tagline">{t("footer.tagline")}</p>
             <div className="ftr-social">
               <a href="#" className="ftr-social-link" aria-label="Instagram">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -36,38 +39,38 @@ export default function Footer() {
 
           {/* Linkler */}
           <div className="ftr-col">
-            <div className="ftr-col-title">Ürün</div>
-            <Link href="/kapak-tasarla" className="ftr-link">Kapak Tasarla</Link>
-            <Link href="/abonelik" className="ftr-link">Abonelik Planları</Link>
-            <Link href="/nasil-calisir" className="ftr-link">Nasıl Çalışır</Link>
+            <div className="ftr-col-title">{t("footer.colProduct")}</div>
+            <Link href="/kapak-tasarla" className="ftr-link">{t("footer.linkDesign")}</Link>
+            <Link href="/abonelik" className="ftr-link">{t("footer.linkPlans")}</Link>
+            <Link href="/nasil-calisir" className="ftr-link">{t("footer.linkHowItWorks")}</Link>
           </div>
 
           <div className="ftr-col">
-            <div className="ftr-col-title">Şirket</div>
-            <Link href="/hakkimizda" className="ftr-link">Hakkımızda</Link>
-            <Link href="/sss" className="ftr-link">Sık Sorulan Sorular</Link>
-            <Link href="/iletisim" className="ftr-link">İletişim</Link>
+            <div className="ftr-col-title">{t("footer.colCompany")}</div>
+            <Link href="/hakkimizda" className="ftr-link">{t("footer.linkAbout")}</Link>
+            <Link href="/sss" className="ftr-link">{t("footer.linkFaq")}</Link>
+            <Link href="/iletisim" className="ftr-link">{t("footer.linkContact")}</Link>
           </div>
 
           <div className="ftr-col">
-            <div className="ftr-col-title">Hesap</div>
-            <Link href="/auth/giris" className="ftr-link">Giriş Yap</Link>
-            <Link href="/auth/kayit" className="ftr-link">Kayıt Ol</Link>
-            <Link href="/panel" className="ftr-link">Panelim</Link>
+            <div className="ftr-col-title">{t("footer.colAccount")}</div>
+            <Link href="/auth/giris" className="ftr-link">{t("footer.linkLogin")}</Link>
+            <Link href="/auth/kayit" className="ftr-link">{t("footer.linkRegister")}</Link>
+            <Link href="/panel" className="ftr-link">{t("footer.linkPanel")}</Link>
           </div>
 
           <div className="ftr-col">
-            <div className="ftr-col-title">İletişim</div>
+            <div className="ftr-col-title">{t("footer.colContact")}</div>
             <span className="ftr-info">info@hatiradergi.com</span>
-            <span className="ftr-info">İstanbul, Türkiye</span>
+            <span className="ftr-info">{t("footer.city")}</span>
           </div>
         </div>
 
         <div className="ftr-bottom">
-          <span>© {new Date().getFullYear()} Hatıra Dergi. Tüm hakları saklıdır.</span>
+          <span>© {new Date().getFullYear()} Hatıra Dergi. {t("footer.copyright")}</span>
           <div className="ftr-legal">
-            <Link href="/gizlilik" className="ftr-legal-link">Gizlilik Politikası</Link>
-            <Link href="/kullanim-sartlari" className="ftr-legal-link">Kullanım Şartları</Link>
+            <Link href="/gizlilik" className="ftr-legal-link">{t("footer.privacy")}</Link>
+            <Link href="/kullanim-sartlari" className="ftr-legal-link">{t("footer.terms")}</Link>
           </div>
         </div>
       </div>

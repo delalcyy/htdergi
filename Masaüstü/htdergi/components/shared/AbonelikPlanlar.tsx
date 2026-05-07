@@ -1,102 +1,21 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import type { SubscriptionPlan } from "@prisma/client";
 
 type Props = {
   plans: SubscriptionPlan[];
 };
 
-const PLAN_META: Record<string, { badge: string; tagline: string; features: string[]; highlight?: string }> = {
-  Hediye: {
-    badge: "Tek Seferlik",
-    tagline: "Bir sürpriz için mükemmel başlangıç",
-    features: [
-      "1 kapak tasarımı hakkı",
-      "Temel şablonlar",
-      "PDF olarak indirme",
-      "30 günlük erişim",
-    ],
-  },
-  Başlangıç: {
-    badge: "Temel",
-    tagline: "Kişisel kullanım için uygun seçenek",
-    features: [
-      "3 kapak tasarımı hakkı",
-      "Tüm şablonlar",
-      "Röportaj modülü",
-      "PDF olarak indirme",
-      "30 günlük erişim",
-    ],
-  },
-  Standart: {
-    badge: "En Popüler",
-    tagline: "Düzenli kullanıcıların tercihi",
-    highlight: "En Popüler",
-    features: [
-      "6 kapak tasarımı hakkı",
-      "Tüm şablonlar",
-      "Röportaj modülü",
-      "Taslak kaydetme",
-      "PDF olarak indirme",
-      "Kullanıcı paneli",
-    ],
-  },
-  Premium: {
-    badge: "Premium",
-    tagline: "Tüm özellikler, sınırsız erişim",
-    features: [
-      "Sınırsız kapak tasarımı",
-      "Tüm şablonlar",
-      "Röportaj modülü",
-      "Taslak kaydetme",
-      "Yüksek çözünürlük PDF",
-      "Öncelikli destek",
-    ],
-  },
-  Yıllık: {
-    badge: "En İyi Değer",
-    tagline: "Yıllık ödeme ile maksimum tasarruf",
-    highlight: "En İyi Değer",
-    features: [
-      "Sınırsız kapak tasarımı",
-      "Tüm şablonlar",
-      "Röportaj modülü",
-      "Taslak kaydetme",
-      "Yüksek çözünürlük PDF",
-      "Öncelikli destek",
-      "12 aylık kesintisiz erişim",
-    ],
-  },
-  Aile: {
-    badge: "Aile",
-    tagline: "Sevdiklerinizle birlikte anı biriktirin",
-    features: [
-      "5 kullanıcı hesabı",
-      "Sınırsız kapak tasarımı",
-      "Tüm şablonlar",
-      "Röportaj modülü",
-      "Taslak kaydetme",
-      "Yüksek çözünürlük PDF",
-      "Öncelikli destek",
-      "Özel seri numarası",
-    ],
-  },
-};
-
-const FALLBACK_META = {
-  badge: "Plan",
-  tagline: "Hemen başlayın",
-  features: [
-    "Kapak tasarımı",
-    "Röportaj modülü",
-    "PDF indirme",
-    "Kullanıcı paneli",
-  ],
+const HIGHLIGHT_KEYS: Record<string, string> = {
+  Standart: "featured_popular",
+  Yıllık: "featured_value",
 };
 
 export default function AbonelikPlanlar({ plans }: Props) {
   const router = useRouter();
+  const { t } = useTranslation("common");
 
   function handleSelect(planId: string) {
     router.push(`/kapak-tasarla/bilgi-formu?planId=${planId}`);
@@ -105,7 +24,7 @@ export default function AbonelikPlanlar({ plans }: Props) {
   if (plans.length === 0) {
     return (
       <p style={{ textAlign: "center", color: "#6b7280", padding: "40px 0" }}>
-        Şu anda aktif abonelik paketi bulunmuyor.
+        {t("subscription.noPlans")}
       </p>
     );
   }
@@ -113,19 +32,34 @@ export default function AbonelikPlanlar({ plans }: Props) {
   return (
     <div className="ab-plans-grid">
       {plans.map((plan) => {
-        const meta = PLAN_META[plan.name] ?? FALLBACK_META;
-        const isFeatured = !!meta.highlight;
-        const period = plan.durationDays === 365 ? "yıl" : plan.durationDays === 30 ? "ay" : `${plan.durationDays} gün`;
+        const meta = t(`planFeatures.${plan.name}`, { returnObjects: true }) as {
+          badge: string;
+          tagline: string;
+          features: string[];
+        } | null;
+
+        const badge = meta?.badge ?? plan.name;
+        const tagline = meta?.tagline ?? "";
+        const features = meta?.features ?? [];
+
+        const highlightKey = HIGHLIGHT_KEYS[plan.name];
+        const highlight = highlightKey ? t(`subscription.${highlightKey}`) : undefined;
+        const isFeatured = !!highlight;
+
+        const period =
+          plan.durationDays === 365
+            ? t("subscription.perYear")
+            : plan.durationDays === 30
+            ? t("subscription.perMonth")
+            : t("subscription.perDays", { days: plan.durationDays });
 
         return (
           <div key={plan.id} className={`ab-plan-card${isFeatured ? " ab-featured" : ""}`}>
-            {isFeatured && (
-              <div className="ab-featured-band">{meta.highlight}</div>
-            )}
+            {isFeatured && <div className="ab-featured-band">{highlight}</div>}
             <div className="ab-card-body">
-              <span className="ab-badge">{meta.badge}</span>
+              <span className="ab-badge">{badge}</span>
               <div className="ab-plan-name">{plan.name}</div>
-              <div className="ab-plan-tagline">{meta.tagline}</div>
+              <div className="ab-plan-tagline">{tagline}</div>
 
               <div className="ab-plan-price-row">
                 <span className="ab-currency">₺</span>
@@ -134,7 +68,7 @@ export default function AbonelikPlanlar({ plans }: Props) {
               </div>
 
               <ul className="ab-features">
-                {meta.features.map((f) => (
+                {features.map((f) => (
                   <li key={f}>
                     <span className="ab-check">✓</span>
                     {f}
@@ -143,7 +77,7 @@ export default function AbonelikPlanlar({ plans }: Props) {
               </ul>
 
               <button onClick={() => handleSelect(plan.id)} className="ab-plan-btn">
-                Seç & Başla <span className="ab-btn-arr">→</span>
+                {t("subscription.selectBtn")} <span className="ab-btn-arr">→</span>
               </button>
             </div>
           </div>

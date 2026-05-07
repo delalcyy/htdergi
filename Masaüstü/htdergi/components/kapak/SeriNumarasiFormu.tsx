@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import { infoFormSchema } from "@/lib/validation/kapak";
 import { Input } from "@/components/ui/input";
@@ -13,15 +14,16 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 const schema = infoFormSchema.extend({
   code: z
     .string()
-    .min(4, "Seri numarası çok kısa")
-    .max(50, "Seri numarası çok uzun")
-    .regex(/^[A-Z0-9\-]+$/, "Seri numarası yalnızca büyük harf, rakam ve tire içerebilir"),
+    .min(4)
+    .max(50)
+    .regex(/^[A-Z0-9\-]+$/),
 });
 
 type FormInput = z.infer<typeof schema>;
 
 export default function SeriNumarasiFormu() {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const [serverError, setServerError] = useState("");
 
   const {
@@ -41,7 +43,7 @@ export default function SeriNumarasiFormu() {
     });
     const json = await res.json();
     if (!res.ok || !json.success) {
-      setServerError(json.error || "Seri numarası geçersiz veya kullanılmış.");
+      setServerError(json.error || t("cover.seriNumarasi.invalidError"));
       return;
     }
     router.push("/kapak-tasarla/editor");
@@ -58,7 +60,7 @@ export default function SeriNumarasiFormu() {
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="kapak-field">
-          <label htmlFor="code">Seri Numarası</label>
+          <label htmlFor="code">{t("cover.seriNumarasi.codeLabel")}</label>
           <Input
             id="code"
             {...register("code")}
@@ -68,51 +70,61 @@ export default function SeriNumarasiFormu() {
               e.target.value = e.target.value.toUpperCase();
             }}
           />
-          {errors.code && <div className="kapak-field-error">{errors.code.message}</div>}
+          {errors.code && (
+            <div className="kapak-field-error">
+              {errors.code.type === "too_small"
+                ? t("cover.seriNumarasi.tooShort")
+                : errors.code.type === "too_big"
+                  ? t("cover.seriNumarasi.tooLong")
+                  : errors.code.type === "invalid_string"
+                    ? t("cover.seriNumarasi.formatError")
+                    : errors.code.message}
+            </div>
+          )}
         </div>
 
         <div className="kapak-form-section">
-          <div className="kapak-form-section-title">Adres Bilgileri</div>
+          <div className="kapak-form-section-title">{t("cover.seriNumarasi.addressSection")}</div>
 
           <div className="kapak-field">
-            <label htmlFor="fullName">Ad Soyad</label>
+            <label htmlFor="fullName">{t("cover.seriNumarasi.fullName")}</label>
             <Input id="fullName" {...register("fullName")} />
             {errors.fullName && <div className="kapak-field-error">{errors.fullName.message}</div>}
           </div>
 
           <div className="kapak-field">
-            <label htmlFor="phone">Telefon</label>
+            <label htmlFor="phone">{t("cover.seriNumarasi.phone")}</label>
             <Input id="phone" {...register("phone")} placeholder="05XX XXX XX XX" />
             {errors.phone && <div className="kapak-field-error">{errors.phone.message}</div>}
           </div>
 
           <div className="kapak-field">
-            <label htmlFor="addressLine">Adres</label>
+            <label htmlFor="addressLine">{t("cover.seriNumarasi.address")}</label>
             <Input id="addressLine" {...register("addressLine")} />
             {errors.addressLine && <div className="kapak-field-error">{errors.addressLine.message}</div>}
           </div>
 
           <div className="kapak-grid-2">
             <div className="kapak-field">
-              <label htmlFor="city">Şehir</label>
+              <label htmlFor="city">{t("cover.seriNumarasi.city")}</label>
               <Input id="city" {...register("city")} />
               {errors.city && <div className="kapak-field-error">{errors.city.message}</div>}
             </div>
             <div className="kapak-field">
-              <label htmlFor="district">İlçe</label>
+              <label htmlFor="district">{t("cover.seriNumarasi.district")}</label>
               <Input id="district" {...register("district")} />
               {errors.district && <div className="kapak-field-error">{errors.district.message}</div>}
             </div>
           </div>
 
           <div className="kapak-field">
-            <label htmlFor="postalCode">Posta Kodu (opsiyonel)</label>
+            <label htmlFor="postalCode">{t("cover.seriNumarasi.postalCode")}</label>
             <Input id="postalCode" {...register("postalCode")} placeholder="34000" />
           </div>
         </div>
 
         <Button type="submit" disabled={isSubmitting} style={{ width: "100%", marginTop: "1rem" }}>
-          {isSubmitting ? "Kontrol ediliyor..." : "Seri Numarasını Kullan"}
+          {isSubmitting ? t("cover.seriNumarasi.checking") : t("cover.seriNumarasi.submit")}
         </Button>
       </form>
     </div>

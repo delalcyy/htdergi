@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import type { InterviewCategory } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 
@@ -12,6 +13,7 @@ type Props = {
 export default function KategoriSecim({ categories }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation("common");
   const coverDraftId = searchParams.get("coverDraftId");
   const [selected, setSelected] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -35,7 +37,7 @@ export default function KategoriSecim({ categories }: Props) {
     if (json.success) {
       router.push(`/kapak-tasarla/roportaj/${json.data.id}`);
     } else {
-      setError(json.error || "Hata oluştu.");
+      setError(json.error || t("cover.kategori.error"));
       setIsCreating(false);
     }
   }
@@ -43,7 +45,7 @@ export default function KategoriSecim({ categories }: Props) {
   if (categories.length === 0) {
     return (
       <p style={{ color: "#6b7280", fontSize: "0.875rem" }}>
-        Henüz aktif kategori bulunmuyor.
+        {t("cover.kategori.noCategories")}
       </p>
     );
   }
@@ -69,7 +71,7 @@ export default function KategoriSecim({ categories }: Props) {
 
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button onClick={handleStart} disabled={!selected || isCreating} size="lg">
-          {isCreating ? "Oluşturuluyor..." : "Bu Kategoriyle Başla →"}
+          {isCreating ? t("cover.kategori.creating") : t("cover.kategori.startBtn")}
         </Button>
       </div>
     </div>

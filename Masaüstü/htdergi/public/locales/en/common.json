@@ -1,0 +1,767 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "subscription": "Subscription",
+    "howItWorks": "How It Works",
+    "contact": "Contact",
+    "myPanel": "My Panel",
+    "designCover": "Design Cover",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
+  },
+  "footer": {
+    "tagline": "Take your memories to a magazine cover. Create your own special edition.",
+    "colProduct": "Product",
+    "colCompany": "Company",
+    "colAccount": "Account",
+    "colContact": "Contact",
+    "linkDesign": "Design Cover",
+    "linkPlans": "Subscription Plans",
+    "linkHowItWorks": "How It Works",
+    "linkAbout": "About Us",
+    "linkFaq": "FAQ",
+    "linkContact": "Contact",
+    "linkLogin": "Log In",
+    "linkRegister": "Register",
+    "linkPanel": "My Panel",
+    "city": "Istanbul, Turkey",
+    "copyright": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "home": {
+    "hero": {
+      "kicker": "Everyone Can Be on the Cover of Their Own Magazine",
+      "quote": "In the Future",
+      "quoteEm": "Everyone Will Be Famous",
+      "author": "Andy Warhol",
+      "lede": "Be the star of a fashiontv magazine cover. Write your story, create your interview, and claim your place in a luxury lifestyle magazine.",
+      "ctaPrimary": "Get Started",
+      "ctaSecondary": "See Plans"
+    },
+    "marquee": {
+      "items": [
+        "Birthday",
+        "Wedding",
+        "Career",
+        "Baby",
+        "Graduation"
+      ]
+    },
+    "steps": {
+      "eyebrow": "How It Works",
+      "title": "Your Own Magazine",
+      "titleEm": "in Four Steps",
+      "lede": "Design your cover, create your interview, and become a cover star in minutes.",
+      "items": [
+        {
+          "n": "01",
+          "title": "Register",
+          "desc": "Create a free account by entering your name, email, and password."
+        },
+        {
+          "n": "02",
+          "title": "Subscribe",
+          "desc": "Complete your address information and start your membership."
+        },
+        {
+          "n": "03",
+          "title": "Design Your Cover",
+          "desc": "Select your category, upload your photos, and fill in the interview questions."
+        },
+        {
+          "n": "04",
+          "title": "Get Your PDF",
+          "desc": "Your personal magazine page is created instantly, ready to download."
+        }
+      ]
+    },
+    "categories": {
+      "eyebrow": "Categories",
+      "title": "For Every Special Moment",
+      "titleEm": "A Special Page",
+      "items": [
+        "Birthday",
+        "Wedding",
+        "Career",
+        "Baby",
+        "Graduation"
+      ]
+    },
+    "gallery": {
+      "eyebrow": "Gallery",
+      "title": "Moments",
+      "titleEm": "From Your Life"
+    },
+    "testimonials": {
+      "eyebrow": "Reviews",
+      "title": "What Our Users",
+      "titleEm": "Are Saying",
+      "items": [
+        { "name": "Elif K.",   "title": "Istanbul",   "text": "I prepared it as a birthday surprise for my husband. He was amazed to see his photo on the fashiontv magazine cover. Reading the interview section made it even more emotional. It now sits in the most visible spot at home." },
+        { "name": "Murat B.",  "title": "Istanbul",   "text": "I had it made for my graduation. Honestly, I didn't expect my photo to look that good on the cover. When my friends saw it, they genuinely thought I was on the real magazine. The interview part especially impressed everyone." },
+        { "name": "Selin T.",  "title": "Ankara",     "text": "I prepared it for my mother. She couldn't believe it when she saw herself on the fashiontv magazine cover. She reads the interview to everyone she meets. She ended up framing it and hanging it in the living room." },
+        { "name": "Ahmet Y.",  "title": "Izmir",      "text": "I wanted to give my girlfriend a unique surprise. She loved seeing herself on the Fashiontv Magazine cover. She held the interview pages for a long time. It truly was a very special gift." },
+        { "name": "Zeynep D.", "title": "New Mother", "text": "We had it made as a memory after our baby was born. It became a very special keepsake we'll open and look at years from now. Seeing our own family on the cover felt truly beautiful." },
+        { "name": "Ceren A.",  "title": "Bursa",      "text": "I prepared it for my father's career anniversary. He was surprised at first, then quietly started reading the interview. He finally said 'I'm keeping this.' That moment made everything worthwhile." }
+      ]
+    },
+    "cta": {
+      "title": "Share Your Story",
+      "titleEm": "with the World",
+      "subtitle": "Register now, create your first page.",
+      "button": "Start Free"
+    }
+  },
+  "about": {
+    "eyebrow": "Hatıra Dergi",
+    "heroTitle": "Who",
+    "heroTitleEm": "Are We?",
+    "heroDesc": "Going beyond ordinary photos, we immortalize your memories on a professional magazine cover. Every moment, every story, every person deserves to be on a cover.",
+    "storyEyebrow": "Our Story",
+    "storyTitle": "Bringing Memories",
+    "storyTitleEm": "to the Cover",
+    "storyP1": "Hatıra Dergi was founded for those who want to give something extraordinary to their loved ones or themselves. Because we believe every special moment deserves more than just a photo.",
+    "storyP2": "Inspired by fashiontv magazine aesthetics, you simply upload your photo and answer our questions — we handle the rest. In minutes, you have a print-ready, professional magazine page.",
+    "storyP3": "Every cover is documented with a unique serial number that belongs only to your moment — just as irreplaceable as the moment itself.",
+    "quoteText": "One day everyone will be famous. We're not waiting for that day to come — we're creating it today.",
+    "quoteAuthor": "Hatıra Dergi",
+    "quoteAuthorTitle": "Founding Team Manifesto",
+    "mvEyebrow": "Our Direction",
+    "mvTitle": "Mission &",
+    "mvTitleEm": "Vision",
+    "missionIcon": "◈",
+    "missionTitle": "Our Mission",
+    "missionText": "To enable every individual to document their special moments with professional magazine quality. To create personal and meaningful memories accessible to everyone through technology and design.",
+    "visionIcon": "◇",
+    "visionTitle": "Our Vision",
+    "visionText": "To bring the philosophy that \"everyone is a cover star\" from Turkey to the world. To build a culture where memories don't disappear digitally but become works of art that gain value over time.",
+    "valuesEyebrow": "Our Principles",
+    "valuesTitle": "The Values Behind",
+    "valuesTitleEm": "Every Decision",
+    "valuesLede": "When designing a platform, we didn't just make a feature list. At every step, we asked: does this truly add value to the user's memory?",
+    "values": [
+      {
+        "num": "01",
+        "title": "Authenticity",
+        "text": "Every design is documented with a unique serial number. Your moment, your signature."
+      },
+      {
+        "num": "02",
+        "title": "Quality",
+        "text": "Every page is carefully prepared with professional magazine layout and print quality."
+      },
+      {
+        "num": "03",
+        "title": "Simplicity",
+        "text": "Design your own cover in minutes — no technical knowledge required."
+      },
+      {
+        "num": "04",
+        "title": "Emotion",
+        "text": "Beyond a photo: your interview, your words, and the true weight of the moment."
+      }
+    ],
+    "statsEyebrow": "Numbers",
+    "stats": [
+      {
+        "num": "10,000+",
+        "label": "Covers Designed"
+      },
+      {
+        "num": "98%",
+        "label": "Customer Satisfaction"
+      },
+      {
+        "num": "5",
+        "label": "Different Categories"
+      },
+      {
+        "num": "2022",
+        "label": "Founded"
+      }
+    ],
+    "timelineEyebrow": "History",
+    "timelineTitle": "How Did",
+    "timelineTitleEm": "We Start?",
+    "timelineP1": "Like every great idea, Hatıra Dergi was born from an ordinary need. While wanting to give our loved ones \"something different,\" we realized no platform offered a truly personalized, print-quality product.",
+    "timelineP2": "A small team set out with a big dream. Today, tens of thousands of special moments live in frames, not archives.",
+    "timeline": [
+      {
+        "year": "2022",
+        "title": "The First Idea",
+        "desc": "The magazine cover idea came to life while looking for a different surprise for our loved ones."
+      },
+      {
+        "year": "2023",
+        "title": "Platform Launch",
+        "desc": "Our first users completed their cover designs and the feedback was promising."
+      },
+      {
+        "year": "2024",
+        "title": "Growth Period",
+        "desc": "Thousands of people turned their birthday, graduation, and career memories into covers."
+      },
+      {
+        "year": "2025",
+        "title": "New Features",
+        "desc": "The platform expanded with the interview module, advanced templates, and collection pages."
+      }
+    ],
+    "ctaTitle": "Be a",
+    "ctaTitleEm": "Cover Star Too",
+    "ctaSub": "All it takes to immortalize your moment is to start.",
+    "ctaPrimary": "Get Started",
+    "ctaSecondary": "See Plans"
+  },
+  "howItWorks": {
+    "eyebrow": "Process",
+    "heroTitle": "How Does",
+    "heroTitleEm": "It Work?",
+    "heroDesc": "From cover design to interview, from photo upload to PDF — create your own magazine page in four steps. Average completion time: 15 minutes.",
+    "steps": [
+      {
+        "num": "01",
+        "tag": "First Step",
+        "cardTitle": "Design Your Cover",
+        "cardDesc": "Open the editor, upload your photo, and personalize your cover. Background, logo color, text, fonts — everything is in your hands.",
+        "title": "Design",
+        "titleEm": "Your Cover",
+        "desc": "When you enter the cover editor, a fully equipped design interface awaits you. Upload your photo, choose your background color, set your logo color, and add text to your cover.",
+        "bullets": [
+          "Upload your photo — cover is automatically framed",
+          "Choose from 6 background colors (Black, Anthracite, Gray, Cream, White, Gold)",
+          "Set logo color (Original, Gold, Silver, Black, Light Blue, Pink)",
+          "Add text, drag & drop to position anywhere",
+          "Customize text style with 7 different font options"
+        ],
+        "chips": [
+          "Upload Photo",
+          "Select Background",
+          "Logo Color",
+          "Add Text",
+          "Drag & Drop",
+          "Font Selection"
+        ]
+      },
+      {
+        "num": "02",
+        "tag": "Second Step",
+        "cardTitle": "Go to Interview & Select Category",
+        "cardDesc": "When you finish the cover design, click the Go to Interview button and select the category that best fits your special moment.",
+        "title": "Go to Interview,",
+        "titleEm": "Select Category",
+        "desc": "When you finish the cover design, you go directly to the interview section from the editor. Just select the category that best describes your special moment.",
+        "bullets": [
+          "Click the 'Go to Interview' button in the editor",
+          "Choose from Birthday, Graduation, Career, Baby, or Wedding categories",
+          "Each category comes with its own special questions",
+          "Category is selected once and can be changed later"
+        ],
+        "chips": [
+          "Birthday",
+          "Graduation",
+          "Career",
+          "Baby",
+          "Wedding"
+        ]
+      },
+      {
+        "num": "03",
+        "tag": "Third Step",
+        "cardTitle": "Upload Your Photo",
+        "cardDesc": "After selecting the category, upload your photo for the interview page.",
+        "title": "Upload",
+        "titleEm": "Your Photo",
+        "desc": "After selecting the category, you upload a separate photo for your interview page. This photo is used in the interior pages of the magazine.",
+        "bullets": [
+          "Choose a clear and well-lit photo for your interview page",
+          "Portrait format photos give the best results",
+          "Minimum 1500×2000 pixel resolution recommended",
+          "Upload from your phone gallery or computer"
+        ],
+        "chips": [
+          "High Resolution",
+          "Portrait Format",
+          "Auto Adjustment"
+        ]
+      },
+      {
+        "num": "04",
+        "tag": "Fourth Step",
+        "cardTitle": "Answer Questions & Get PDF",
+        "cardDesc": "Fill in the interview questions specific to your category, and your print-ready PDF is ready.",
+        "title": "Answer Questions,",
+        "titleEm": "Get Your PDF",
+        "desc": "Answer the interview questions prepared according to your chosen category. When you're done, your PDF with a unique serial number is instantly ready.",
+        "bullets": [
+          "Answer category-specific questions in your own words",
+          "You can skip questions or add new ones",
+          "Save as draft and complete later",
+          "Click 'Generate PDF' when finished",
+          "Download your print-ready PDF with unique serial number"
+        ],
+        "chips": [
+          "Personal Questions",
+          "Save Draft",
+          "Instant PDF",
+          "Unique Serial",
+          "Print Ready"
+        ]
+      }
+    ],
+    "tipsEyebrow": "Pro Tips",
+    "tipsTitle": "Tips for",
+    "tipsTitleEm": "Best Results",
+    "tips": [
+      {
+        "num": "01",
+        "title": "Keep Cover Photo Sharp",
+        "text": "Well-lit, sharp portrait photos give the best cover appearance."
+      },
+      {
+        "num": "02",
+        "title": "Match Background with Logo Color",
+        "text": "Gold or Silver logo looks great on dark backgrounds. Choose Black logo for light backgrounds."
+      },
+      {
+        "num": "03",
+        "title": "Position Text by Dragging",
+        "text": "You can drag & drop text to exactly where you want on the cover. Find the most aesthetic layout by trial and error."
+      },
+      {
+        "num": "04",
+        "title": "Choose the Right Category",
+        "text": "Each category has its own special questions. Choosing the right category makes your interview much more meaningful."
+      },
+      {
+        "num": "05",
+        "title": "Be Honest and Genuine in the Interview",
+        "text": "Give answers that reflect your true feelings instead of clichés. When you read these pages years later, you'll feel that moment alive."
+      },
+      {
+        "num": "06",
+        "title": "Use the Draft Feature",
+        "text": "You don't have to finish everything in one session. Save as draft, continue whenever you want."
+      }
+    ],
+    "ctaTitle": "Ready?",
+    "ctaTitleEm": "Get Started Now",
+    "ctaSub": "Create your own magazine cover in 15 minutes.",
+    "ctaPrimary": "Design Cover",
+    "ctaSecondary": "See Plans"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "heroTitle": "We're Here",
+    "heroTitleEm": "to Help You",
+    "heroTitleRest": "",
+    "heroDesc": "Have a question, want to give feedback, or thinking about a special project? Fill out the form and we'll get back to you as soon as possible.",
+    "emailLabel": "Email",
+    "locationLabel": "Location",
+    "location": "Istanbul, Turkey",
+    "responseLabel": "Response Time",
+    "responseTime": "Average 24 hours",
+    "formEyebrow": "Send a Message",
+    "formTitle": "Write",
+    "formTitleEm": "to Us",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone (Optional)",
+    "phonePlaceholder": "+1 (___) ___-____",
+    "subject": "Subject",
+    "selectSubject": "Select a subject",
+    "subjects": {
+      "general": "General Information",
+      "technical": "Technical Support",
+      "payment": "Payment & Invoice",
+      "refund": "Refund Request",
+      "corporate": "Corporate & Bulk Order",
+      "other": "Other"
+    },
+    "message": "Your Message",
+    "messagePlaceholder": "Write your message here…",
+    "send": "Send Message",
+    "sending": "Sending…",
+    "successTitle": "Message Delivered",
+    "successDesc": "We will get back to you within 24 hours at the latest. Thank you.",
+    "sendAnother": "Send New Message",
+    "infoTitle": "Contact Information",
+    "supportEmail": "support@hatiradergi.com",
+    "workHours": "Mon – Fri, 09:00 – 18:00",
+    "workHoursLabel": "Working Hours",
+    "responseBoxLabel": "Average Response Time",
+    "responseBoxText": "We respond within 24 hours. May extend to 48 hours on weekends.",
+    "socialTitle": "Social Media",
+    "privacyNote": "Your information is used only for communication purposes and is not shared with third parties.",
+    "faqEyebrow": "Frequently Asked Questions",
+    "faqTitle": "Questions",
+    "faqTitleEm": "You're Looking For",
+    "faqLede": "Before filling out the form, take a look at the frequently asked questions below — your answer might be there.",
+    "faqs": [
+      {
+        "q": "How can I track my order?",
+        "a": "You can see all your designs and download history from your user panel."
+      },
+      {
+        "q": "Can I re-download my design?",
+        "a": "Yes. All your created designs are stored in the 'My Designs' section of your panel."
+      },
+      {
+        "q": "I'm not sure if my photo is suitable. What should I do?",
+        "a": "Choose a clear, well-lit portrait photo. If you're unsure, send it to us and we'll evaluate and get back to you."
+      },
+      {
+        "q": "I made a payment but my account wasn't activated.",
+        "a": "It usually activates within a few minutes. If it doesn't activate after 15 minutes, write to us with your payment document."
+      },
+      {
+        "q": "I want to request a refund.",
+        "a": "We offer a full refund within the first 7 days if you haven't created any designs yet."
+      },
+      {
+        "q": "Is there a bulk order or corporate package?",
+        "a": "Yes, contact us for special pricing."
+      }
+    ]
+  },
+  "subscription": {
+    "heroEyebrow": "Subscription Plans",
+    "heroTitle": "Choose the Plan",
+    "heroTitleEm": "That's Right for You",
+    "heroDesc": "Choose from our packages suited to every budget and need, and start creating your own magazine cover in minutes.",
+    "plansEyebrow": "Packages",
+    "plansTitle": "Six Different",
+    "plansTitleEm": "Options",
+    "plansLede": "There's a package for everyone, from a one-time gift to a family plan.",
+    "noPlans": "No active subscription plans available.",
+    "compareNote": "All plans include VAT · Cancel anytime",
+    "selectBtn": "Select & Start",
+    "perMonth": "month",
+    "perYear": "year",
+    "perDays": "days",
+    "featured_popular": "Most Popular",
+    "featured_value": "Best Value",
+    "infoEyebrow": "What's Included?",
+    "infoTitle": "In Every Package",
+    "infoTitleEm": "You'll Find These",
+    "infoLede": "Whichever plan you choose, all the essential features for a quality experience are provided.",
+    "infoItems": [
+      {
+        "icon": "◈",
+        "title": "Instant Access",
+        "text": "After payment, your account is activated and you can start designing immediately."
+      },
+      {
+        "icon": "◇",
+        "title": "PDF Download",
+        "text": "Every completed design is downloaded in high-quality PDF format, ready to print."
+      },
+      {
+        "icon": "◉",
+        "title": "Unique Serial No.",
+        "text": "Each cover design is documented with a unique serial number created just for you."
+      },
+      {
+        "icon": "◌",
+        "title": "Secure Payment",
+        "text": "All payments are processed through SSL-encrypted infrastructure, your card is safe."
+      },
+      {
+        "icon": "◐",
+        "title": "24/7 Support",
+        "text": "If you experience any issues, our support team is always there for you."
+      },
+      {
+        "icon": "◑",
+        "title": "Easy Cancellation",
+        "text": "You can cancel your subscription at any time, no additional charges."
+      }
+    ],
+    "faqEyebrow": "Frequently Asked Questions",
+    "faqTitle": "Questions on",
+    "faqTitleEm": "Your Mind",
+    "faqs": [
+      {
+        "q": "Which plan should I choose?",
+        "a": "If you're making a design for a single special moment, the Gift or Starter package is sufficient."
+      },
+      {
+        "q": "Can I send my design to print?",
+        "a": "Yes. In all plans, your design is created as a high-resolution PDF ready for printing."
+      },
+      {
+        "q": "What happens when the package expires?",
+        "a": "When it expires, your right to create new designs is suspended; however, you continue to access your existing designs."
+      },
+      {
+        "q": "Are interview questions predetermined?",
+        "a": "Yes, we have questions prepared by category. You can also add your own questions."
+      },
+      {
+        "q": "For how many people is the family package valid?",
+        "a": "The family package allows for 5 different user profiles under a single account."
+      },
+      {
+        "q": "What is the refund policy?",
+        "a": "Within the first 7 days, if you haven't created any designs, you can request a refund."
+      }
+    ],
+    "guaranteeEyebrow": "Our Guarantee",
+    "guaranteeTitle": "Try",
+    "guaranteeTitleEm": "Risk-Free",
+    "guaranteeDesc": "If you're not satisfied within the first 7 days and haven't created a design yet, we refund the full amount.",
+    "badge1Label": "7-Day Money Back",
+    "badge1Sub": "Not satisfied? We'll refund you",
+    "badge2Label": "SSL Secure Payment",
+    "badge2Sub": "Protected with 256-bit encryption",
+    "badge3Label": "Cancel Anytime",
+    "badge3Sub": "No commitment, no hidden fees"
+  },
+  "planFeatures": {
+    "Hediye": {
+      "badge": "One-Time",
+      "tagline": "Perfect start for a special gift",
+      "features": [
+        "1 cover design right",
+        "Basic templates",
+        "PDF download",
+        "30-day access"
+      ]
+    },
+    "Başlangıç": {
+      "badge": "Basic",
+      "tagline": "Affordable option for personal use",
+      "features": [
+        "3 cover design rights",
+        "All templates",
+        "Interview module",
+        "PDF download",
+        "30-day access"
+      ]
+    },
+    "Standart": {
+      "badge": "Most Popular",
+      "tagline": "The choice of regular users",
+      "features": [
+        "6 cover design rights",
+        "All templates",
+        "Interview module",
+        "Save drafts",
+        "PDF download",
+        "User panel"
+      ]
+    },
+    "Premium": {
+      "badge": "Premium",
+      "tagline": "All features, unlimited access",
+      "features": [
+        "Unlimited cover designs",
+        "All templates",
+        "Interview module",
+        "Save drafts",
+        "High-res PDF",
+        "Priority support"
+      ]
+    },
+    "Yıllık": {
+      "badge": "Best Value",
+      "tagline": "Maximum savings with annual payment",
+      "features": [
+        "Unlimited cover designs",
+        "All templates",
+        "Interview module",
+        "Save drafts",
+        "High-res PDF",
+        "Priority support",
+        "12-month uninterrupted access"
+      ]
+    },
+    "Aile": {
+      "badge": "Family",
+      "tagline": "Collect memories with your loved ones",
+      "features": [
+        "5 user accounts",
+        "Unlimited cover designs",
+        "All templates",
+        "Interview module",
+        "Save drafts",
+        "High-res PDF",
+        "Priority support",
+        "Custom serial number"
+      ]
+    }
+  },
+  "cover": {
+    "layout": {
+      "homeLink": "← Home"
+    },
+    "loading": "Loading...",
+    "error": {
+      "title": "Connection Error",
+      "desc": "A database connection error occurred. Make sure the backend server is running and refresh the page.",
+      "retry": "Try Again",
+      "home": "Home"
+    },
+    "bilgiFormu": {
+      "pageTitle": "Contact & Address Information",
+      "pageDesc": "Enter your information to access the cover design area. You can enter your serial number at this step if you have one.",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "addressSection": "Address Information",
+      "address": "Address",
+      "city": "City",
+      "district": "District",
+      "postalCode": "Postal Code (optional)",
+      "serialSection": "Serial Number",
+      "serialToggleOn": "I want to use my serial number",
+      "serialToggleOff": "Cancel serial number",
+      "serialCode": "Serial Number",
+      "serialHint": "Your serial number will grant a 1-year subscription.",
+      "submitting": "Processing...",
+      "submitWithSerial": "Use Serial Number",
+      "submitToPayment": "Proceed to Payment",
+      "serialInvalid": "Invalid serial number.",
+      "genericError": "An error occurred."
+    },
+    "seriNumarasi": {
+      "pageTitle": "Access with Serial Number",
+      "pageDesc": "Enter your serial number to access the cover design editor. Your number is single-use.",
+      "codeLabel": "Serial Number",
+      "addressSection": "Address Information",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "address": "Address",
+      "city": "City",
+      "district": "District",
+      "postalCode": "Postal Code (optional)",
+      "checking": "Verifying...",
+      "submit": "Use Serial Number",
+      "invalidError": "Serial number is invalid or already used.",
+      "tooShort": "Serial number is too short",
+      "tooLong": "Serial number is too long",
+      "formatError": "Serial number can only contain uppercase letters, numbers and dashes"
+    },
+    "odeme": {
+      "pageTitle": "Payment",
+      "coverPurchase": "Cover purchase",
+      "amount": "Amount",
+      "discount": "Discount",
+      "total": "Total",
+      "discountSection": "Discount Code",
+      "discountPlaceholder": "ENTER DISCOUNT CODE",
+      "remove": "Remove",
+      "apply": "Apply",
+      "invalidCode": "Invalid code.",
+      "discountApplied": "Discount applied!",
+      "connectionError": "Connection error.",
+      "redirecting": "Redirecting...",
+      "payBtnPrefix": "Pay",
+      "secureNote": "Secure payment. Your information is processed with encryption.",
+      "paymentError": "Payment could not be initiated."
+    },
+    "sablon": {
+      "noTemplates": "No active templates yet.",
+      "noPreview": "No Preview",
+      "preparing": "Preparing...",
+      "startBtn": "Start with This Template →"
+    },
+    "editor": {
+      "section01": "Cover Photo",
+      "section02": "Texts",
+      "section03": "Side Texts",
+      "section04": "Background Color",
+      "section05": "Logo Color",
+      "uploadTitle": "Select or drag a photo",
+      "uploadHint": "JPG · PNG · Max. 20 MB",
+      "fgTitle": "Person / Foreground PNG",
+      "fgHint": "PNG with background removed · Appears in front of logo",
+      "remove": "✕ Remove",
+      "size": "Size",
+      "rotate": "Rotate",
+      "mirror": "⟺ Mirror",
+      "drag": "Drag",
+      "bgLayer": "Back",
+      "fgLayer": "Front",
+      "nameLabel": "Full Name",
+      "colorLabel": "Color",
+      "subtitleLabel": "Subtitle",
+      "optional": "(Optional)",
+      "namePlaceholder": "Your Name",
+      "subtitlePlaceholder": "A short subtitle…",
+      "dragTip": "Click on texts in the preview to edit, hold to drag.",
+      "textLabel_sol1": "Left Text 1",
+      "textLabel_sag1": "Right Text 1",
+      "textLabel_sol2": "Left Text 2",
+      "textLabel_sag2": "Right Text 2",
+      "resetBtn": "Reset",
+      "downloadBtn": "Download Cover",
+      "saveBtn": "Save Cover & Go to Interview",
+      "saveBtnShort": "Save & Interview →",
+      "downloadBtnShort": "↓ Download PNG",
+      "processing": "Processing…",
+      "saving": "Saving…",
+      "previewLabel": "Live Preview",
+      "previewSize": "21.6 × 27.9 cm · 300 dpi",
+      "previewEmptyTitle": "Preview here",
+      "previewEmptyHint": "Upload a photo",
+      "toastUploaded": "Photo uploaded",
+      "toastDownloaded": "Cover downloaded",
+      "toastExportFailed": "Export failed",
+      "toastSaved": "Cover saved!",
+      "toastSaveFailed": "Save failed",
+      "toastReset": "Editor reset",
+      "toastImageOnly": "Image files only",
+      "toastMaxSize": "Max. 20 MB",
+      "exporting": "Exporting…",
+      "bgColors": {
+        "siyah": "Black",
+        "antrasit": "Anthracite",
+        "gri": "Grey",
+        "krem": "Cream",
+        "beyaz": "White",
+        "altin": "Gold"
+      },
+      "logoColors": {
+        "orijinal": "Original",
+        "altin": "Gold",
+        "gumus": "Silver",
+        "siyah": "Black",
+        "acikMavi": "Light Blue",
+        "pembe": "Pink"
+      },
+      "defaultTexts": {
+        "sol1": "HEART OF FASHION\nBEATING IN TURKEY",
+        "sag1": "EXCLUSIVE INTERVIEWS\nPOWERFUL NAMES\nNEW SEASON",
+        "sol2": "NEW COLLECTION",
+        "sag2": "TREND REPORT"
+      }
+    },
+    "kategori": {
+      "pageTitle": "Interview",
+      "pageDesc": "Which category would you like to interview in?",
+      "noCategories": "No active categories yet.",
+      "error": "An error occurred.",
+      "creating": "Creating...",
+      "startBtn": "Start with This Category →"
+    },
+    "roportaj": {
+      "successTitle": "Your Form Has Been Received",
+      "successDesc": "Your interview will be prepared and shared with you. Thank you.",
+      "goToPanel": "Go to Panel",
+      "back": "← Go Back",
+      "brand": "Magazine Editor",
+      "formLabel": "Interview Form",
+      "categoryLabel": "Category:",
+      "questionsTitle": "Interview Questions",
+      "questionsDesc": "{{count}} questions — fill in as many as you like",
+      "answerPlaceholder": "Write your answer here…",
+      "submitting": "Submitting…",
+      "submitBtn": "Submit Form",
+      "submitNote": "Our team will contact you after your form is submitted.",
+      "genericError": "An error occurred during submission."
+    }
+  }
+}

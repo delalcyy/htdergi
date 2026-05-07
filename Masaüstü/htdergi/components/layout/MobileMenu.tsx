@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isLoggedIn: boolean;
@@ -9,6 +10,7 @@ type Props = {
 
 export default function MobileMenu({ isLoggedIn }: Props) {
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     if (open) {
@@ -26,7 +28,7 @@ export default function MobileMenu({ isLoggedIn }: Props) {
       <button
         className="hdr-hamburger"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
+        aria-label={open ? t("nav.menuClose") : t("nav.menuOpen")}
       >
         {open ? (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -44,22 +46,22 @@ export default function MobileMenu({ isLoggedIn }: Props) {
           <div className="hdr-overlay" onClick={close} />
           <div className="hdr-mobile-menu">
             <nav className="hdr-mobile-nav">
-              <Link href="/" className="hdr-mobile-link" onClick={close}>Anasayfa</Link>
-              <Link href="/hakkimizda" className="hdr-mobile-link" onClick={close}>Hakkımızda</Link>
-              <Link href="/abonelik" className="hdr-mobile-link" onClick={close}>Abonelik</Link>
-              <Link href="/#nasil-calisir" className="hdr-mobile-link" onClick={close}>Nasıl Çalışır</Link>
-              <Link href="/iletisim" className="hdr-mobile-link" onClick={close}>İletişim</Link>
+              <Link href="/" className="hdr-mobile-link" onClick={close}>{t("nav.home")}</Link>
+              <Link href="/hakkimizda" className="hdr-mobile-link" onClick={close}>{t("nav.about")}</Link>
+              <Link href="/abonelik" className="hdr-mobile-link" onClick={close}>{t("nav.subscription")}</Link>
+              <Link href="/nasil-calisir" className="hdr-mobile-link" onClick={close}>{t("nav.howItWorks")}</Link>
+              <Link href="/iletisim" className="hdr-mobile-link" onClick={close}>{t("nav.contact")}</Link>
             </nav>
             <div className="hdr-mobile-actions">
               {isLoggedIn ? (
                 <>
-                  <Link href="/panel" className="hdr-mobile-secondary" onClick={close}>Panelim</Link>
-                  <Link href="/kapak-tasarla" className="hdr-mobile-primary" onClick={close}>Kapak Tasarla</Link>
+                  <Link href="/panel" className="hdr-mobile-secondary" onClick={close}>{t("nav.myPanel")}</Link>
+                  <Link href="/kapak-tasarla" className="hdr-mobile-primary" onClick={close}>{t("nav.designCover")}</Link>
                 </>
               ) : (
                 <>
-                  <Link href="/auth/giris" className="hdr-mobile-secondary" onClick={close}>Giriş Yap</Link>
-                  <Link href="/kapak-tasarla" className="hdr-mobile-primary" onClick={close}>Kapak Tasarla</Link>
+                  <Link href="/auth/giris" className="hdr-mobile-secondary" onClick={close}>{t("footer.linkLogin")}</Link>
+                  <Link href="/kapak-tasarla" className="hdr-mobile-primary" onClick={close}>{t("nav.designCover")}</Link>
                 </>
               )}
             </div>

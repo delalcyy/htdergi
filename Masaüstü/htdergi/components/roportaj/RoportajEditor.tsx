@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import type {
   InterviewDraft,
   InterviewAnswer,
@@ -29,6 +30,7 @@ const KATEGORI_IKON: Record<string, string> = {
 
 export default function RoportajEditor({ interviewDraft }: Props) {
   const router = useRouter();
+  const { t } = useTranslation("common");
 
   const initialAnswers: Record<string, string> = {};
   for (const a of interviewDraft.answers) {
@@ -63,7 +65,7 @@ export default function RoportajEditor({ interviewDraft }: Props) {
     const json = await res.json();
 
     if (!json.success) {
-      setHata(json.error || "Gönderim sırasında bir hata oluştu.");
+      setHata(json.error || t("cover.roportaj.genericError"));
     } else {
       setBasarili(true);
     }
@@ -79,16 +81,14 @@ export default function RoportajEditor({ interviewDraft }: Props) {
       <div className="rf-basari">
         <div className="rf-basari-kart">
           <span className="rf-basari-ikon">{ikon}</span>
-          <h2 className="rf-basari-baslik">Formunuz Alındı</h2>
-          <p className="rf-basari-aciklama">
-            Röportajınız hazırlanacak ve sizinle paylaşılacak. Teşekkür ederiz.
-          </p>
+          <h2 className="rf-basari-baslik">{t("cover.roportaj.successTitle")}</h2>
+          <p className="rf-basari-aciklama">{t("cover.roportaj.successDesc")}</p>
           <button
             type="button"
             className="rf-btn rf-btn-koyu rf-basari-btn"
             onClick={() => router.push("/panel")}
           >
-            Panele Git
+            {t("cover.roportaj.goToPanel")}
           </button>
         </div>
       </div>
@@ -101,12 +101,12 @@ export default function RoportajEditor({ interviewDraft }: Props) {
       {/* Üst bar */}
       <div className="rf-topbar">
         <button type="button" className="rf-geri-btn" onClick={() => router.back()}>
-          ← Geri Dön
+          {t("cover.roportaj.back")}
         </button>
         <div className="rf-topbar-ayrac" />
-        <span className="rf-topbar-marka">Dergi Editörü</span>
+        <span className="rf-topbar-marka">{t("cover.roportaj.brand")}</span>
         <div className="rf-topbar-ayrac" />
-        <span className="rf-topbar-etiket">Röportaj Formu</span>
+        <span className="rf-topbar-etiket">{t("cover.roportaj.formLabel")}</span>
       </div>
 
       <div className="rf-govde">
@@ -115,7 +115,7 @@ export default function RoportajEditor({ interviewDraft }: Props) {
 
         <div className="rf-kapak-bilgi">
           <span>{ikon}</span>
-          <span>Kategori: <strong>{interviewDraft.category.name}</strong></span>
+          <span>{t("cover.roportaj.categoryLabel")} <strong>{interviewDraft.category.name}</strong></span>
         </div>
 
         <form onSubmit={handleGonder} noValidate>
@@ -125,9 +125,9 @@ export default function RoportajEditor({ interviewDraft }: Props) {
             <div className="rf-bolum-bas">
               <span className="rf-bolum-no">1</span>
               <div>
-                <div className="rf-bolum-ad">Röportaj Soruları</div>
+                <div className="rf-bolum-ad">{t("cover.roportaj.questionsTitle")}</div>
                 <div className="rf-bolum-aciklama">
-                  {sorular.length} soru — istediğiniz kadar doldurun
+                  {t("cover.roportaj.questionsDesc", { count: sorular.length })}
                 </div>
               </div>
             </div>
@@ -143,7 +143,7 @@ export default function RoportajEditor({ interviewDraft }: Props) {
                   rows={3}
                   value={cevaplar[soru.id] || ""}
                   onChange={e => handleCevap(soru.id, e.target.value)}
-                  placeholder="Cevabınızı buraya yazın…"
+                  placeholder={t("cover.roportaj.answerPlaceholder")}
                   maxLength={2000}
                 />
               </div>
@@ -154,12 +154,10 @@ export default function RoportajEditor({ interviewDraft }: Props) {
           <div className="rf-gonder-alan">
             <button type="submit" className="rf-gonder-btn" disabled={yukleniyor}>
               {yukleniyor
-                ? <><span className="rf-spinner" /> Gönderiliyor…</>
-                : "Formu Gönder"}
+                ? <><span className="rf-spinner" /> {t("cover.roportaj.submitting")}</>
+                : t("cover.roportaj.submitBtn")}
             </button>
-            <p className="rf-gonder-not">
-              Formunuz gönderildikten sonra ekibimiz sizinle iletişime geçecek.
-            </p>
+            <p className="rf-gonder-not">{t("cover.roportaj.submitNote")}</p>
           </div>
 
         </form>
