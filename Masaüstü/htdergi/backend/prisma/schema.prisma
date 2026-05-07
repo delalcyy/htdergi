@@ -1,0 +1,432 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  FREE
+  SUBSCRIBER
+  SERIAL_USER
+  COVER_BUYER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum SubscriptionType {
+  NORMAL
+  SERIAL
+  COVER_ONLY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PENDING
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum SerialCodeStatus {
+  UNUSED
+  USED
+  CANCELLED
+}
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
+
+enum DiscountValidFor {
+  ALL
+  SUBSCRIPTION
+  COVER_ONLY
+}
+
+enum CoverDraftStatus {
+  DRAFT
+  COMPLETED
+  EXPORTED
+}
+
+enum InterviewDraftStatus {
+  DRAFT
+  COMPLETED
+}
+
+model User {
+  id                   String     @id @default(uuid())
+  email                String     @unique
+  passwordHash         String     @map("password_hash")
+  firstName            String?    @map("first_name")
+  lastName             String?    @map("last_name")
+  phone                String?
+  role                 UserRole   @default(FREE)
+  status               UserStatus @default(ACTIVE)
+  emailVerified        Boolean    @default(false) @map("email_verified")
+  resetPasswordToken   String?    @unique @map("reset_password_token")
+  resetPasswordExpiry  DateTime?  @map("reset_password_expiry")
+  createdAt            DateTime   @default(now()) @map("created_at")
+  updatedAt            DateTime   @updatedAt @map("updated_at")
+  deletedAt            DateTime?  @map("deleted_at")
+
+  addresses              UserAddress[]
+  subscriptions          Subscription[]
+  payments               Payment[]
+  coverDrafts            CoverDraft[]
+  coverPurchases         CoverPurchase[]
+  interviewDrafts        InterviewDraft[]
+  serialCodesUsed        SerialCode[]        @relation("UsedBy")
+  serialCodesCreated     SerialCode[]        @relation("CreatedBy")
+  discountCodesCreated   DiscountCode[]
+  discountCodeUsages     DiscountCodeUsage[]
+  auditLogsAsActor       AuditLog[]          @relation("AuditActor")
+  failedLoginAttempts    FailedLoginAttempt[]
+  orders                 Order[]
+
+  @@map("users")
+}
+
+model UserAddress {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  fullName    String   @map("full_name")
+  phone       String?
+  addressLine String   @map("address_line") @db.Text
+  city        String
+  district    String
+  postalCode  String?  @map("postal_code")
+  isPrimary   Boolean  @default(false) @map("is_primary")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_addresses")
+}
+
+model SubscriptionPlan {
+  id           String   @id @default(uuid())
+  name         String
+  description  String?  @db.Text
+  price        Decimal  @db.Decimal(10, 2)
+  durationDays Int      @map("duration_days")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  subscriptions Subscription[]
+
+  @@map("subscription_plans")
+}
+
+model Subscription {
+  id             String             @id @default(uuid())
+  userId         String             @map("user_id")
+  planId         String?            @map("plan_id")
+  type           SubscriptionType
+  status         SubscriptionStatus @default(PENDING)
+  startedAt      DateTime?          @map("started_at")
+  expiresAt      DateTime?          @map("expires_at")
+  serialCodeId   String?            @map("serial_code_id")
+  discountCodeId String?            @map("discount_code_id")
+  createdAt      DateTime           @default(now()) @map("created_at")
+  updatedAt      DateTime           @updatedAt @map("updated_at")
+
+  user         User              @relation(fields: [userId], references: [id])
+  plan         SubscriptionPlan? @relation(fields: [planId], references: [id])
+  serialCode   SerialCode?       @relation(fields: [serialCodeId], references: [id])
+  discountCode DiscountCode?     @relation(fields: [discountCodeId], references: [id])
+
+  @@map("subscriptions")
+}
+
+model Payment {
+  id                String        @id @default(uuid())
+  userId            String        @map("user_id")
+  subscriptionId    String?       @map("subscription_id")
+  coverPurchaseId   String?       @map("cover_purchase_id")
+  amount            Decimal       @db.Decimal(10, 2)
+  currency          String        @default("TRY")
+  status            PaymentStatus @default(PENDING)
+  provider          String
+  providerPaymentId String?       @unique @map("provider_payment_id")
+  providerResponse  Json?         @map("provider_response")
+  ipAddress         String?       @map("ip_address")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  verifiedAt        DateTime?     @map("verified_at")
+
+  user          User           @relation(fields: [userId], references: [id])
+  coverPurchase CoverPurchase? @relation(fields: [coverPurchaseId], references: [id])
+  discountUsages DiscountCodeUsage[]
+
+  @@map("payments")
+}
+
+model SerialCode {
+  id            String           @id @default(uuid())
+  code          String           @unique
+  durationDays  Int              @default(365) @map("duration_days")
+  status        SerialCodeStatus @default(UNUSED)
+  usedByUserId  String?          @map("used_by_user_id")
+  usedAt        DateTime?        @map("used_at")
+  usedIp        String?          @map("used_ip")
+  attemptCount  Int              @default(0) @map("attempt_count")
+  createdById   String           @map("created_by")
+  batchLabel    String?          @map("batch_label")
+  createdAt     DateTime         @default(now()) @map("created_at")
+
+  usedByUser    User?          @relation("UsedBy", fields: [usedByUserId], references: [id])
+  createdBy     User           @relation("CreatedBy", fields: [createdById], references: [id])
+  subscriptions Subscription[]
+
+  @@map("serial_codes")
+}
+
+model DiscountCode {
+  id            String           @id @default(uuid())
+  code          String           @unique
+  discountType  DiscountType     @map("discount_type")
+  discountValue Decimal          @db.Decimal(10, 2) @map("discount_value")
+  validFor      DiscountValidFor @default(ALL) @map("valid_for")
+  planId        String?          @map("plan_id")
+  maxUsage      Int?             @map("max_usage")
+  usedCount     Int              @default(0) @map("used_count")
+  validFrom     DateTime?        @map("valid_from")
+  validUntil    DateTime?        @map("valid_until")
+  isActive      Boolean          @default(true) @map("is_active")
+  createdById   String           @map("created_by")
+  createdAt     DateTime         @default(now()) @map("created_at")
+
+  createdBy     User                @relation(fields: [createdById], references: [id])
+  usages        DiscountCodeUsage[]
+  subscriptions Subscription[]
+
+  @@map("discount_codes")
+}
+
+model DiscountCodeUsage {
+  id             String   @id @default(uuid())
+  discountCodeId String   @map("discount_code_id")
+  userId         String   @map("user_id")
+  paymentId      String?  @map("payment_id")
+  usedAt         DateTime @default(now()) @map("used_at")
+
+  discountCode DiscountCode @relation(fields: [discountCodeId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+  payment      Payment?     @relation(fields: [paymentId], references: [id])
+
+  @@map("discount_code_usages")
+}
+
+model CoverTemplate {
+  id         String   @id @default(uuid())
+  name       String
+  previewUrl String   @map("preview_url")
+  isActive   Boolean  @default(true) @map("is_active")
+  orderIndex Int      @default(0) @map("order_index")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  drafts CoverDraft[]
+
+  @@map("cover_templates")
+}
+
+model CoverDraft {
+  id               String           @id @default(uuid())
+  userId           String           @map("user_id")
+  templateId       String           @map("template_id")
+  title            String?
+  subtitle         String?
+  personName       String?          @map("person_name")
+  dateLabel        String?          @map("date_label")
+  uploadedImageUrl String?          @map("uploaded_image_url")
+  coverSerial      String           @unique @map("cover_serial")
+  status           CoverDraftStatus @default(DRAFT)
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+
+  user            User             @relation(fields: [userId], references: [id])
+  template        CoverTemplate    @relation(fields: [templateId], references: [id])
+  coverPurchase   CoverPurchase?
+  interviewDrafts InterviewDraft[]
+  orders          Order[]
+
+  @@map("cover_drafts")
+}
+
+model CoverPurchase {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  coverDraftId   String?  @unique @map("cover_draft_id")
+  paymentId      String?  @map("payment_id")
+  accessGranted  Boolean  @default(false) @map("access_granted")
+  discountCodeId String?  @map("discount_code_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  user       User        @relation(fields: [userId], references: [id])
+  coverDraft CoverDraft? @relation(fields: [coverDraftId], references: [id])
+  payments   Payment[]
+
+  @@map("cover_purchases")
+}
+
+model InterviewCategory {
+  id          String   @id @default(uuid())
+  name        String
+  description String?  @db.Text
+  isActive    Boolean  @default(true) @map("is_active")
+  orderIndex  Int      @default(0) @map("order_index")
+
+  questions       InterviewQuestion[]
+  interviewDrafts InterviewDraft[]
+
+  @@map("interview_categories")
+}
+
+model InterviewQuestion {
+  id         String   @id @default(uuid())
+  categoryId String   @map("category_id")
+  body       String   @db.Text
+  orderIndex Int      @default(0) @map("order_index")
+  isActive   Boolean  @default(true) @map("is_active")
+
+  category InterviewCategory @relation(fields: [categoryId], references: [id])
+  answers  InterviewAnswer[]
+
+  @@map("interview_questions")
+}
+
+model InterviewDraft {
+  id           String               @id @default(uuid())
+  userId       String               @map("user_id")
+  coverDraftId String?              @map("cover_draft_id")
+  categoryId   String               @map("category_id")
+  status       InterviewDraftStatus @default(DRAFT)
+  createdAt    DateTime             @default(now()) @map("created_at")
+  updatedAt    DateTime             @updatedAt @map("updated_at")
+
+  user       User              @relation(fields: [userId], references: [id])
+  coverDraft CoverDraft?       @relation(fields: [coverDraftId], references: [id])
+  category   InterviewCategory @relation(fields: [categoryId], references: [id])
+  answers    InterviewAnswer[]
+
+  @@map("interview_drafts")
+}
+
+model InterviewAnswer {
+  id               String   @id @default(uuid())
+  interviewDraftId String   @map("interview_draft_id")
+  questionId       String   @map("question_id")
+  answerText       String?  @map("answer_text") @db.Text
+  imageUrl         String?  @map("image_url")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  interviewDraft InterviewDraft    @relation(fields: [interviewDraftId], references: [id])
+  question       InterviewQuestion @relation(fields: [questionId], references: [id])
+
+  @@unique([interviewDraftId, questionId])
+  @@map("interview_answers")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actorId    String   @map("actor_id")
+  targetId   String?  @map("target_id")
+  targetType String?  @map("target_type")
+  action     String
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  meta       Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  actor User @relation("AuditActor", fields: [actorId], references: [id])
+
+  @@map("audit_logs")
+}
+
+model FailedLoginAttempt {
+  id        String   @id @default(uuid())
+  email     String
+  ipAddress String   @map("ip_address")
+  userId    String?  @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("failed_login_attempts")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  IN_PRODUCTION
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum CargoStatus {
+  PENDING
+  PICKED_UP
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+  RETURNED
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  userId          String      @map("user_id")
+  coverDraftId    String?     @map("cover_draft_id")
+  status          OrderStatus @default(PENDING)
+  quantity        Int         @default(1)
+  unitPrice       Decimal     @db.Decimal(10, 2) @map("unit_price")
+  totalPrice      Decimal     @db.Decimal(10, 2) @map("total_price")
+  shippingAddress String      @db.Text @map("shipping_address")
+  notes           String?     @db.Text
+  paymentId       String?     @map("payment_id")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  user          User           @relation(fields: [userId], references: [id])
+  coverDraft    CoverDraft?    @relation(fields: [coverDraftId], references: [id])
+  cargoTracking CargoTracking?
+
+  @@map("orders")
+}
+
+model CargoTracking {
+  id              String      @id @default(uuid())
+  orderId         String      @unique @map("order_id")
+  carrier         String?
+  trackingNumber  String?     @unique @map("tracking_number")
+  status          CargoStatus @default(PENDING)
+  estimatedDate   DateTime?   @map("estimated_date")
+  shippedAt       DateTime?   @map("shipped_at")
+  deliveredAt     DateTime?   @map("delivered_at")
+  currentLocation String?     @map("current_location")
+  notes           String?     @db.Text
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("cargo_trackings")
+}
