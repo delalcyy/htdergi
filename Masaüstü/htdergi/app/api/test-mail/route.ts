@@ -2,15 +2,40 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendMail, verifySmtpConnection } from "@/lib/mail";
 
 export async function POST(request: NextRequest) {
-  // Production'da TEST_MAIL_SECRET zorunlu
-  if (process.env.NODE_ENV === "production") {
-    const secret = request.headers.get("x-test-secret");
-    if (!secret || secret !== process.env.TEST_MAIL_SECRET) {
-      return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 403 });
-    }
+  const envSecret = (process.env.TEST_MAIL_SECRET ?? "").trim();
+  const headerSecret = (request.headers.get("x-test-secret") ?? "").trim();
+
+  // Env yoksa hata
+  if (!envSecret) {
+    return NextResponse.json({
+      success: false,
+      error: "missing_env",
+      detail: "TEST_MAIL_SECRET env değişkeni tanımlı değil.",
+    }, { status: 500 });
   }
 
-  // 1. SMTP bağlantısını doğrula
+  // Header yoksa hata
+  if (!headerSecret) {
+    return NextResponse.json({
+      success: false,
+      error: "missing_header",
+      detail: "x-test-secret header gönderilmedi.",
+    }, { status: 401 });
+  }
+
+  // Eşleşmiyorsa debug bilgisiyle 403
+  if (headerSecret !== envSecret) {
+    return NextResponse.json({
+      success: false,
+      error: "mismatch",
+      hasEnv: true,
+      hasHeader: true,
+      headerLength: headerSecret.length,
+      envLength: envSecret.length,
+    }, { status: 403 });
+  }
+
+  // SMTP bağlantısını doğrula
   try {
     await verifySmtpConnection();
   } catch (err) {
@@ -27,7 +52,7 @@ export async function POST(request: NextRequest) {
     }, { status: 500 });
   }
 
-  // 2. Test maili gönder
+  // Test maili gönder
   let to = "info@hatiradergi.com";
   try {
     const body = await request.json();
