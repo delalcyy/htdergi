@@ -3,22 +3,25 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const Iyzipay = require("iyzipay");
 
-const iyzipay = new Iyzipay({
-  apiKey: process.env.IYZICO_API_KEY,
-  secretKey: process.env.IYZICO_SECRET_KEY,
-  uri:
-    process.env.NODE_ENV === "production"
-      ? "https://api.iyzipay.com"
-      : "https://sandbox-api.iyzipay.com",
-});
+function getClient() {
+  return new Iyzipay({
+    apiKey: process.env.IYZICO_API_KEY || "",
+    secretKey: process.env.IYZICO_SECRET_KEY || "",
+    uri:
+      process.env.NODE_ENV === "production"
+        ? "https://api.iyzipay.com"
+        : "https://sandbox-api.iyzipay.com",
+  });
+}
 
 export type IyzicoResult = Record<string, unknown>;
 
 export function checkoutFormInitialize(
   request: Record<string, unknown>
 ): Promise<IyzicoResult> {
+  const client = getClient();
   return new Promise((resolve, reject) => {
-    iyzipay.checkoutFormInitialize.create(
+    client.checkoutFormInitialize.create(
       request,
       (err: Error | null, result: IyzicoResult) => {
         if (err) return reject(err);
@@ -33,8 +36,9 @@ export function checkoutFormRetrieve(request: {
   conversationId: string;
   token: string;
 }): Promise<IyzicoResult> {
+  const client = getClient();
   return new Promise((resolve, reject) => {
-    iyzipay.checkoutForm.retrieve(
+    client.checkoutForm.retrieve(
       request,
       (err: Error | null, result: IyzicoResult) => {
         if (err) return reject(err);
