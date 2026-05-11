@@ -107,6 +107,16 @@
         { "name": "Ceren A.",  "title": "Bursa",      "text": "I prepared it for my father's career anniversary. He was surprised at first, then quietly started reading the interview. He finally said 'I'm keeping this.' That moment made everything worthwhile." }
       ]
     },
+    "bizKimiz": {
+      "eyebrow": "About Us",
+      "title": "Who",
+      "titleEm": "Are We?",
+      "intro": "A World Beauty Contest is held. The Most Beautiful Girl in the World is chosen. But does the truly most beautiful one even know about it… or have the chance?",
+      "p1": "We have always watched the same story: those who are chosen, those who take the stage, those who are applauded… But a different story is beginning now. Because we know that true potential often goes undiscovered, real stories often go untold, and genuine beauty often remains unseen. This is exactly where Hatıra Dergi steps in.",
+      "p2": "We are not a competition — we are an opportunity platform. Here you don't need to be chosen, and you don't need to wait for someone to notice you. You tell your story, and we make you visible. With Hatıra Dergi, you appear on your own cover, present your story to the world, and describe your own value in your own words. Because you no longer need to be chosen to step onto the stage; you no longer need anyone's approval to be seen.",
+      "p3": "A new era is beginning. Not the era of those who are chosen, but of those who put themselves forward. If you have a story to tell, you are already one step ahead. And we don't just preserve that story — we turn it into something of value.",
+      "tagline": "Hatıra Dergi — the platform that makes the invisible visible, and turns dreams into reality."
+    },
     "cta": {
       "title": "Share Your Story",
       "titleEm": "with the World",

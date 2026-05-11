@@ -107,6 +107,16 @@
         { "name": "Ceren A.",  "title": "Bursa",     "text": "Babamın kariyer yıldönümü için hazırladım. İlk görünce şaşırdı, sonra röportaj kısmını sessizce okumaya başladı. Sonunda 'bunu saklayacağım' dedi. O an her şeye değdi." }
       ]
     },
+    "bizKimiz": {
+      "eyebrow": "Hakkımızda",
+      "title": "Biz",
+      "titleEm": "Kimiz?",
+      "intro": "Dünya Güzellik Yarışması Yapılıyor. Dünyanın En Güzel Kızı Seçiliyor. Peki Dünyanın En Güzel Kızının Bundan Haberi Var mı… Ya da İmkânı?",
+      "p1": "Bugüne kadar hep aynı hikâyeyi izledik; seçilenler, sahneye çıkanlar, alkışlananlar… Ama artık başka bir hikâye başlıyor. Çünkü biz biliyoruz ki gerçek potansiyel çoğu zaman keşfedilmez, gerçek hikâyeler çoğu zaman anlatılmaz ve gerçek güzellik çoğu zaman görünmez kalır. İşte tam bu noktada Hatıra Dergi devreye girer.",
+      "p2": "Biz bir yarışma değiliz, bir fırsat platformuyuz. Burada seçilmek zorunda değilsin, birilerinin seni fark etmesini beklemek zorunda değilsin. Sen kendini anlatırsın, biz seni görünür kılarız. Hatıra Dergi ile kendi kapağında yer alır, kendi hikâyeni dünyaya sunar ve kendi değerini kendi sözlerinle anlatırsın. Çünkü artık sahneye çıkmak için seçilmene gerek yok; artık görünür olmak için birilerinin onayına ihtiyacın yok.",
+      "p3": "Yeni dönem başlıyor. Seçilenlerin değil, kendini ortaya koyanların dönemi. Eğer anlatacak bir hikâyen varsa, zaten bir adım öndesin. Ve biz o hikâyeyi sadece saklamıyoruz, onu bir değere dönüştürüyoruz.",
+      "tagline": "Hatıra Dergi — görünmeyeni görünür yapan, hayali gerçeğe dönüştüren platform."
+    },
     "cta": {
       "title": "Hikâyenizi Dünyayla",
       "titleEm": "Paylaşın",

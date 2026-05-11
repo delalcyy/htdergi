@@ -14,7 +14,7 @@ const schema = z.object({
 const COVER_PRICE = 299;
 
 export async function POST(request: NextRequest) {
-  const user = await getSessionUser();
+  const user = await getSessionUser(request);
   if (!user) return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 401 });
 
   const ip = getClientIp(request);

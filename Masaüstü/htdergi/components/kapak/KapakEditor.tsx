@@ -1,16 +1,21 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { updateDraft, type DraftData } from "@/lib/kapak/draft-store";
 import "@/styles/KapakTasarim.css";
 
+export type KapakEditorHandle = {
+  capture: () => Promise<string | null>;
+};
+
 type Props = {
   draft: DraftData;
   logoSrc?: string | null;
   userName?: string;
+  embedded?: boolean;
 };
 
 /* ── Sabitler ── */
@@ -99,7 +104,10 @@ function kelimeSiniri(metin: string): string {
 /* ══════════════════════════════
    Ana Bileşen
    ══════════════════════════════ */
-export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Props) {
+const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
+  { draft, logoSrc = null, userName = "", embedded = false },
+  ref
+) {
   const router = useRouter();
   const { t } = useTranslation("common");
 
@@ -114,6 +122,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
 
   /* Ön plan */
   const [onFoto, setOnFoto]               = useState<string | null>(null);
+  const [onBase64, setOnBase64]           = useState<string | null>(null);
   const [onZoom, setOnZoom]               = useState(1);
   const [onDon, setOnDon]                 = useState(0);
   const [onAyna, setOnAyna]               = useState(false);
@@ -149,7 +158,23 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
 
   useEffect(() => { setMounted(true); }, []);
 
+  useImperativeHandle(ref, () => ({
+    async capture() {
+      if (!sahneRef.current) return null;
+      try {
+        const html2canvas = (await import("html2canvas")).default;
+        const canvas = await html2canvas(sahneRef.current, {
+          scale: 3, useCORS: true,
+          backgroundColor: null, logging: false, scrollX: 0, scrollY: 0,
+          onclone: buildOnclone(),
+        });
+        return canvas.toDataURL("image/png");
+      } catch { return bgBase64 ?? null; }
+    },
+  }));
+
   /* Refs */
+  const sahneRef   = useRef<HTMLDivElement>(null); /* kt-kapak-sahne — çerçeve dahil tüm önizleme */
   const kapakRef   = useRef<HTMLDivElement>(null);
   const dosyaRef   = useRef<HTMLInputElement>(null);
   const onDosyaRef = useRef<HTMLInputElement>(null);
@@ -157,6 +182,87 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
   const yaziRefs   = useRef<Record<YaziKey, HTMLTextAreaElement | null>>({
     sol1: null, sag1: null, sol2: null, sag2: null,
   });
+
+  /* ── html2canvas onclone yardımcısı ── */
+  function buildOnclone() {
+    /* Tüm computed değerleri orijinal DOM'dan önceden oku */
+    type TaStyle = { fontSize: string; lineHeight: string; height: string; width: string; top: string; left: string; color: string; fontFamily: string; textAlign: string; letterSpacing: string; textTransform: string; textShadow: string; };
+    const taStyles: TaStyle[] = [];
+    let kapakW = 0;
+    let kapakH = 0;
+    if (kapakRef.current) {
+      const rect = kapakRef.current.getBoundingClientRect();
+      kapakW = rect.width;
+      kapakH = rect.height;
+      kapakRef.current.querySelectorAll<HTMLTextAreaElement>("textarea.kt-yazi-ta")
+        .forEach(ta => {
+          const cs = window.getComputedStyle(ta);
+          const tr = ta.getBoundingClientRect();
+          taStyles.push({
+            fontSize: cs.fontSize, lineHeight: cs.lineHeight,
+            height: tr.height + "px", width: tr.width + "px",
+            top: (tr.top - rect.top) + "px", left: (tr.left - rect.left) + "px",
+            color: cs.color, fontFamily: cs.fontFamily,
+            textAlign: cs.textAlign, letterSpacing: cs.letterSpacing,
+            textTransform: cs.textTransform, textShadow: cs.textShadow,
+          });
+        });
+    }
+
+    return (_doc: Document, el: HTMLElement) => {
+      /* el = klonlanmış kt-kapak-sahne.
+         İçindeki kt-kapak'a piksel boyutunu sabitle → cqh/cqw doğru hesaplanır */
+      const innerKapak = el.querySelector<HTMLElement>(".kt-kapak");
+      if (innerKapak && kapakW && kapakH) {
+        innerKapak.style.width  = `${kapakW}px`;
+        innerKapak.style.height = `${kapakH}px`;
+        innerKapak.style.flex   = "none";
+      }
+
+      /* Blob URL → base64 */
+      el.querySelectorAll<HTMLImageElement>(".kt-kapak-img").forEach(img => {
+        if (bgBase64) img.src = bgBase64;
+      });
+      el.querySelectorAll<HTMLImageElement>(".kt-kapak-on").forEach(img => {
+        if (onBase64) img.src = onBase64;
+      });
+
+      /* Textarea → div: tüm computed değerler px olarak uygulanır */
+      el.querySelectorAll<HTMLTextAreaElement>("textarea.kt-yazi-ta").forEach((ta, idx) => {
+        const s = taStyles[idx];
+        const div = _doc.createElement("div");
+        /* Pozisyon ve boyut tamamen computed px değerlerden: yüzde/cqh bağımlılığı yok */
+        div.style.cssText = [
+          "position:absolute",
+          `left:${s?.left ?? ta.getAttribute("data-left") ?? "0px"}`,
+          `top:${s?.top  ?? "0px"}`,
+          `width:${s?.width ?? "50%"}`,
+          `height:${s?.height ?? "auto"}`,
+          `font-size:${s?.fontSize ?? "14px"}`,
+          `line-height:${s?.lineHeight ?? "1.5"}`,
+          `font-family:${s?.fontFamily ?? "inherit"}`,
+          `color:${s?.color ?? "#fff"}`,
+          `text-align:${s?.textAlign ?? "left"}`,
+          `letter-spacing:${s?.letterSpacing ?? "normal"}`,
+          `text-transform:${s?.textTransform ?? "none"}`,
+          `text-shadow:${s?.textShadow ?? "none"}`,
+          "background:transparent",
+          "border:none",
+          "outline:none",
+          "padding:0",
+          "margin:0",
+          "overflow:visible",
+          "white-space:pre-wrap",
+          "word-break:break-word",
+          "font-weight:500",
+          "z-index:250",
+          "pointer-events:none",
+        ].join(";");
+        div.textContent = ta.value;
+        ta.parentNode?.replaceChild(div, ta);
+      });
+    };
+  }
 
   /* ── Toast ── */
   function gosterToast(msg: string) {
@@ -196,6 +302,9 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
     setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0);
     setOnFoto(URL.createObjectURL(dosya));
     setSuruklHedef("fg");
+    const r = new FileReader();
+    r.onload = () => setOnBase64(r.result as string);
+    r.readAsDataURL(dosya);
   }
 
   /* ── Sürükleme: arka plan ── */
@@ -303,31 +412,59 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
     setDışaAktariliyor(true);
     try {
       const html2canvas = (await import("html2canvas")).default;
-      const canvas = await html2canvas(kapakRef.current!, {
-        scale: 3, useCORS: true, allowTaint: true, backgroundColor: null,
+      const canvas = await html2canvas(sahneRef.current!, {
+        scale: 3, useCORS: true, backgroundColor: null,
         logging: false, scrollX: 0, scrollY: 0,
-        onclone: (_doc: Document, el: HTMLElement) => {
-          el.querySelectorAll("textarea.kt-yazi-ta").forEach(ta => {
-            const textarea = ta as HTMLTextAreaElement;
-            const div = _doc.createElement("div");
-            div.style.cssText    = textarea.getAttribute("style") || "";
-            div.style.overflow   = "hidden";
-            div.style.whiteSpace = "pre-wrap";
-            div.style.wordBreak  = "break-word";
-            div.style.background = "transparent";
-            div.style.border     = "none";
-            div.style.outline    = "none";
-            div.style.padding    = "0";
-            div.className        = textarea.className;
-            div.textContent      = textarea.value;
-            textarea.parentNode?.replaceChild(div, textarea);
-          });
-        },
+        onclone: buildOnclone(),
       });
-      const link = document.createElement("a");
-      link.download = `hatira-dergi-kapak-${Date.now()}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
+      const dataUrl = canvas.toDataURL("image/png");
+      /* Gerçek canvas boyutundan sayfa oranını hesapla */
+      const pw = canvas.width;
+      const ph = canvas.height;
+      const printWin = window.open("", "_blank");
+      if (!printWin) {
+        gosterToast("Açılır pencere engellendi — tarayıcı izni verin.");
+        return;
+      }
+      printWin.document.write(`<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<title>Kapak — Hatıra Dergi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#c8c8c8;display:flex;flex-direction:column;align-items:center;padding:20px 0 36px;gap:16px;font-family:Arial,sans-serif;}
+.no-print{display:flex;gap:10px;align-self:flex-start;margin-left:16px;}
+.btn{padding:8px 18px;border:none;cursor:pointer;font-size:13px;font-family:inherit;border-radius:3px;}
+.btn-print{background:#111;color:#fff;}
+.btn-close{background:#ddd;color:#333;}
+.wrap{background:#fff;box-shadow:0 3px 16px rgba(0,0,0,.25);line-height:0;}
+.wrap img{display:block;width:100%;height:auto;}
+@media print{
+  .no-print{display:none;}
+  html,body{margin:0;padding:0;background:#fff;width:100%;height:100%;}
+  .wrap{box-shadow:none;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+  .wrap img{width:100%;height:100%;object-fit:fill;display:block;}
+  @page{margin:0;size:${pw}px ${ph}px;}
+}
+</style>
+</head>
+<body>
+<div class="no-print">
+  <button id="p" class="btn btn-print">🖨️ PDF Olarak Yazdır / İndir</button>
+  <button id="c" class="btn btn-close">Kapat</button>
+</div>
+<div class="wrap"><img src="${dataUrl}" alt="Kapak"/></div>
+<script>
+window.addEventListener('load',function(){
+  document.getElementById('p').onclick=function(){window.print();};
+  document.getElementById('c').onclick=function(){window.close();};
+  setTimeout(function(){window.print();},400);
+});
+</script>
+</body>
+</html>`);
+      printWin.document.close();
       gosterToast(t("cover.editor.toastDownloaded"));
     } catch {
       gosterToast(t("cover.editor.toastExportFailed"));
@@ -337,7 +474,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
   }
 
   /* ── Kaydet & devam ── */
-  function handleKaydetDevam() {
+  async function handleKaydetDevam() {
     if (kaydediliyor) return;
     setKaydediliyor(true);
     try {
@@ -345,10 +482,46 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
         personName: ad.trim().substring(0, 60) || null,
         subtitle:   altBaslik.trim().substring(0, 120) || null,
       });
-      gosterToast(t("cover.editor.toastSaved"));
-      setTimeout(() => {
-        router.push(`/kapak-tasarla/roportaj/yeni?coverDraftId=${draft.id}`);
-      }, 600);
+      /* Kapak JPEG'i yakala → sessionStorage'a kaydet */
+      let kapakOk = false;
+      if (sahneRef.current) {
+        try {
+          const html2canvas = (await import("html2canvas")).default;
+          const canvas = await html2canvas(sahneRef.current!, {
+            scale: 2, useCORS: true,
+            backgroundColor: null, logging: false, scrollX: 0, scrollY: 0,
+            onclone: buildOnclone(),
+          });
+          const data = canvas.toDataURL("image/jpeg", 0.88);
+          sessionStorage.setItem(`ht_kapak_${draft.id}`, data);
+          kapakOk = true;
+        } catch (e) {
+          /* onclone olmadan tekrar dene */
+          try {
+            const html2canvas = (await import("html2canvas")).default;
+            const canvas2 = await html2canvas(sahneRef.current!, {
+              scale: 2, useCORS: true,
+              backgroundColor: null, logging: false,
+            });
+            const data2 = canvas2.toDataURL("image/jpeg", 0.88);
+            sessionStorage.setItem(`ht_kapak_${draft.id}`, data2);
+            kapakOk = true;
+          } catch (e2) {
+            const msg = e2 instanceof Error ? e2.message : String(e2);
+            gosterToast(`HATA: ${msg.slice(0, 100)}`);
+            /* Hata varsa sayfa geçme — kullanıcı hatayı okusun */
+            setKaydediliyor(false);
+            return;
+          }
+        }
+      }
+
+      if (kapakOk || !sahneRef.current) {
+        gosterToast(t("cover.editor.toastSaved"));
+        setTimeout(() => {
+          router.push(`/kapak-tasarla/roportaj/yeni?coverDraftId=${draft.id}`);
+        }, 400);
+      }
     } catch {
       gosterToast(t("cover.editor.toastSaveFailed"));
       setKaydediliyor(false);
@@ -360,7 +533,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
     if (bgFoto) URL.revokeObjectURL(bgFoto);
     if (onFoto) URL.revokeObjectURL(onFoto);
     setBgFoto(null); setBgBase64(null); setBgZoom(1); setBgDon(0); setBgAyna(false); setBgX(0); setBgY(0);
-    setOnFoto(null); setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0); setSuruklHedef("bg");
+    setOnFoto(null); setOnBase64(null); setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0); setSuruklHedef("bg");
     setBgRenk("#111111"); setLogoFiltre("none"); setBaslikRenk("#ffffff");
     setAd(userName); setAltBaslik("");
     setYazilar({ ...VARSAYILAN_YAZILAR_TR });
@@ -369,10 +542,8 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
 
   const gosterAd = ad.trim() || userName || "Ad Soyad";
 
-  if (!mounted) return null;
-
-  return createPortal(
-    <div className="kt-app">
+  const content = (
+    <div className={`kt-app${embedded ? " kt-app--embedded" : ""}`}>
 
       {/* ══════ PANEL ══════ */}
       <section className="kt-panel">
@@ -451,7 +622,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
               <div className="kt-kucuk">
                 <img src={onFoto} alt="Ön plan" />
                 <button className="kt-kucuk-sil" onClick={() => {
-                  URL.revokeObjectURL(onFoto!); setOnFoto(null);
+                  URL.revokeObjectURL(onFoto!); setOnFoto(null); setOnBase64(null);
                   setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0); setSuruklHedef("bg");
                 }}>{t("cover.editor.remove")}</button>
               </div>
@@ -619,13 +790,15 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
             </button>
           </div>
 
-          <div className="kt-devam">
-            <div className="kt-devam-cizgi" />
-            <button className="kt-devam-btn" onClick={handleKaydetDevam} disabled={kaydediliyor}>
-              {kaydediliyor ? t("cover.editor.saving") : t("cover.editor.saveBtn")}
-              <span className="kt-ok">→</span>
-            </button>
-          </div>
+          {!embedded && (
+            <div className="kt-devam">
+              <div className="kt-devam-cizgi" />
+              <button className="kt-devam-btn" onClick={handleKaydetDevam} disabled={kaydediliyor}>
+                {kaydediliyor ? t("cover.editor.saving") : t("cover.editor.saveBtn")}
+                <span className="kt-ok">→</span>
+              </button>
+            </div>
+          )}
 
         </div>
       </section>
@@ -634,7 +807,7 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
       <section className="kt-onizleme">
         <span className="kt-on-etiket">{t("cover.editor.previewLabel")}</span>
 
-        <div className="kt-kapak-sahne" style={{ background: bgRenk }}>
+        <div className="kt-kapak-sahne" ref={sahneRef} style={{ background: bgRenk }}>
           <div
             className="kt-kapak"
             ref={kapakRef}
@@ -735,11 +908,13 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
         <div className="kt-on-aksiyonlar">
           <button className="kt-btn kt-btn-ghost" onClick={handleSifirla}>{t("cover.editor.resetBtn")}</button>
           <button className="kt-btn kt-btn-koyu" onClick={handleIndir} disabled={dışaAktariliyor || !bgFoto}>
-            {dışaAktariliyor ? t("cover.editor.processing") : t("cover.editor.downloadBtnShort")}
+            {dışaAktariliyor ? t("cover.editor.processing") : "PDF Al"}
           </button>
-          <button className="kt-btn kt-btn-altin" onClick={handleKaydetDevam} disabled={kaydediliyor}>
-            {kaydediliyor ? t("cover.editor.saving") : t("cover.editor.saveBtnShort")}
-          </button>
+          {!embedded && (
+            <button className="kt-btn kt-btn-altin" onClick={handleKaydetDevam} disabled={kaydediliyor}>
+              {kaydediliyor ? t("cover.editor.saving") : t("cover.editor.saveBtnShort")}
+            </button>
+          )}
         </div>
       </section>
 
@@ -751,7 +926,11 @@ export default function KapakEditor({ draft, logoSrc = null, userName = "" }: Pr
           <div className="kt-overlay-yazi">{t("cover.editor.exporting")}</div>
         </div>
       )}
-    </div>,
-    document.body
+    </div>
   );
-}
+
+  if (!mounted) return null;
+  return embedded ? content : createPortal(content, document.body);
+});
+
+export default KapakEditor;

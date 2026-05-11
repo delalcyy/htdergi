@@ -75,7 +75,11 @@ model User {
   passwordHash         String     @map("password_hash")
   firstName            String?    @map("first_name")
   lastName             String?    @map("last_name")
-  phone            String?
+  phone                String?
+  age                  Int?
+  city                 String?
+  district             String?
+  supportedTeam        String?    @map("supported_team")
   role             UserRole   @default(FREE)
   status           UserStatus @default(ACTIVE)
   emailVerified        Boolean    @default(false) @map("email_verified")
@@ -399,7 +403,7 @@ model Order {
   unitPrice       Decimal     @db.Decimal(10, 2) @map("unit_price")
   totalPrice      Decimal     @db.Decimal(10, 2) @map("total_price")
   shippingAddress String      @db.Text @map("shipping_address")
-  notes           String?     @db.Text
+  notes           String?     @db.LongText
   paymentId       String?     @map("payment_id")
   createdAt       DateTime    @default(now()) @map("created_at")
   updatedAt       DateTime    @updatedAt @map("updated_at")
@@ -421,7 +425,7 @@ model CargoTracking {
   shippedAt       DateTime?   @map("shipped_at")
   deliveredAt     DateTime?   @map("delivered_at")
   currentLocation String?     @map("current_location")
-  notes           String?     @db.Text
+  notes           String?     @db.LongText
   createdAt       DateTime    @default(now()) @map("created_at")
   updatedAt       DateTime    @updatedAt @map("updated_at")
 

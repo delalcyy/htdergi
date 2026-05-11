@@ -7,7 +7,7 @@ import { writeAuditLog } from "@/lib/audit";
 type Params = { params: Promise<{ id: string }> };
 
 export async function PUT(request: NextRequest, { params }: Params) {
-  const user = await getSessionUser();
+  const user = await getSessionUser(request);
   if (!user) return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 401 });
 
   const { id } = await params;
@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 }
 
 export async function GET(request: NextRequest, { params }: Params) {
-  const user = await getSessionUser();
+  const user = await getSessionUser(request);
   if (!user) return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 401 });
 
   const { id } = await params;

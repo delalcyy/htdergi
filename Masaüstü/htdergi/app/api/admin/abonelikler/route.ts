@@ -11,7 +11,7 @@ const patchSchema = z.object({
 });
 
 export async function GET(request: NextRequest) {
-  const admin = await getSessionUser();
+  const admin = await getSessionUser(request);
   if (!admin || admin.role !== "ADMIN") {
     return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 403 });
   }
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
-  const admin = await getSessionUser();
+  const admin = await getSessionUser(request);
   if (!admin || admin.role !== "ADMIN") {
     return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 403 });
   }

@@ -64,7 +64,7 @@ export default async function SiparislerPage({ searchParams }: Props) {
       take: PAGE_SIZE,
       select: {
         id: true, status: true, quantity: true,
-        totalPrice: true, createdAt: true,
+        totalPrice: true, createdAt: true, notes: true,
         user: { select: { id: true, email: true, firstName: true, lastName: true } },
         cargoTracking: { select: { status: true, trackingNumber: true, carrier: true } },
       },
@@ -110,29 +110,37 @@ export default async function SiparislerPage({ searchParams }: Props) {
           <table className="admin-table">
             <thead>
               <tr>
-                <th>Müşteri</th>
-                <th>Tutar</th>
-                <th>Adet</th>
-                <th>Sipariş Durumu</th>
+                <th>Kapak</th>
+                <th>Kişi</th>
+                <th>Kategori</th>
+                <th>Durum</th>
                 <th>Kargo</th>
                 <th>Takip No</th>
-                <th>Tarih</th>
+                <th>Tarih / Saat</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((o) => (
+              {orders.map((o) => {
+                let notesData: { personName?: string; categoryName?: string; coverBase64?: string; interviewDraftId?: string; photo1Base64?: string; photo2Base64?: string } = {};
+                try { if (o.notes) notesData = JSON.parse(o.notes); } catch { /* */ }
+                const personName = notesData.personName || `${o.user.firstName ?? ""} ${o.user.lastName ?? ""}`.trim();
+                return (
                 <tr key={o.id}>
+                  <td style={{ width: 52 }}>
+                    {notesData.coverBase64 ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={notesData.coverBase64} alt="kapak"
+                        style={{ width: 36, height: 46, objectFit: "cover", border: "1px solid #e5e7eb", borderRadius: 2 }} />
+                    ) : (
+                      <div style={{ width: 36, height: 46, background: "#f3f2ee", border: "1px solid #e5e7eb", borderRadius: 2, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, color: "#aaa" }}>—</div>
+                    )}
+                  </td>
                   <td>
-                    <Link href={`/admin/kullanicilar/${o.user.id}`} style={{ fontWeight: 500 }}>
-                      {o.user.firstName} {o.user.lastName}
-                    </Link>
+                    <div style={{ fontWeight: 600, fontSize: 13 }}>{personName || "—"}</div>
                     <div style={{ fontSize: 11, color: "var(--ad-muted)" }}>{o.user.email}</div>
                   </td>
-                  <td style={{ fontWeight: 600, fontFamily: "var(--ad-serif)", fontSize: 15 }}>
-                    ₺{Number(o.totalPrice).toLocaleString("tr-TR")}
-                  </td>
-                  <td style={{ color: "var(--ad-muted)" }}>{o.quantity}</td>
+                  <td style={{ fontSize: 12 }}>{notesData.categoryName || "—"}</td>
                   <td>
                     <span className={STATUS_CLASS[o.status] || "ad-badge"}>
                       {STATUS_LABEL[o.status] || o.status}
@@ -151,19 +159,34 @@ export default async function SiparislerPage({ searchParams }: Props) {
                   <td style={{ fontSize: 12, color: "var(--ad-muted)", fontFamily: "monospace" }}>
                     {o.cargoTracking?.trackingNumber || "—"}
                   </td>
-                  <td style={{ fontSize: 12, color: "var(--ad-muted)", whiteSpace: "nowrap" }}>
-                    {new Date(o.createdAt).toLocaleDateString("tr-TR")}
+                  <td style={{ fontSize: 11, color: "var(--ad-muted)", whiteSpace: "nowrap" }}>
+                    {new Date(o.createdAt).toLocaleDateString("tr-TR")}<br />
+                    <span style={{ fontSize: 10 }}>{new Date(o.createdAt).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })}</span>
                   </td>
                   <td>
-                    <Link href={`/admin/siparisler/${o.id}`} className="admin-filter-btn" style={{ whiteSpace: "nowrap" }}>
-                      Detay →
-                    </Link>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5, alignItems: "flex-start" }}>
+                      {notesData.coverBase64 && (
+                        <a href={`/api/admin/siparis/${o.id}/kapak-yazdir`} target="_blank"
+                          className="admin-btn ghost" style={{ fontSize: 10, padding: "3px 8px", whiteSpace: "nowrap" }}>
+                          🖨 Kapak PDF
+                        </a>
+                      )}
+                      {notesData.interviewDraftId && (
+                        <a href={`/api/admin/roportaj/${notesData.interviewDraftId}/yazdir`} target="_blank"
+                          className="admin-btn ghost" style={{ fontSize: 10, padding: "3px 8px", whiteSpace: "nowrap" }}>
+                          🖨 Röportaj PDF
+                        </a>
+                      )}
+                      <Link href={`/admin/siparisler/${o.id}`} className="admin-filter-btn" style={{ fontSize: 10, padding: "3px 8px", whiteSpace: "nowrap" }}>
+                        Detay →
+                      </Link>
+                    </div>
                   </td>
                 </tr>
-              ))}
+              );})}
               {orders.length === 0 && (
                 <tr>
-                  <td colSpan={8} style={{ textAlign: "center", color: "var(--ad-muted)", padding: "36px" }}>
+                  <td colSpan={7} style={{ textAlign: "center", color: "var(--ad-muted)", padding: "36px" }}>
                     Sipariş bulunamadı.
                   </td>
                 </tr>

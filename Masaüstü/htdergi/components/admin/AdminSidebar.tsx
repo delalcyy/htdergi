@@ -36,6 +36,7 @@ const navGroups = [
     items: [
       { href: "/admin/sablonlar", label: "Kapak Şablonları" },
       { href: "/admin/roportaj-kategorileri", label: "Röportaj Kategorileri" },
+      { href: "/admin/roportajlar", label: "Röportaj Formları" },
     ],
   },
   {

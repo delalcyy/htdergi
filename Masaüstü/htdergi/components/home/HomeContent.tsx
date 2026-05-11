@@ -51,14 +51,15 @@ export default function HomeContent() {
 
       {/* ── Marquee ── */}
       <div className="hp-marquee">
-        <div className="hp-marquee-track">
-          {[...Array(2)].map((_, gi) =>
-            categories.map((c, i) => (
-              <span key={`${gi}-${i}`}>
-                {c} <span className="hp-sep">✦</span>{" "}
-              </span>
-            ))
-          )}
+        <div className="hp-marquee-track" aria-hidden="false">
+          {categories.map((c, i) => (
+            <span key={i}>{c} <span className="hp-sep">✦</span></span>
+          ))}
+        </div>
+        <div className="hp-marquee-track" aria-hidden="true">
+          {categories.map((c, i) => (
+            <span key={i}>{c} <span className="hp-sep">✦</span></span>
+          ))}
         </div>
       </div>
 
@@ -85,7 +86,7 @@ export default function HomeContent() {
       </section>
 
       {/* ── Kategoriler ── */}
-      <section className="hp-section hp-section-warm">
+      <section className="hp-section hp-section-cats-dark">
         <div className="hp-section-wrap">
           <div className="hp-section-head">
             <div>
@@ -115,6 +116,27 @@ export default function HomeContent() {
             </div>
           </div>
           <GaleriSlider />
+        </div>
+      </section>
+
+      {/* ── Biz Kimiz ── */}
+      <section className="hp-section hp-section-bizkimiz">
+        <div className="hp-section-wrap">
+          <div className="hp-bk-inner">
+            <div className="hp-bk-header">
+              <span className="hp-eyebrow">{t("home.bizKimiz.eyebrow")}</span>
+              <h2 className="hp-section-title">
+                {t("home.bizKimiz.title")} <em>{t("home.bizKimiz.titleEm")}</em>
+              </h2>
+            </div>
+            <div className="hp-bk-body">
+              <p className="hp-bk-intro">{t("home.bizKimiz.intro")}</p>
+              <p className="hp-bk-p">{t("home.bizKimiz.p1")}</p>
+              <p className="hp-bk-p">{t("home.bizKimiz.p2")}</p>
+              <p className="hp-bk-p">{t("home.bizKimiz.p3")}</p>
+              <p className="hp-bk-tagline">{t("home.bizKimiz.tagline")}</p>
+            </div>
+          </div>
         </div>
       </section>
 

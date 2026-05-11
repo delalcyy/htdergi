@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { infoFormSchema } from "@/lib/validation/kapak";
 
 export async function POST(request: NextRequest) {
-  const user = await getSessionUser();
+  const user = await getSessionUser(request);
   if (!user) return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 401 });
 
   let body: unknown;

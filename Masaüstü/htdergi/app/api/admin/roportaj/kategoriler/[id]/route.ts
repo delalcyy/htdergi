@@ -12,7 +12,7 @@ const patchSchema = z.object({
 type Params = { params: Promise<{ id: string }> };
 
 export async function PATCH(request: NextRequest, { params }: Params) {
-  const admin = await getSessionUser();
+  const admin = await getSessionUser(request);
   if (!admin || admin.role !== "ADMIN") {
     return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 403 });
   }

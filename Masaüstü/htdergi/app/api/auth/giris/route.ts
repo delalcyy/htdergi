@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcryptjs from "bcryptjs";
+import { SignJWT } from "jose";
+import { prisma } from "@/lib/prisma";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4000";
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "");
 
 const COOKIE_OPTS = {
   httpOnly: true,
@@ -11,38 +14,38 @@ const COOKIE_OPTS = {
 };
 
 export async function POST(request: NextRequest) {
-  let body: unknown;
+  let body: { email?: string; password?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ success: false, error: "Geçersiz istek" }, { status: 400 });
   }
 
-  let backendRes: Response;
-  try {
-    backendRes = await fetch(`${BACKEND_URL}/api/auth/giris`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-  } catch {
-    return NextResponse.json(
-      { success: false, error: "Sunucuya bağlanılamadı." },
-      { status: 503 }
-    );
+  const { email, password } = body;
+  if (!email || !password) {
+    return NextResponse.json({ success: false, error: "invalid_credentials" }, { status: 401 });
   }
 
-  const data = await backendRes.json();
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: { id: true, email: true, passwordHash: true, role: true, status: true, deletedAt: true, emailVerified: true },
+  });
 
-  if (!backendRes.ok || !data.success) {
-    return NextResponse.json(data, { status: backendRes.status });
+  if (!user || user.deletedAt || user.status === "SUSPENDED") {
+    return NextResponse.json({ success: false, error: "invalid_credentials" }, { status: 401 });
   }
+
+  const valid = await bcryptjs.compare(password, user.passwordHash);
+  if (!valid) {
+    return NextResponse.json({ success: false, error: "invalid_credentials" }, { status: 401 });
+  }
+
+  const token = await new SignJWT({ sub: user.id, email: user.email, role: user.role })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("8h")
+    .sign(JWT_SECRET);
 
   const response = NextResponse.json({ success: true, data: null });
-
-  if (data.data?.token) {
-    response.cookies.set("__auth_token", data.data.token, COOKIE_OPTS);
-  }
-
+  response.cookies.set("__auth_token", token, COOKIE_OPTS);
   return response;
 }

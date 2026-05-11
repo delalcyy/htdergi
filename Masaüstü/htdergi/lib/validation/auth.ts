@@ -1,17 +1,6 @@
 import { z } from "zod";
 
 export const registerSchema = z.object({
-  email: z
-    .string()
-    .min(1, "E-posta zorunludur")
-    .email("Geçerli bir e-posta adresi girin")
-    .max(255, "E-posta çok uzun"),
-  password: z
-    .string()
-    .min(8, "Şifre en az 8 karakter olmalıdır")
-    .max(72, "Şifre çok uzun")
-    .regex(/[A-Z]/, "En az bir büyük harf içermeli")
-    .regex(/[0-9]/, "En az bir rakam içermeli"),
   firstName: z
     .string()
     .min(2, "Ad en az 2 karakter olmalıdır")
@@ -22,6 +11,39 @@ export const registerSchema = z.object({
     .min(2, "Soyad en az 2 karakter olmalıdır")
     .max(50, "Soyad çok uzun")
     .regex(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, "Geçersiz karakter"),
+  email: z
+    .string()
+    .min(1, "E-posta zorunludur")
+    .email("Geçerli bir e-posta adresi girin")
+    .max(255, "E-posta çok uzun"),
+  phone: z
+    .string()
+    .min(10, "Geçerli bir telefon girin")
+    .max(20, "Telefon çok uzun")
+    .regex(/^[0-9+\s\-()]+$/, "Geçersiz telefon formatı"),
+  age: z
+    .number()
+    .int("Yaş tam sayı olmalıdır")
+    .min(1, "Geçerli bir yaş girin")
+    .max(120, "Geçerli bir yaş girin"),
+  city: z
+    .string()
+    .min(2, "İl zorunludur")
+    .max(80, "İl çok uzun"),
+  district: z
+    .string()
+    .min(2, "İlçe zorunludur")
+    .max(80, "İlçe çok uzun"),
+  supportedTeam: z
+    .string()
+    .min(2, "Tuttuğunuz takım zorunludur")
+    .max(100, "Takım adı çok uzun"),
+  password: z
+    .string()
+    .min(8, "Şifre en az 8 karakter olmalıdır")
+    .max(72, "Şifre çok uzun")
+    .regex(/[A-Z]/, "En az bir büyük harf içermeli")
+    .regex(/[0-9]/, "En az bir rakam içermeli"),
 });
 
 export const loginSchema = z.object({

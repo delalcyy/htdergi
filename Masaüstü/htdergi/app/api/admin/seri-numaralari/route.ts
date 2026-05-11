@@ -13,7 +13,7 @@ function generateSerialCode(): string {
 }
 
 export async function POST(request: NextRequest) {
-  const admin = await getSessionUser();
+  const admin = await getSessionUser(request);
   if (!admin || admin.role !== "ADMIN") {
     return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 403 });
   }

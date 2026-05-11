@@ -10,7 +10,7 @@ const createSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
-  const user = await getSessionUser();
+  const user = await getSessionUser(request);
   if (!user) return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 401 });
 
   const hasAccess = await hasEditorAccess(user.id);

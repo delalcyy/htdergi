@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
+import { NextRequest } from "next/server";
 import { prisma } from "./prisma";
 import type { SessionUser } from "@/types";
 
@@ -20,9 +21,11 @@ async function verifyToken(token: string): Promise<JwtPayload | null> {
   }
 }
 
-export async function getSessionUser(): Promise<SessionUser | null> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("__auth_token")?.value;
+/* Route Handler'lardan çağrılırken request geçilmeli (next/headers cookies güvenilmez) */
+export async function getSessionUser(req?: NextRequest): Promise<SessionUser | null> {
+  const token = req
+    ? req.cookies.get("__auth_token")?.value
+    : (await cookies()).get("__auth_token")?.value;
 
   if (!token) return null;
 

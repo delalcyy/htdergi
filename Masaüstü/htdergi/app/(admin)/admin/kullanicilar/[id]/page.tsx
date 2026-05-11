@@ -62,6 +62,22 @@ export default async function KullaniciDetayPage({ params }: Props) {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
+        {/* Kişisel Bilgiler */}
+        <div className="admin-card">
+          <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b", marginBottom: "0.875rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+            Kişisel Bilgiler
+          </div>
+          <div style={{ fontSize: "0.875rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <div><strong>Ad Soyad:</strong> {user.firstName} {user.lastName}</div>
+            <div><strong>E-posta:</strong> {user.email}</div>
+            <div><strong>Telefon:</strong> {user.phone || "—"}</div>
+            <div><strong>Yaş:</strong> {user.age ?? "—"}</div>
+            <div><strong>İl / İlçe:</strong> {user.city ? `${user.city} / ${user.district ?? "—"}` : "—"}</div>
+            <div><strong>Tuttuğu Takım:</strong> {user.supportedTeam || "—"}</div>
+          </div>
+        </div>
+
+        {/* Hesap Bilgileri */}
         <div className="admin-card">
           <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b", marginBottom: "0.875rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
             Hesap Bilgileri
@@ -70,23 +86,9 @@ export default async function KullaniciDetayPage({ params }: Props) {
             <div><strong>Rol:</strong> {roleLabels[user.role]}</div>
             <div><strong>Durum:</strong> {user.status}</div>
             <div><strong>E-posta Doğrulandı:</strong> {user.emailVerified ? "Evet" : "Hayır"}</div>
-            <div><strong>Kayıt:</strong> {new Date(user.createdAt).toLocaleDateString("tr-TR")}</div>
+            <div><strong>Kayıt Tarihi:</strong> {new Date(user.createdAt).toLocaleDateString("tr-TR")}</div>
           </div>
         </div>
-
-        {user.addresses[0] && (
-          <div className="admin-card">
-            <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "#64748b", marginBottom: "0.875rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-              Adres
-            </div>
-            <div style={{ fontSize: "0.875rem", color: "#374151" }}>
-              <div>{user.addresses[0].fullName}</div>
-              <div>{user.addresses[0].addressLine}</div>
-              <div>{user.addresses[0].district}, {user.addresses[0].city}</div>
-              <div>{user.addresses[0].phone}</div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Abonelikler */}

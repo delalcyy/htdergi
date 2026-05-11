@@ -54,6 +54,7 @@ export default async function KullanicilarPage({ searchParams }: Props) {
       take: PAGE_SIZE,
       select: {
         id: true, email: true, firstName: true, lastName: true,
+        phone: true, age: true, city: true, district: true, supportedTeam: true,
         role: true, status: true, emailVerified: true, createdAt: true,
       },
     }),
@@ -99,40 +100,43 @@ export default async function KullanicilarPage({ searchParams }: Props) {
               <tr>
                 <th>Ad Soyad</th>
                 <th>E-posta</th>
+                <th>Telefon</th>
+                <th>Yaş</th>
+                <th>İl / İlçe</th>
+                <th>Takım</th>
                 <th>Rol</th>
-                <th>Durum</th>
-                <th>E-posta Doğrulama</th>
-                <th>Kayıt Tarihi</th>
+                <th>Kayıt</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {users.map((u) => (
                 <tr key={u.id}>
-                  <td style={{ fontWeight: 500 }}>
+                  <td style={{ fontWeight: 500, fontSize: 13 }}>
                     {u.firstName} {u.lastName}
+                    {u.status !== "ACTIVE" && (
+                      <div style={{ fontSize: 10, color: "#dc2626" }}>
+                        {u.status === "SUSPENDED" ? "Askıda" : "Silindi"}
+                      </div>
+                    )}
                   </td>
-                  <td style={{ color: "var(--ad-muted)", fontSize: 12 }}>{u.email}</td>
+                  <td style={{ color: "var(--ad-muted)", fontSize: 11 }}>{u.email}</td>
+                  <td style={{ fontSize: 12 }}>{u.phone || "—"}</td>
+                  <td style={{ fontSize: 12 }}>{u.age ?? "—"}</td>
+                  <td style={{ fontSize: 12 }}>
+                    {u.city ? <>{u.city}<br /><span style={{ fontSize: 10, color: "var(--ad-muted)" }}>{u.district}</span></> : "—"}
+                  </td>
+                  <td style={{ fontSize: 12 }}>{u.supportedTeam || "—"}</td>
                   <td>
                     <span className={ROLE_CLASS[u.role] || "role-badge role-free"}>
                       {ROLE_LABEL[u.role] || u.role}
                     </span>
                   </td>
-                  <td>
-                    <span className={u.status === "ACTIVE" ? "badge-active" : "badge-expired"}>
-                      {u.status === "ACTIVE" ? "Aktif" : u.status === "SUSPENDED" ? "Askıda" : "Silindi"}
-                    </span>
-                  </td>
-                  <td>
-                    <span style={{ fontSize: 11, color: u.emailVerified ? "#166534" : "var(--ad-muted)" }}>
-                      {u.emailVerified ? "✓ Doğrulandı" : "Bekliyor"}
-                    </span>
-                  </td>
-                  <td style={{ fontSize: 12, color: "var(--ad-muted)", whiteSpace: "nowrap" }}>
+                  <td style={{ fontSize: 11, color: "var(--ad-muted)", whiteSpace: "nowrap" }}>
                     {new Date(u.createdAt).toLocaleDateString("tr-TR")}
                   </td>
                   <td>
-                    <Link href={`/admin/kullanicilar/${u.id}`} className="admin-filter-btn" style={{ whiteSpace: "nowrap" }}>
+                    <Link href={`/admin/kullanicilar/${u.id}`} className="admin-filter-btn" style={{ fontSize: 11, whiteSpace: "nowrap" }}>
                       Detay →
                     </Link>
                   </td>
@@ -140,7 +144,7 @@ export default async function KullanicilarPage({ searchParams }: Props) {
               ))}
               {users.length === 0 && (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: "center", color: "var(--ad-muted)", padding: "36px" }}>
+                  <td colSpan={9} style={{ textAlign: "center", color: "var(--ad-muted)", padding: "36px" }}>
                     Kullanıcı bulunamadı.
                   </td>
                 </tr>

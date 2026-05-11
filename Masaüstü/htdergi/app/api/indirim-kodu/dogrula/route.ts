@@ -11,7 +11,7 @@ const schema = z.object({
 });
 
 export async function POST(request: NextRequest) {
-  const user = await getSessionUser();
+  const user = await getSessionUser(request);
   if (!user) return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 401 });
 
   const rl = checkRateLimit({ key: `discount:${user.id}`, limit: 10, windowMs: 60 * 1000 });

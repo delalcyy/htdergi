@@ -1,5 +1,5 @@
 import { redirect, notFound } from "next/navigation";
-import { getSessionUser, hasEditorAccess } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import RoportajEditor from "@/components/roportaj/RoportajEditor";
 
@@ -12,12 +12,6 @@ type Props = {
 export default async function RoportajPage({ params }: Props) {
   const user = await getSessionUser();
   if (!user) redirect("/auth/giris");
-
-  // Admin her zaman erişebilir
-  if (user.role !== "ADMIN") {
-    const hasAccess = await hasEditorAccess(user.id);
-    if (!hasAccess) redirect("/kapak-tasarla/bilgi-formu");
-  }
 
   const { taslakId } = await params;
 

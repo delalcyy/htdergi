@@ -1,38 +1,24 @@
 import { redirect } from "next/navigation";
-import { getSessionUser, hasEditorAccess } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import KategoriSecim from "@/components/roportaj/KategoriSecim";
-import "@/styles/roportaj.css";
-import { Suspense } from "react";
+import { getSessionUser } from "@/lib/auth";
+import RoportajForm from "@/components/roportaj/RoportajForm";
 
-export const metadata = { title: "Röportaj — Kategori Seç | Hatıra Dergi" };
+export const metadata = { title: "Röportaj Formu | Hatıra Dergi" };
 
-export default async function RoportajYeniPage() {
+type Props = { searchParams: Promise<{ coverDraftId?: string }> };
+
+export default async function RoportajYeniPage({ searchParams }: Props) {
   const user = await getSessionUser();
   if (!user) redirect("/auth/giris");
 
-  // Admin her zaman erişebilir
-  if (user.role !== "ADMIN") {
-    const hasAccess = await hasEditorAccess(user.id);
-    if (!hasAccess) redirect("/kapak-tasarla/bilgi-formu");
-  }
-
-  const categories = await prisma.interviewCategory.findMany({
-    where: { isActive: true },
-    orderBy: { orderIndex: "asc" },
-  });
+  const { coverDraftId } = await searchParams;
 
   return (
-    <div className="roportaj-page">
-      <div className="roportaj-container">
-        <div className="roportaj-header">
-          <h1>Röportaj</h1>
-          <p>Hangi kategoride röportaj yapmak istiyorsunuz?</p>
-        </div>
-        <Suspense fallback={<div>Yükleniyor...</div>}>
-          <KategoriSecim categories={categories} />
-        </Suspense>
+    <div className="roportaj-form-wrap">
+      <div className="roportaj-form-head">
+        <h1>Röportaj Formu</h1>
+        <p>Kategori seçin, fotoğraflarınızı ekleyin ve sorularınızı cevaplayın.</p>
       </div>
+      <RoportajForm coverDraftId={coverDraftId ?? null} />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4000";
 
 export async function POST(request: NextRequest) {
-  const user = await getSessionUser();
+  const user = await getSessionUser(request);
   if (!user) return NextResponse.json({ success: false, error: "Yetkisiz" }, { status: 401 });
 
   const formData = await request.formData();
