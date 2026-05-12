@@ -1,0 +1,135 @@
+.roportaj-page {
+  min-height: 100vh;
+  background: #f8f7f5;
+  padding: 2.5rem 1.5rem;
+}
+
+.roportaj-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.roportaj-header {
+  margin-bottom: 2rem;
+}
+
+.roportaj-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.roportaj-header p {
+  font-size: 0.9375rem;
+  color: #6b7280;
+}
+
+/* Kategori seçim kartları */
+.kategori-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.kategori-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.kategori-card:hover {
+  border-color: #9ca3af;
+}
+
+.kategori-card.selected {
+  border-color: #1a1a1a;
+  box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+}
+
+.kategori-card-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.kategori-card-desc {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+/* Soru kartları */
+.soru-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.soru-number {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.375rem;
+}
+
+.soru-text {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.soru-cevap textarea {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  color: #374151;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.soru-cevap textarea:focus {
+  border-color: #9ca3af;
+}
+
+.soru-gorsel {
+  margin-top: 0.75rem;
+}
+
+.soru-gorsel label {
+  display: inline-block;
+  font-size: 0.8125rem;
+  color: #6b7280;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.roportaj-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .kategori-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

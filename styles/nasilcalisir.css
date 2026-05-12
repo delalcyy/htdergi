@@ -1,0 +1,441 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --nc-ink:       #0a0a0a;
+  --nc-muted:     #6b6b6b;
+  --nc-line:      #e8e6e1;
+  --nc-paper:     #ffffff;
+  --nc-warm:      #faf9f7;
+  --nc-gold:      #b08d3c;
+  --nc-gold-deep: #8a6d2c;
+  --nc-serif:     "Cormorant Garamond", Georgia, serif;
+  --nc-sans:      "Inter", system-ui, sans-serif;
+  --nc-ease:      cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nc { font-family: var(--nc-sans); color: var(--nc-ink); background: var(--nc-paper); overflow-x: hidden; }
+
+.nc-wrap {
+  width: 100%; max-width: 1360px; margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+}
+
+/* ── Hero ─────────────────────────────────────────────── */
+.nc-hero {
+  position: relative;
+  padding: 100px 0 90px;
+  background: var(--nc-ink);
+  overflow: hidden;
+}
+.nc-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 60%, rgba(176, 141, 60, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+.nc-hero-inner { position: relative; z-index: 1; max-width: 780px; }
+
+.nc-hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--nc-gold); margin-bottom: 24px;
+}
+.nc-hero-eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--nc-gold); display: inline-block; }
+
+.nc-hero-title {
+  font-family: var(--nc-serif);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: #fff;
+  margin-bottom: 28px;
+}
+.nc-hero-title em { font-style: italic; color: var(--nc-gold); }
+
+.nc-hero-desc {
+  font-family: var(--nc-serif);
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.8;
+  color: rgba(255,255,255,0.6);
+  max-width: 54ch;
+}
+
+.nc-hero-steps-row {
+  display: flex;
+  gap: clamp(32px, 4vw, 56px);
+  margin-top: 56px;
+  flex-wrap: wrap;
+}
+
+.nc-hero-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nc-hero-step-num {
+  font-family: var(--nc-serif);
+  font-size: 2rem;
+  color: var(--nc-gold);
+  line-height: 1;
+  font-weight: 300;
+  min-width: 32px;
+}
+
+.nc-hero-step-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.nc-hero-step-arrow {
+  color: rgba(176, 141, 60, 0.4);
+  font-size: 1.2rem;
+  margin-left: 4px;
+}
+
+/* ── Özet Adımlar (üst bar) ──────────────────────────── */
+.nc-overview {
+  border-bottom: 1px solid var(--nc-line);
+  background: var(--nc-warm);
+}
+
+.nc-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-left: 1px solid var(--nc-line);
+}
+
+.nc-overview-item {
+  padding: clamp(28px, 3vw, 40px) clamp(20px, 2.5vw, 32px);
+  border-right: 1px solid var(--nc-line);
+  border-top: 1px solid var(--nc-line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background 0.3s;
+}
+.nc-overview-item:hover { background: var(--nc-paper); }
+
+.nc-ov-num {
+  font-family: var(--nc-serif);
+  font-size: 2.6rem;
+  color: var(--nc-gold);
+  line-height: 1;
+  font-weight: 300;
+}
+
+.nc-ov-title {
+  font-family: var(--nc-serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.nc-ov-desc {
+  font-size: 12.5px;
+  color: var(--nc-muted);
+  line-height: 1.6;
+}
+
+/* ── Adım Detayları ──────────────────────────────────── */
+.nc-step-section {
+  padding: clamp(72px, 9vw, 120px) 0;
+  border-bottom: 1px solid var(--nc-line);
+}
+.nc-step-section:nth-child(odd) { background: var(--nc-paper); }
+.nc-step-section:nth-child(even) { background: var(--nc-warm); }
+
+.nc-step-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 7vw, 100px);
+  align-items: center;
+}
+
+.nc-step-grid.nc-reverse { direction: rtl; }
+.nc-step-grid.nc-reverse > * { direction: ltr; }
+
+.nc-step-visual {
+  position: relative;
+}
+
+.nc-step-card {
+  background: var(--nc-ink);
+  padding: clamp(36px, 4vw, 56px);
+  position: relative;
+  overflow: hidden;
+}
+
+.nc-step-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -18px -18px auto;
+  width: 55%;
+  height: 55%;
+  border: 1px solid var(--nc-gold);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nc-step-card-num {
+  font-family: var(--nc-serif);
+  font-size: clamp(5rem, 10vw, 9rem);
+  font-weight: 300;
+  color: rgba(176, 141, 60, 0.15);
+  line-height: 0.85;
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.nc-step-card-inner { position: relative; z-index: 1; }
+
+.nc-step-card-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nc-gold);
+  border: 1px solid rgba(176, 141, 60, 0.4);
+  padding: 4px 10px;
+  margin-bottom: 20px;
+}
+
+.nc-step-card-title {
+  font-family: var(--nc-serif);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.nc-step-card-desc {
+  font-family: var(--nc-serif);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.8;
+  color: rgba(255,255,255,0.55);
+}
+
+.nc-step-content {}
+
+.nc-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--nc-gold); margin-bottom: 20px;
+}
+.nc-eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--nc-gold); display: inline-block; }
+
+.nc-step-title {
+  font-family: var(--nc-serif);
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--nc-ink);
+  margin-bottom: 20px;
+}
+.nc-step-title em { font-style: italic; color: var(--nc-gold); }
+
+.nc-step-desc {
+  font-family: var(--nc-serif);
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  line-height: 1.85;
+  color: var(--nc-muted);
+  margin-bottom: 28px;
+}
+
+.nc-step-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nc-step-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--nc-ink);
+  line-height: 1.5;
+}
+
+.nc-bullet-dot {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 1px solid var(--nc-gold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--nc-gold);
+  margin-top: 1px;
+  font-weight: 600;
+}
+
+.nc-step-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.nc-chip {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  background: rgba(176, 141, 60, 0.08);
+  border: 1px solid rgba(176, 141, 60, 0.25);
+  color: var(--nc-gold-deep);
+}
+
+/* ── İpuçları ────────────────────────────────────────── */
+.nc-tips {
+  padding: clamp(72px, 9vw, 100px) 0;
+  background: var(--nc-ink);
+}
+
+.nc-tips-head {
+  margin-bottom: clamp(40px, 5vw, 60px);
+}
+
+.nc-tips-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--nc-gold); margin-bottom: 16px;
+}
+.nc-tips-eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--nc-gold); display: inline-block; }
+
+.nc-tips-title {
+  font-family: var(--nc-serif);
+  font-size: clamp(1.9rem, 3.5vw, 3rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.08;
+}
+.nc-tips-title em { font-style: italic; color: var(--nc-gold); }
+
+.nc-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.nc-tip-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: clamp(24px, 2.5vw, 36px);
+  transition: background 0.3s, border-color 0.3s;
+}
+.nc-tip-card:hover {
+  background: rgba(176, 141, 60, 0.06);
+  border-color: rgba(176, 141, 60, 0.3);
+}
+
+.nc-tip-num {
+  font-family: var(--nc-serif);
+  font-size: 2rem;
+  color: var(--nc-gold);
+  opacity: 0.5;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.nc-tip-title {
+  font-family: var(--nc-serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.nc-tip-text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ── CTA ─────────────────────────────────────────────── */
+.nc-cta {
+  padding: clamp(72px, 9vw, 120px) 0;
+  background: var(--nc-paper);
+  border-top: 1px solid var(--nc-line);
+}
+
+.nc-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+
+.nc-cta-title {
+  font-family: var(--nc-serif);
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--nc-ink);
+}
+.nc-cta-title em { font-style: italic; color: var(--nc-gold); }
+
+.nc-cta-sub {
+  font-size: 14px;
+  color: var(--nc-muted);
+  max-width: 40ch;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.nc-cta-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+.nc-btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 32px; background: var(--nc-ink); color: #fff;
+  font-family: var(--nc-sans); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.4s var(--nc-ease);
+}
+.nc-btn-primary:hover { background: var(--nc-gold-deep); }
+
+.nc-btn-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 32px; background: transparent; color: var(--nc-ink);
+  font-family: var(--nc-sans); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  border: 1px solid var(--nc-ink); text-decoration: none;
+  transition: all 0.4s var(--nc-ease);
+}
+.nc-btn-ghost:hover { background: var(--nc-ink); color: #fff; }
+
+.nc-arr { transition: transform 0.4s var(--nc-ease); }
+.nc-btn-primary:hover .nc-arr,
+.nc-btn-ghost:hover .nc-arr { transform: translateX(4px); }
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 960px) {
+  .nc-overview-grid { grid-template-columns: repeat(2, 1fr); }
+  .nc-step-grid { grid-template-columns: 1fr; }
+  .nc-step-grid.nc-reverse { direction: ltr; }
+  .nc-step-card::after { display: none; }
+  .nc-tips-grid { grid-template-columns: 1fr 1fr; }
+  .nc-hero-steps-row { gap: 20px; }
+  .nc-hero-step-arrow { display: none; }
+}
+
+@media (max-width: 580px) {
+  .nc-overview-grid { grid-template-columns: 1fr; }
+  .nc-tips-grid { grid-template-columns: 1fr; }
+}
