@@ -8,7 +8,7 @@ type Props = {
   userId: string;
   currentRole: string;
   currentStatus: string;
-  emailVerified: boolean;
+  emailVerified?: boolean;
 };
 
 const ROLES = [
@@ -18,7 +18,7 @@ const ROLES = [
   { value: "COVER_BUYER", label: "Kapak" },
 ];
 
-export default function KullaniciDetayActions({ userId, currentRole, currentStatus, emailVerified }: Props) {
+export default function KullaniciDetayActions({ userId, currentRole, currentStatus, emailVerified = false }: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");

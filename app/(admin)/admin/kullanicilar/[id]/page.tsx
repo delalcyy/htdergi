@@ -58,7 +58,14 @@ export default async function KullaniciDetayPage({ params }: Props) {
           </h1>
           <div style={{ fontSize: "0.875rem", color: "#64748b" }}>{user.email}</div>
         </div>
-        {admin && <KullaniciDetayActions userId={user.id} currentRole={user.role} currentStatus={user.status} emailVerified={user.emailVerified} />}
+        {admin && (
+  <KullaniciDetayActions
+    userId={user.id}
+    currentRole={user.role}
+    currentStatus={user.status}
+    emailVerified={user.emailVerified ?? false}
+  />
+)}
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
