@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false },
 });
 
-const FROM = process.env.MAIL_FROM || "Hatıra Dergi <info@hatiradergi.com>";
+const FROM = process.env.SMTP_FROM || process.env.MAIL_FROM || "Hatıra Dergi <info@hatiradergi.com>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://hatiradergi.com";
 
 export async function sendMail(options: Mail.Options) {
@@ -51,7 +51,7 @@ export async function sendContactEmail(params: {
   subject: string;
   message: string;
 }) {
-  const adminTo = process.env.CONTACT_EMAIL || "info@hatiradergi.com";
+  const adminTo = process.env.CONTACT_FORM_EMAIL || process.env.CONTACT_EMAIL || "info@hatiradergi.com";
   return sendMail({
     from: FROM,
     to: adminTo,
@@ -102,7 +102,7 @@ export async function sendNewOrderNotificationToAdmin(params: {
   userEmail: string;
   userName: string;
 }) {
-  const adminTo = process.env.CONTACT_EMAIL || "info@hatiradergi.com";
+  const adminTo = process.env.ORDER_NOTIFICATION_EMAIL || process.env.CONTACT_EMAIL || "info@hatiradergi.com";
   const detailUrl = `${APP_URL}/admin/siparisler/${params.orderId}`;
   return sendMail({
     from: FROM,
@@ -177,6 +177,45 @@ export async function sendOrderShippedEmail(params: {
         </table>
         <a href="${APP_URL}/panel/siparislerim" style="display:inline-block;padding:12px 28px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:6px;margin:8px 0;font-weight:600;">
           Sipariş Takibim
+        </a>
+        <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+        <p style="color:#aaa;font-size:12px;">Hatıra Dergi — hatiradergi.com</p>
+      </div>
+    `,
+  });
+}
+
+export async function sendWelcomeEmail(to: string) {
+  return sendMail({
+    to,
+    subject: "Hatıra Dergi'ye Hoş Geldiniz",
+    html: `
+      <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#fff;">
+        <h2 style="color:#1a1a1a;margin-bottom:8px;">Hatıra Dergi'ye Hoş Geldiniz</h2>
+        <p style="color:#444;line-height:1.6;">Merhaba,</p>
+        <p style="color:#444;line-height:1.6;">Hatıra Dergi'ye hoş geldiniz.</p>
+        <p style="color:#444;line-height:1.6;">Kaydınız başarıyla oluşturuldu. Artık hesabınıza giriş yaparak kapak tasarlama, röportaj oluşturma ve Hatıra Dergi deneyiminize başlayabilirsiniz.</p>
+        <a href="${APP_URL}/giris" style="display:inline-block;padding:12px 28px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:6px;margin:20px 0;font-weight:600;">
+          Hesabıma Giriş Yap
+        </a>
+        <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+        <p style="color:#aaa;font-size:12px;">Hatıra Dergi — hatiradergi.com</p>
+      </div>
+    `,
+  });
+}
+
+export async function sendPasswordChangedEmail(to: string) {
+  return sendMail({
+    to,
+    subject: "Hatıra Dergi — Şifreniz Değiştirildi",
+    html: `
+      <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#fff;">
+        <h2 style="color:#1a1a1a;margin-bottom:8px;">Şifreniz Başarıyla Değiştirildi</h2>
+        <p style="color:#444;line-height:1.6;">Hesabınızın şifresi az önce güncellendi.</p>
+        <p style="color:#444;line-height:1.6;">Bu işlemi siz yapmadıysanız hemen <a href="${APP_URL}/auth/sifremi-unuttum" style="color:#1a1a1a;font-weight:600;">şifrenizi sıfırlayın</a> ve hesabınızı güvenceye alın.</p>
+        <a href="${APP_URL}/auth/giris" style="display:inline-block;padding:12px 28px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:6px;margin:20px 0;font-weight:600;">
+          Hesabıma Giriş Yap
         </a>
         <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
         <p style="color:#aaa;font-size:12px;">Hatıra Dergi — hatiradergi.com</p>

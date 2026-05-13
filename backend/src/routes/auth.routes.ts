@@ -6,6 +6,7 @@ import crypto from "crypto";
 import { prisma } from "../config/prisma";
 import { requireAuth } from "../middleware/auth";
 import { loginLimiter, registerLimiter, passwordResetLimiter } from "../middleware/rateLimiter";
+import { sendPasswordResetEmail, sendPasswordChangedEmail } from "../lib/mail";
 
 const router = Router();
 
@@ -213,9 +214,11 @@ router.post(
         },
       });
 
-      // TODO: E-posta gönder (nodemailer / resend vb.)
-      // resetLink = `${process.env.FRONTEND_URL}/auth/sifremi-sifirla?token=${token}`
-      console.info("[PasswordReset] Token oluşturuldu:", email, token);
+      const resetLink = `${process.env.FRONTEND_URL || "https://hatiradergi.com"}/auth/sifremi-sifirla?token=${token}`;
+      console.info("[PasswordReset] Token oluşturuldu:", email, resetLink);
+      sendPasswordResetEmail(email, token).catch((err) =>
+        console.error("[PasswordReset] Mail gönderilemedi:", err)
+      );
     }
 
     res.json({
@@ -264,6 +267,10 @@ router.post(
         resetPasswordExpiry: null,
       },
     });
+
+    sendPasswordChangedEmail(user.email).catch((err) =>
+      console.error("[PasswordReset] Onay maili gönderilemedi:", err)
+    );
 
     res.json({ success: true, data: null });
   }

@@ -3,7 +3,7 @@ import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { generateToken, hashToken } from "@/lib/token";
-import { sendVerificationEmail } from "@/lib/mail";
+import { sendVerificationEmail, sendWelcomeEmail } from "@/lib/mail";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const schema = z.object({
@@ -68,7 +68,13 @@ export async function POST(request: NextRequest) {
   try {
     await sendVerificationEmail(email, token);
   } catch (err) {
-    console.error("Mail gönderilemedi:", err);
+    console.error("Doğrulama maili gönderilemedi:", err);
+  }
+
+  try {
+    await sendWelcomeEmail(email);
+  } catch (err) {
+    console.error("Hoş geldiniz maili gönderilemedi:", err);
   }
 
   return NextResponse.json(

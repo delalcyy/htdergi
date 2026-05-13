@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { hashToken } from "@/lib/token";
+import { sendPasswordChangedEmail } from "@/lib/mail";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
@@ -22,7 +23,10 @@ export async function POST(request: NextRequest) {
   }
 
   const tokenHash = hashToken(token);
-  const record = await prisma.passwordResetToken.findUnique({ where: { tokenHash } });
+  const record = await prisma.passwordResetToken.findUnique({
+    where: { tokenHash },
+    include: { user: { select: { email: true } } },
+  });
 
   if (!record) {
     return NextResponse.json({ success: false, error: "invalid_token" }, { status: 400 });
@@ -46,6 +50,12 @@ export async function POST(request: NextRequest) {
       data: { passwordHash },
     }),
   ]);
+
+  try {
+    await sendPasswordChangedEmail(record.user.email);
+  } catch (err) {
+    console.error("Şifre değişikliği maili gönderilemedi:", err);
+  }
 
   return NextResponse.json({ success: true });
 }
