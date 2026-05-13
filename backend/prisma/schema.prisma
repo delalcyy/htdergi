@@ -80,25 +80,30 @@ model User {
   role                 UserRole   @default(FREE)
   status               UserStatus @default(ACTIVE)
   emailVerified        Boolean    @default(false) @map("email_verified")
+  age                  Int?
+  city                 String?
+  district             String?
+  supportedTeam        String?    @map("supported_team")
   resetPasswordToken   String?    @unique @map("reset_password_token")
   resetPasswordExpiry  DateTime?  @map("reset_password_expiry")
   createdAt            DateTime   @default(now()) @map("created_at")
   updatedAt            DateTime   @updatedAt @map("updated_at")
   deletedAt            DateTime?  @map("deleted_at")
 
-  addresses              UserAddress[]
-  subscriptions          Subscription[]
-  payments               Payment[]
-  coverDrafts            CoverDraft[]
-  coverPurchases         CoverPurchase[]
-  interviewDrafts        InterviewDraft[]
-  serialCodesUsed        SerialCode[]        @relation("UsedBy")
-  serialCodesCreated     SerialCode[]        @relation("CreatedBy")
-  discountCodesCreated   DiscountCode[]
-  discountCodeUsages     DiscountCodeUsage[]
-  auditLogsAsActor       AuditLog[]          @relation("AuditActor")
-  failedLoginAttempts    FailedLoginAttempt[]
-  orders                 Order[]
+  addresses                  UserAddress[]
+  subscriptions              Subscription[]
+  payments                   Payment[]
+  coverDrafts                CoverDraft[]
+  coverPurchases             CoverPurchase[]
+  interviewDrafts            InterviewDraft[]
+  serialCodesUsed            SerialCode[]           @relation("UsedBy")
+  serialCodesCreated         SerialCode[]           @relation("CreatedBy")
+  discountCodesCreated       DiscountCode[]
+  discountCodeUsages         DiscountCodeUsage[]
+  auditLogsAsActor           AuditLog[]             @relation("AuditActor")
+  failedLoginAttempts        FailedLoginAttempt[]
+  orders                     Order[]
+  emailVerificationTokens    EmailVerificationToken[]
 
   @@map("users")
 }
@@ -429,4 +434,17 @@ model CargoTracking {
   order Order @relation(fields: [orderId], references: [id])
 
   @@map("cargo_trackings")
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("email_verification_tokens")
 }

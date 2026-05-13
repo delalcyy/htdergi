@@ -10,6 +10,10 @@ export type SessionUser = {
   firstName: string | null;
   lastName: string | null;
   phone: string | null;
+  age: number | null;
+  city: string | null;
+  district: string | null;
+  supportedTeam: string | null;
   role: UserRole;
   status: UserStatus;
   emailVerified: boolean;

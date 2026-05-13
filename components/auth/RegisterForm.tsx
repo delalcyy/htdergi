@@ -15,6 +15,7 @@ export default function RegisterForm() {
   const [serverError, setServerError] = useState("");
   const [selectedIl, setSelectedIl] = useState("");
   const [registered, setRegistered] = useState(false);
+  const [teamOption, setTeamOption] = useState("");
 
   const {
     register,
@@ -171,12 +172,36 @@ export default function RegisterForm() {
         {/* Tuttuğu Takım */}
         <div className="auth-field">
           <Label htmlFor="supportedTeam">Tuttuğunuz Takım</Label>
-          <select id="supportedTeam" className={sel} {...register("supportedTeam")}>
+          <select
+            id="supportedTeam"
+            className={sel}
+            value={teamOption}
+            onChange={(e) => {
+              const val = e.target.value;
+              setTeamOption(val);
+              if (val === "__none__") {
+                setValue("supportedTeam", "", { shouldValidate: true });
+              } else if (val !== "Diğer") {
+                setValue("supportedTeam", val, { shouldValidate: true });
+              } else {
+                setValue("supportedTeam", "", { shouldValidate: false });
+              }
+            }}
+          >
             <option value="">— Takım seçin —</option>
+            <option value="__none__">Takım tutmuyorum</option>
             {TAKIMLAR.map(t => (
               <option key={t} value={t}>{t}</option>
             ))}
           </select>
+          {teamOption === "Diğer" && (
+            <Input
+              {...register("supportedTeam")}
+              placeholder="Takımınızın adını yazın"
+              autoComplete="off"
+              style={{ marginTop: "0.5rem" }}
+            />
+          )}
           {errors.supportedTeam && <span className="auth-error">{errors.supportedTeam.message}</span>}
         </div>
 

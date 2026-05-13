@@ -6,7 +6,7 @@ import crypto from "crypto";
 import { prisma } from "../config/prisma";
 import { requireAuth } from "../middleware/auth";
 import { loginLimiter, registerLimiter, passwordResetLimiter } from "../middleware/rateLimiter";
-import { sendPasswordResetEmail, sendPasswordChangedEmail } from "../lib/mail";
+import { sendVerificationEmail, sendPasswordResetEmail, sendPasswordChangedEmail } from "../lib/mail";
 
 const router = Router();
 
@@ -71,6 +71,11 @@ router.post(
       return;
     }
 
+    if (!user.emailVerified) {
+      res.status(403).json({ success: false, error: "email_not_verified", email: user.email });
+      return;
+    }
+
     const token = signToken(user.id, user.email, user.role);
 
     res.cookie("__auth_token", token, COOKIE_OPTS);
@@ -110,11 +115,16 @@ router.post(
       return;
     }
 
-    const { email, password, firstName, lastName } = req.body as {
+    const { email, password, firstName, lastName, phone, age, city, district, supportedTeam } = req.body as {
       email: string;
       password: string;
       firstName: string;
       lastName: string;
+      phone?: string;
+      age?: number;
+      city?: string;
+      district?: string;
+      supportedTeam?: string;
     };
 
     const exists = await prisma.user.findUnique({ where: { email } });
@@ -131,28 +141,99 @@ router.post(
         passwordHash,
         firstName,
         lastName,
+        phone: phone || null,
+        age: age ?? null,
+        city: city || null,
+        district: district || null,
+        supportedTeam: supportedTeam || null,
         role: "FREE",
         status: "ACTIVE",
-        emailVerified: true,
+        emailVerified: false,
       },
     });
 
-    const token = signToken(user.id, user.email, user.role);
+    const verifyToken = crypto.randomBytes(32).toString("hex");
+    const tokenHash = crypto.createHash("sha256").update(verifyToken).digest("hex");
+    await prisma.emailVerificationToken.create({
+      data: {
+        userId: user.id,
+        tokenHash,
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    });
+    sendVerificationEmail(user.email, verifyToken).catch((err) =>
+      console.error("[Kayit] Doğrulama maili gönderilemedi:", err)
+    );
 
-    res.cookie("__auth_token", token, COOKIE_OPTS);
     res.status(201).json({
       success: true,
-      data: {
-        token,
-        user: {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          role: user.role,
-        },
-      },
+      data: { message: "Kayıt başarılı. E-postanızı doğrulayın." },
     });
+  }
+);
+
+/* ── POST /api/auth/email-dogrula ────────────────────── */
+router.post("/email-dogrula", async (req: Request, res: Response): Promise<void> => {
+  const { token } = req.body as { token?: string };
+  if (!token || typeof token !== "string") {
+    res.status(400).json({ success: false, error: "Geçersiz token." });
+    return;
+  }
+
+  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+  const record = await prisma.emailVerificationToken.findUnique({ where: { tokenHash } });
+
+  if (!record) {
+    res.status(400).json({ success: false, error: "invalid_token" });
+    return;
+  }
+  if (record.usedAt) {
+    res.status(400).json({ success: false, error: "token_used" });
+    return;
+  }
+  if (record.expiresAt < new Date()) {
+    res.status(400).json({ success: false, error: "token_expired" });
+    return;
+  }
+
+  await prisma.$transaction([
+    prisma.emailVerificationToken.update({
+      where: { id: record.id },
+      data: { usedAt: new Date() },
+    }),
+    prisma.user.update({
+      where: { id: record.userId },
+      data: { emailVerified: true },
+    }),
+  ]);
+
+  res.json({ success: true });
+});
+
+/* ── POST /api/auth/email-dogrulama-gonder ────────────── */
+router.post(
+  "/email-dogrulama-gonder",
+  [body("email").isEmail().normalizeEmail()],
+  async (req: Request, res: Response): Promise<void> => {
+    const { email } = req.body as { email: string };
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (user && !user.emailVerified) {
+      const verifyToken = crypto.randomBytes(32).toString("hex");
+      const tokenHash = crypto.createHash("sha256").update(verifyToken).digest("hex");
+      await prisma.emailVerificationToken.create({
+        data: {
+          userId: user.id,
+          tokenHash,
+          expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        },
+      });
+      sendVerificationEmail(email, verifyToken).catch((err) =>
+        console.error("[EmailDogrulama] Mail gönderilemedi:", err)
+      );
+    }
+
+    res.json({ success: true });
   }
 );
 

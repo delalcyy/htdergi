@@ -7,6 +7,7 @@ import path from "path";
 import authRoutes from "./routes/auth.routes";
 import uploadRoutes from "./routes/upload.routes";
 import adminRoutes from "./routes/admin.routes";
+import userRoutes from "./routes/user.routes";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 4000;
@@ -36,6 +37,7 @@ app.use("/uploads", express.static(uploadDir));
 app.use("/api/auth", authRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/user", userRoutes);
 
 /* ── Health Check ─────────────────────────────────────── */
 app.get("/health", (_req, res) => {

@@ -36,8 +36,11 @@ export const registerSchema = z.object({
     .max(80, "İlçe çok uzun"),
   supportedTeam: z
     .string()
-    .min(2, "Tuttuğunuz takım zorunludur")
-    .max(100, "Takım adı çok uzun"),
+    .max(100, "Takım adı çok uzun")
+    .refine(
+      (v) => v === "" || v.length >= 2,
+      "En az 2 karakter giriniz"
+    ),
   password: z
     .string()
     .min(8, "Şifre en az 8 karakter olmalıdır")
