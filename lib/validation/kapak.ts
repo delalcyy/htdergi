@@ -13,7 +13,7 @@ export const infoFormSchema = z.object({
     .string()
     .min(3, "Ad soyad en az 3 karakter")
     .max(100)
-    .regex(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, "Geçersiz karakter"),
+    .regex(/^[\p{L}\s]+$/u, "Geçersiz karakter"),
   phone: z
     .string()
     .min(10, "Geçerli bir telefon numarası girin")

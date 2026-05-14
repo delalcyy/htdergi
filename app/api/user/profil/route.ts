@@ -4,8 +4,8 @@ import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 const schema = z.object({
-  firstName:     z.string().min(2).max(50).regex(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/),
-  lastName:      z.string().min(2).max(50).regex(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/),
+  firstName:     z.string().min(2).max(50).regex(/^[\p{L}\s]+$/u),
+  lastName:      z.string().min(2).max(50).regex(/^[\p{L}\s]+$/u),
   phone:         z.string().max(20).optional().nullable(),
   age:           z.number().int().min(1).max(120).optional().nullable(),
   city:          z.string().max(80).optional().nullable(),

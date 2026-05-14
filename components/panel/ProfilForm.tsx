@@ -12,8 +12,8 @@ import { IL_LISTESI, ILLER, TAKIMLAR } from "@/lib/data/turkiye";
 import type { SessionUser } from "@/types";
 
 const schema = z.object({
-  firstName: z.string().min(2, "En az 2 karakter").max(50).regex(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, "Geçersiz karakter"),
-  lastName:  z.string().min(2, "En az 2 karakter").max(50).regex(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, "Geçersiz karakter"),
+  firstName: z.string().min(2, "En az 2 karakter").max(50).regex(/^[\p{L}\s]+$/u, "Geçersiz karakter"),
+  lastName:  z.string().min(2, "En az 2 karakter").max(50).regex(/^[\p{L}\s]+$/u, "Geçersiz karakter"),
   phone:         z.string().max(20).optional().nullable(),
   age:           z.number().int().min(1).max(120).optional().nullable(),
   city:          z.string().max(80).optional().nullable(),

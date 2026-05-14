@@ -5,12 +5,12 @@ export const registerSchema = z.object({
     .string()
     .min(2, "Ad en az 2 karakter olmalıdır")
     .max(50, "Ad çok uzun")
-    .regex(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, "Geçersiz karakter"),
+    .regex(/^[\p{L}\s]+$/u, "Geçersiz karakter"),
   lastName: z
     .string()
     .min(2, "Soyad en az 2 karakter olmalıdır")
     .max(50, "Soyad çok uzun")
-    .regex(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, "Geçersiz karakter"),
+    .regex(/^[\p{L}\s]+$/u, "Geçersiz karakter"),
   email: z
     .string()
     .min(1, "E-posta zorunludur")
