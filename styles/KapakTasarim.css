@@ -513,8 +513,8 @@
   .kt-mobil-ust-bar {
     flex-shrink: 0;
     height: 64px;
-    display: flex;
-    background: #fff;
+    display: flex !important;
+    background: red !important;
     border-bottom: 1px solid var(--kt-cizgi);
     justify-content: space-around;
     align-items: stretch;
@@ -524,8 +524,8 @@
   .kt-mobil-alt-bar {
     flex-shrink: 0;
     height: 64px;
-    display: flex;
-    background: #fff;
+    display: flex !important;
+    background: red !important;
     border-top: 1px solid var(--kt-cizgi);
     justify-content: space-around;
     align-items: stretch;
