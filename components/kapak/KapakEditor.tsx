@@ -74,6 +74,7 @@ type Yazi = {
 };
 
 type YaziKey = "sol1" | "sag1" | "sol2" | "sag2";
+type DrawerTipi = "bg-foto" | "on-foto" | "bg-renk" | "logo-renk" | "isim" | "yan-yazilar";
 
 const VARSAYILAN_YAZILAR_TR: Record<YaziKey, Yazi> = {
   sol1: { metin: "MODANIN KALBİ\nTÜRKİYE'DE ATACAK", renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 1,  y: 55 },
@@ -155,6 +156,8 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
   const [toast, setToast]                     = useState<string | null>(null);
   const [suruklUst, setSuruklUst]             = useState(false);
   const [mounted, setMounted]                 = useState(false);
+  const [acikDrawer, setAcikDrawer]           = useState<DrawerTipi | null>(null);
+  const [secilenYazi, setSecilenYazi]         = useState<YaziKey>("sol1");
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -548,10 +551,255 @@ window.addEventListener('load',function(){
     gosterToast(t("cover.editor.toastReset"));
   }
 
+  /* ── Mobil drawer ── */
+  const DRAWER_BASLIKLAR: Record<DrawerTipi, string> = {
+    "bg-foto":     "Arka Plan Fotoğrafı",
+    "on-foto":     "Ön Plan (PNG)",
+    "bg-renk":     "Arka Plan Rengi",
+    "logo-renk":   "Logo Rengi",
+    "isim":        "İsim & Başlık",
+    "yan-yazilar": "Yan Yazılar",
+  };
+
+  function renderDrawerIcerik() {
+    switch (acikDrawer) {
+      case "bg-foto": return (
+        <div className="kt-bolum">
+          <div className={`kt-yukle${suruklUst ? " kt-yukle--ust" : ""}`}
+            onClick={() => dosyaRef.current?.click()}
+            onDragOver={e => { e.preventDefault(); setSuruklUst(true); }}
+            onDragLeave={() => setSuruklUst(false)}
+            onDrop={onBirak}>
+            <div className="kt-yukle-ikon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8880" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>
+              </svg>
+            </div>
+            <span className="kt-yukle-baslik">{t("cover.editor.uploadTitle")}</span>
+            <span className="kt-yukle-hint">{t("cover.editor.uploadHint")}</span>
+          </div>
+          {bgFoto && (
+            <>
+              <div className="kt-kucuk">
+                <img src={bgFoto} alt="Arka plan" />
+                <button className="kt-kucuk-sil" onClick={() => {
+                  URL.revokeObjectURL(bgFoto); setBgFoto(null); setBgBase64(null);
+                  setBgZoom(1); setBgDon(0); setBgAyna(false); setBgX(0); setBgY(0);
+                }}>{t("cover.editor.remove")}</button>
+              </div>
+              <div className="kt-kontrol">
+                <div className="kt-ctrl-satir">
+                  <span className="kt-ctrl-etiket">{t("cover.editor.size")}</span>
+                  <button className="kt-ctrl-btn" onClick={() => setBgZoom(z => Math.max(0.3, +(z - 0.1).toFixed(2)))}>−</button>
+                  <input type="range" min="30" max="300" step="5" value={Math.round(bgZoom * 100)}
+                    onChange={e => setBgZoom(+(Number(e.target.value) / 100).toFixed(2))} className="kt-slider" />
+                  <button className="kt-ctrl-btn" onClick={() => setBgZoom(z => Math.min(3, +(z + 0.1).toFixed(2)))}>+</button>
+                  <span className="kt-ctrl-deger">%{Math.round(bgZoom * 100)}</span>
+                </div>
+                <div className="kt-ctrl-satir">
+                  <span className="kt-ctrl-etiket">{t("cover.editor.rotate")}</span>
+                  <button className="kt-ctrl-btn" onClick={() => setBgDon(d => d - 90)}>↺</button>
+                  <span className="kt-ctrl-deger kt-ctrl-orta">{((bgDon % 360) + 360) % 360}°</span>
+                  <button className="kt-ctrl-btn" onClick={() => setBgDon(d => d + 90)}>↻</button>
+                  <button className={`kt-ctrl-btn kt-ctrl-btn--ayna ${bgAyna ? "kt-ctrl-btn--aktif" : ""}`}
+                    onClick={() => setBgAyna(a => !a)}>{t("cover.editor.mirror")}</button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      );
+
+      case "on-foto": return (
+        <div className="kt-bolum">
+          <div className="kt-yukle kt-yukle-on" onClick={() => onDosyaRef.current?.click()}>
+            <div className="kt-yukle-ikon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8880" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>
+              </svg>
+            </div>
+            <span className="kt-yukle-baslik">{t("cover.editor.fgTitle")}</span>
+            <span className="kt-yukle-hint">{t("cover.editor.fgHint")}</span>
+          </div>
+          {onFoto && (
+            <>
+              <div className="kt-kucuk">
+                <img src={onFoto} alt="Ön plan" />
+                <button className="kt-kucuk-sil" onClick={() => {
+                  URL.revokeObjectURL(onFoto!); setOnFoto(null); setOnBase64(null);
+                  setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0); setSuruklHedef("bg");
+                }}>{t("cover.editor.remove")}</button>
+              </div>
+              <div className="kt-kontrol">
+                <div className="kt-ctrl-satir">
+                  <span className="kt-ctrl-etiket">{t("cover.editor.size")}</span>
+                  <button className="kt-ctrl-btn" onClick={() => setOnZoom(z => Math.max(0.3, +(z - 0.1).toFixed(2)))}>−</button>
+                  <input type="range" min="30" max="300" step="5" value={Math.round(onZoom * 100)}
+                    onChange={e => setOnZoom(+(Number(e.target.value) / 100).toFixed(2))} className="kt-slider" />
+                  <button className="kt-ctrl-btn" onClick={() => setOnZoom(z => Math.min(3, +(z + 0.1).toFixed(2)))}>+</button>
+                  <span className="kt-ctrl-deger">%{Math.round(onZoom * 100)}</span>
+                </div>
+                <div className="kt-ctrl-satir">
+                  <span className="kt-ctrl-etiket">{t("cover.editor.rotate")}</span>
+                  <button className="kt-ctrl-btn" onClick={() => setOnDon(d => d - 90)}>↺</button>
+                  <span className="kt-ctrl-deger kt-ctrl-orta">{((onDon % 360) + 360) % 360}°</span>
+                  <button className="kt-ctrl-btn" onClick={() => setOnDon(d => d + 90)}>↻</button>
+                  <button className={`kt-ctrl-btn kt-ctrl-btn--ayna ${onAyna ? "kt-ctrl-btn--aktif" : ""}`}
+                    onClick={() => setOnAyna(a => !a)}>{t("cover.editor.mirror")}</button>
+                </div>
+                <div className="kt-ctrl-satir">
+                  <span className="kt-ctrl-etiket">{t("cover.editor.drag")}</span>
+                  <button className={`kt-ctrl-btn ${suruklHedef === "bg" ? "kt-ctrl-btn--aktif" : ""}`}
+                    onClick={() => setSuruklHedef("bg")}>{t("cover.editor.bgLayer")}</button>
+                  <button className={`kt-ctrl-btn ${suruklHedef === "fg" ? "kt-ctrl-btn--aktif" : ""}`}
+                    onClick={() => setSuruklHedef("fg")}>{t("cover.editor.fgLayer")}</button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      );
+
+      case "bg-renk": return (
+        <div className="kt-bolum">
+          <div className="kt-palet">
+            {ARKA_PLAN_RENKLERI.map(c => (
+              <button key={c.value}
+                className={`kt-renk-kare ${bgRenk === c.value ? "kt-renk-kare--aktif" : ""}`}
+                style={{ background: c.value }}
+                onClick={() => setBgRenk(c.value)} title={t(`cover.editor.bgColors.${c.key}`)}>
+                {bgRenk === c.value && <span className="kt-renk-tik" style={{ color: c.koyu ? "#111" : "#fff" }}>✓</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+
+      case "logo-renk": return logoSrc ? (
+        <div className="kt-bolum">
+          <div className="kt-palet">
+            {LOGO_RENKLERI.map(c => (
+              <button key={c.filtre}
+                className={`kt-renk-kare ${logoFiltre === c.filtre ? "kt-renk-kare--aktif" : ""}`}
+                style={{ background: c.onizleme }}
+                onClick={() => setLogoFiltre(c.filtre)} title={t(`cover.editor.logoColors.${c.key}`)}>
+                {logoFiltre === c.filtre && <span className="kt-renk-tik" style={{ color: c.koyu ? "#111" : "#fff" }}>✓</span>}
+              </button>
+            ))}
+          </div>
+          <div className="kt-logo-etiketler">
+            {LOGO_RENKLERI.map(c => (
+              <span key={c.filtre}
+                className={`kt-logo-etiket ${logoFiltre === c.filtre ? "kt-logo-etiket--aktif" : ""}`}
+                onClick={() => setLogoFiltre(c.filtre)}>{t(`cover.editor.logoColors.${c.key}`)}</span>
+            ))}
+          </div>
+        </div>
+      ) : null;
+
+      case "isim": return (
+        <div className="kt-bolum">
+          <div className="kt-alan">
+            <div className="kt-etiket-satir">
+              <label className="kt-etiket">{t("cover.editor.nameLabel")}</label>
+              <label className="kt-renk-kap">
+                <span>{t("cover.editor.colorLabel")}</span>
+                <input type="color" value={baslikRenk}
+                  onChange={e => setBaslikRenk(e.target.value)} className="kt-renk-giris" />
+              </label>
+            </div>
+            <input className="kt-giris" type="text" value={ad}
+              onChange={e => setAd(e.target.value)}
+              placeholder={t("cover.editor.namePlaceholder")} maxLength={40} />
+          </div>
+        </div>
+      );
+
+      case "yan-yazilar": return (
+        <div className="kt-bolum">
+          <div className="kt-mobil-yazi-tablar">
+            {(["sol1", "sag1", "sol2", "sag2"] as YaziKey[]).map(key => (
+              <button key={key}
+                className={`kt-mobil-yazi-tab${secilenYazi === key ? " kt-mobil-yazi-tab--aktif" : ""}`}
+                onClick={() => setSecilenYazi(key)}>
+                {t(`cover.editor.textLabel_${key}`)}
+              </button>
+            ))}
+          </div>
+          <div className="kt-yan-bas">
+            <span className="kt-yan-etiket">{t(`cover.editor.textLabel_${secilenYazi}`)}</span>
+            <label className="kt-renk-kap">
+              <span>{t("cover.editor.colorLabel")}</span>
+              <input type="color" value={yazilar[secilenYazi].renk}
+                onChange={e => yaziGuncelle(secilenYazi, "renk", e.target.value)} className="kt-renk-giris" />
+            </label>
+          </div>
+          <textarea className="kt-giris" rows={2} maxLength={80}
+            value={yazilar[secilenYazi].metin}
+            onChange={e => yaziGuncelle(secilenYazi, "metin", kelimeSiniri(e.target.value))}
+            placeholder={`${t(`cover.editor.textLabel_${secilenYazi}`)}...`} />
+          <select className="kt-font-sec" value={yazilar[secilenYazi].font}
+            onChange={e => yaziGuncelle(secilenYazi, "font", e.target.value)}>
+            {FONTLAR.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+          </select>
+          <div className="kt-ctrl-satir">
+            <span className="kt-ctrl-etiket">{t("cover.editor.size")}</span>
+            <button className="kt-ctrl-btn"
+              onClick={() => yaziGuncelle(secilenYazi, "boyut", Math.max(0.8, +(yazilar[secilenYazi].boyut - 0.1).toFixed(1)))}>−</button>
+            <span className="kt-ctrl-deger">{yazilar[secilenYazi].boyut.toFixed(1)}</span>
+            <button className="kt-ctrl-btn"
+              onClick={() => yaziGuncelle(secilenYazi, "boyut", Math.min(5, +(yazilar[secilenYazi].boyut + 0.1).toFixed(1)))}>+</button>
+          </div>
+        </div>
+      );
+
+      default: return null;
+    }
+  }
+
   const gosterAd = ad.trim() || userName || "Ad Soyad";
 
   const content = (
     <div className={`kt-app${embedded ? " kt-app--embedded" : ""}`}>
+
+      {/* ══════ MOBİL ÜST BAR ══════ */}
+      <div className="kt-mobil-ust-bar">
+        <button className={`kt-araç-btn${acikDrawer === "bg-foto" ? " kt-araç-btn--aktif" : ""}`}
+          onClick={() => setAcikDrawer(acikDrawer === "bg-foto" ? null : "bg-foto")}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span>Arka Plan</span>
+        </button>
+        <button className={`kt-araç-btn${acikDrawer === "on-foto" ? " kt-araç-btn--aktif" : ""}`}
+          onClick={() => setAcikDrawer(acikDrawer === "on-foto" ? null : "on-foto")}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="12" cy="9" r="3"/>
+            <path d="M6 21v-1a6 6 0 0 1 12 0v1"/>
+          </svg>
+          <span>Ön Plan</span>
+        </button>
+        <button className={`kt-araç-btn${acikDrawer === "bg-renk" ? " kt-araç-btn--aktif" : ""}`}
+          onClick={() => setAcikDrawer(acikDrawer === "bg-renk" ? null : "bg-renk")}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/>
+            <circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+          </svg>
+          <span>Renk</span>
+        </button>
+        {logoSrc && (
+          <button className={`kt-araç-btn${acikDrawer === "logo-renk" ? " kt-araç-btn--aktif" : ""}`}
+            onClick={() => setAcikDrawer(acikDrawer === "logo-renk" ? null : "logo-renk")}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            <span>Logo</span>
+          </button>
+        )}
+      </div>
 
       {/* ══════ SOL PANEL ══════ */}
       <section className="kt-panel kt-sol-panel">
@@ -909,6 +1157,53 @@ window.addEventListener('load',function(){
 
         </div>
       </section>
+
+      {/* ══════ MOBİL ALT BAR ══════ */}
+      <div className="kt-mobil-alt-bar">
+        <button className={`kt-araç-btn${acikDrawer === "yan-yazilar" ? " kt-araç-btn--aktif" : ""}`}
+          onClick={() => setAcikDrawer(acikDrawer === "yan-yazilar" ? null : "yan-yazilar")}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="4 7 4 4 20 4 20 7"/>
+            <line x1="9" y1="20" x2="15" y2="20"/>
+            <line x1="12" y1="4" x2="12" y2="20"/>
+          </svg>
+          <span>Yazılar</span>
+        </button>
+        <button className={`kt-araç-btn${acikDrawer === "isim" ? " kt-araç-btn--aktif" : ""}`}
+          onClick={() => setAcikDrawer(acikDrawer === "isim" ? null : "isim")}>
+          <span className="kt-araç-aa">Aa</span>
+          <span>İsim</span>
+        </button>
+        <button className="kt-araç-btn" onClick={handleIndir} disabled={dışaAktariliyor || !bgFoto}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>PDF</span>
+        </button>
+        {!embedded && (
+          <button className="kt-araç-btn kt-araç-btn--altin" onClick={handleKaydetDevam} disabled={kaydediliyor}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Kaydet</span>
+          </button>
+        )}
+      </div>
+
+      {/* ══════ DRAWER ══════ */}
+      {acikDrawer && <div className="kt-drawer-overlay" onClick={() => setAcikDrawer(null)} />}
+      <div className={`kt-drawer${acikDrawer ? " kt-drawer--acik" : ""}`} aria-hidden={!acikDrawer}>
+        <div className="kt-drawer-tutamac" />
+        <div className="kt-drawer-baslik">
+          <span className="kt-drawer-baslik-yazi">{acikDrawer ? DRAWER_BASLIKLAR[acikDrawer] : ""}</span>
+          <button className="kt-drawer-kapat" onClick={() => setAcikDrawer(null)}>✕</button>
+        </div>
+        <div className="kt-drawer-ic">
+          {renderDrawerIcerik()}
+        </div>
+      </div>
 
       {toast && <div className="kt-toast">{toast}</div>}
 
