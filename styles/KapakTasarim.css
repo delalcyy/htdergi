@@ -492,46 +492,47 @@
 
   .kt-onizleme {
     flex: 1;
-    min-height: 0;
-    padding: 10px 16px;
-    overflow: hidden;
+    padding: 74px 16px;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
   .kt-kapak-sahne {
     max-width: none;
     width: auto;
     height: 100%;
-    max-height: 100%;
+    max-height: calc(100vh - 148px);
   }
 
   .kt-panel-aksiyonlar { display: flex; }
 
-  /* Mobil üst bar */
+  /* Mobil üst bar — viewport'a sabitli */
   .kt-mobil-ust-bar {
-    order: 0;
-    display: flex;
-    flex-shrink: 0;
+    position: fixed;
+    top: 0; left: 0; right: 0;
     height: 64px;
+    display: flex;
     background: #fff;
     border-bottom: 1px solid var(--kt-cizgi);
     justify-content: space-around;
     align-items: stretch;
-    z-index: 10;
+    z-index: 50;
   }
 
-  /* Mobil alt bar */
+  /* Mobil alt bar — viewport'a sabitli */
   .kt-mobil-alt-bar {
-    order: 4;
-    display: flex;
-    flex-shrink: 0;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
     height: 64px;
+    display: flex;
     background: #fff;
     border-top: 1px solid var(--kt-cizgi);
     justify-content: space-around;
     align-items: stretch;
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    z-index: 10;
+    z-index: 50;
   }
 }
 
