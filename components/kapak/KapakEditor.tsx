@@ -763,7 +763,7 @@ window.addEventListener('load',function(){
     <div className={`kt-app${embedded ? " kt-app--embedded" : ""}`}>
 
       {/* ══════ MOBİL ÜST BAR ══════ */}
-      <div className="kt-mobil-ust-bar" style={{ position: "fixed", top: 0, left: 0, right: 0, height: 64, display: "flex", background: "#fff", borderBottom: "1px solid #e6e4de", justifyContent: "space-around", alignItems: "stretch", zIndex: 9999 }}>
+      <div className="kt-mobil-ust-bar">
         <button className={`kt-araç-btn${acikDrawer === "bg-foto" ? " kt-araç-btn--aktif" : ""}`}
           onClick={() => setAcikDrawer(acikDrawer === "bg-foto" ? null : "bg-foto")}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -1159,7 +1159,7 @@ window.addEventListener('load',function(){
       </section>
 
       {/* ══════ MOBİL ALT BAR ══════ */}
-      <div className="kt-mobil-alt-bar" style={{ position: "fixed", bottom: 0, left: 0, right: 0, height: 64, display: "flex", background: "#fff", borderTop: "1px solid #e6e4de", justifyContent: "space-around", alignItems: "stretch", zIndex: 9999 }}>
+      <div className="kt-mobil-alt-bar">
         <button className={`kt-araç-btn${acikDrawer === "yan-yazilar" ? " kt-araç-btn--aktif" : ""}`}
           onClick={() => setAcikDrawer(acikDrawer === "yan-yazilar" ? null : "yan-yazilar")}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
