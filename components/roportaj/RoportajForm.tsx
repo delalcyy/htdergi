@@ -6,6 +6,8 @@ import { checkProfanity } from "@/lib/roportaj/profanityFilter";
 import "@/styles/roportaj-form.css";
 
 const MAX_MB = 5;
+const MIN_CHARS = 50;
+const MAX_CHARS = 300;
 
 type Images = { inset1: string | null; inset2: string | null };
 type Answers = Record<string, string>;
@@ -79,14 +81,23 @@ function QuestionItem({
 }) {
   const [draft, setDraft] = useState(value);
   const [err, setErr] = useState<string | null>(null);
+  const len = draft.length;
 
   function handle(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const v = e.target.value;
     setDraft(v);
     const { isClean } = checkProfanity(v);
-    if (isClean) { setErr(null); onChange(v); }
-    else { setErr("Uygunsuz ifade tespit edildi."); onChange(""); }
+    if (!isClean) { setErr("Uygunsuz ifade tespit edildi."); onChange(""); return; }
+    if (v.length > 0 && v.length < MIN_CHARS) {
+      setErr(`En az ${MIN_CHARS} karakter yazın.`);
+      onChange("");
+    } else {
+      setErr(null);
+      onChange(v);
+    }
   }
+
+  const counterColor = len === 0 ? "#b0b0b0" : len < MIN_CHARS ? "#e67e22" : len >= MAX_CHARS ? "#c0392b" : "#27ae60";
 
   return (
     <div className="q-item">
@@ -97,11 +108,21 @@ function QuestionItem({
       <textarea
         className={`q-textarea${err ? " q-textarea--err" : ""}`}
         placeholder="Cevabınızı buraya yazın…"
-        rows={3}
+        rows={4}
+        maxLength={MAX_CHARS}
         value={draft}
         onChange={handle}
       />
-      {err && <p className="q-err">⚠ {err}</p>}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 4 }}>
+        {err
+          ? <p className="q-err" style={{ margin: 0 }}>⚠ {err}</p>
+          : <span />
+        }
+        <span style={{ fontSize: 11, color: counterColor, fontVariantNumeric: "tabular-nums" }}>
+          {len} / {MAX_CHARS}
+          {len > 0 && len < MIN_CHARS && ` (min ${MIN_CHARS})`}
+        </span>
+      </div>
     </div>
   );
 }

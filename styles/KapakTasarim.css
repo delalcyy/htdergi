@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600&family=Oswald:wght@400;500;600&family=Montserrat:wght@400;500;600&family=Raleway:wght@400;500;600&family=Roboto+Condensed:wght@400;700&family=EB+Garamond:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Bebas+Neue&family=Cinzel:wght@400;700&family=Josefin+Sans:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Abril+Fatface&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 /* ── Tasarım değişkenleri ── */
 :root {
@@ -151,12 +151,12 @@
 .kt-etiket-satir { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
 .kt-renk-kap {
   display: flex; align-items: center; gap: 6px; cursor: pointer;
-  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--kt-soluk);
+  font-size: 13px; font-weight: 900; letter-spacing: 0.08em;
+  text-transform: uppercase; color: #000;
 }
 .kt-renk-giris {
-  width: 32px; height: 26px; border: 1px solid var(--kt-cizgi-guc);
-  border-radius: 4px; cursor: pointer; padding: 1px; background: none;
+  width: 40px; height: 32px; border: 1px solid var(--kt-cizgi-guc);
+  border-radius: 5px; cursor: pointer; padding: 1px; background: none;
 }
 
 /* Renk paleti */
@@ -411,25 +411,61 @@
   color: var(--kt-etiket); font-family: var(--kt-sans);
 }
 
+/* Mobil scroll fix */
+.kt-app {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* ════════════════════════════════
-   MASAÜSTÜ (≥880px)
+   MASAÜSTÜ — 3 KOLON (≥880px)
    ════════════════════════════════ */
 @media (min-width: 880px) {
-  .kt-app { flex-direction: row; height: 100vh; }
-
-  .kt-panel {
-    width: 380px; flex-shrink: 0;
-    border-bottom: none; border-right: 1px solid var(--kt-cizgi);
-    overflow-y: auto; padding: 28px 26px 32px;
+  .kt-app {
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
   }
-  .kt-panel-ic { max-width: none; gap: 28px; }
 
+  /* Sol ve sağ paneller */
+  .kt-sol-panel {
+    width: 360px;
+    flex-shrink: 0;
+    border-bottom: none;
+    overflow-y: auto;
+    padding: 40px 24px 32px;
+  }
+  .kt-sag-panel {
+    width: 380px;
+    flex-shrink: 0;
+    border-bottom: none;
+    overflow-y: auto;
+    padding: 22px 18px 14px;
+  }
+  .kt-sol-panel { border-right: 1px solid var(--kt-cizgi); }
+  .kt-sag-panel { border-left: 1px solid var(--kt-cizgi); }
+
+  /* Sağ panel içeriği — scroll olmadan sığsın */
+  .kt-sag-panel .kt-panel-ic { gap: 14px; }
+  .kt-sag-panel .kt-bolum { gap: 8px; }
+  .kt-sag-panel .kt-bolum-bas { padding-bottom: 5px; }
+  .kt-sag-panel .kt-yan-grup { gap: 6px; }
+  .kt-sag-panel .kt-surukle-ipucu { padding: 6px 9px; font-size: 10px; }
+  .kt-sag-panel textarea.kt-giris { height: 54px; min-height: 0; resize: none; overflow: hidden; padding: 7px 10px; }
+  .kt-sag-panel input.kt-giris { padding: 7px 10px; }
+  .kt-sag-panel .kt-font-sec { padding: 5px 8px; font-size: 11px; }
+  .kt-sag-panel .kt-ctrl-btn { height: 26px; min-width: 26px; font-size: 14px; }
+  .kt-sag-panel .kt-ctrl-satir { gap: 5px; }
+  .kt-sag-panel .kt-ctrl-deger { font-size: 11px; min-width: 28px; }
+  .kt-sag-panel .kt-ctrl-etiket { font-size: 9px; min-width: 34px; }
+
+  .kt-panel-ic { max-width: none; gap: 24px; }
   .kt-alanlar { grid-template-columns: 1fr 1fr; gap: 14px 12px; }
   .kt-alan-tam { grid-column: 1/-1; }
 
-  .kt-panel-aksiyonlar { display: none; }
+  .kt-panel-aksiyonlar { display: flex; }
 
-  .kt-onizleme { flex: 1; padding: 36px; overflow: hidden; }
+  .kt-onizleme { flex: 1; padding: 40px 32px; overflow: hidden; }
   .kt-kapak-sahne {
     max-width: none; width: auto; height: 100%;
     max-height: calc(100vh - 120px);
@@ -442,7 +478,16 @@
   }
 }
 
+@media (max-width: 879px) {
+  /* Mobil: görsel → önizleme → yazılar */
+  .kt-app { flex-direction: column; }
+  .kt-sol-panel { order: 0; }
+  .kt-onizleme { order: 1; }
+  .kt-sag-panel { order: 2; }
+  .kt-panel-aksiyonlar { display: flex; }
+}
+
 @media (max-width: 359px) {
-  .kt-panel { padding: 16px 14px 20px; }
+  .kt-sol-panel, .kt-sag-panel { padding: 16px 14px 20px; }
   .kt-onizleme { padding: 18px 12px 28px; }
 }

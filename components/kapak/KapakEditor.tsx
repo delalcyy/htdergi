@@ -39,13 +39,13 @@ const LOGO_RENKLERI = [
 ];
 
 const FONTLAR = [
-  { label: "Inter",            value: "Inter, system-ui, sans-serif" },
-  { label: "Playfair Display", value: "'Playfair Display', Georgia, serif" },
-  { label: "Oswald",           value: "'Oswald', sans-serif" },
-  { label: "Montserrat",       value: "'Montserrat', sans-serif" },
-  { label: "Raleway",          value: "'Raleway', sans-serif" },
-  { label: "Roboto Condensed", value: "'Roboto Condensed', sans-serif" },
-  { label: "EB Garamond",      value: "'EB Garamond', Georgia, serif" },
+  { label: "Cormorant Garamond", value: "'Cormorant Garamond', Georgia, serif" },
+  { label: "Bebas Neue",         value: "'Bebas Neue', sans-serif" },
+  { label: "Cinzel",             value: "'Cinzel', Georgia, serif" },
+  { label: "Josefin Sans",       value: "'Josefin Sans', sans-serif" },
+  { label: "Playfair Display",   value: "'Playfair Display', Georgia, serif" },
+  { label: "Abril Fatface",      value: "'Abril Fatface', Georgia, serif" },
+  { label: "Lora",               value: "'Lora', Georgia, serif" },
 ];
 
 const BARKOD = (
@@ -157,6 +157,14 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
   const [mounted, setMounted]                 = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
+
+  // Tüm fontları önceden yükle — seçince anında görünsün
+  useEffect(() => {
+    FONTLAR.forEach(f => {
+      const name = f.value.match(/'([^']+)'/)?.[1] ?? f.value.split(",")[0].trim();
+      document.fonts.load(`600 24px "${name}"`).catch(() => {});
+    });
+  }, []);
 
   useImperativeHandle(ref, () => ({
     async capture() {
@@ -545,8 +553,8 @@ window.addEventListener('load',function(){
   const content = (
     <div className={`kt-app${embedded ? " kt-app--embedded" : ""}`}>
 
-      {/* ══════ PANEL ══════ */}
-      <section className="kt-panel">
+      {/* ══════ SOL PANEL ══════ */}
+      <section className="kt-panel kt-sol-panel">
         <div className="kt-panel-ic">
 
           {/* 01 Kapak Fotoğrafı */}
@@ -659,80 +667,6 @@ window.addEventListener('load',function(){
             )}
           </div>
 
-          {/* 02 Metinler */}
-          <div className="kt-bolum">
-            <div className="kt-bolum-bas">
-              <span className="kt-bolum-no">02</span>
-              <span className="kt-bolum-ad">{t("cover.editor.section02")}</span>
-            </div>
-            <div className="kt-alanlar">
-              <div className="kt-alan kt-alan-tam">
-                <div className="kt-etiket-satir">
-                  <label className="kt-etiket">{t("cover.editor.nameLabel")}</label>
-                  <label className="kt-renk-kap">
-                    <span>{t("cover.editor.colorLabel")}</span>
-                    <input type="color" value={baslikRenk}
-                      onChange={e => setBaslikRenk(e.target.value)}
-                      className="kt-renk-giris" />
-                  </label>
-                </div>
-                <input className="kt-giris" type="text" value={ad}
-                  onChange={e => setAd(e.target.value)}
-                  placeholder={t("cover.editor.namePlaceholder")} maxLength={40} />
-              </div>
-              <div className="kt-alan kt-alan-tam">
-                <label className="kt-etiket">{t("cover.editor.subtitleLabel")} <span className="kt-isteğe-bagli">{t("cover.editor.optional")}</span></label>
-                <textarea className="kt-giris" value={altBaslik}
-                  onChange={e => setAltBaslik(e.target.value)}
-                  placeholder={t("cover.editor.subtitlePlaceholder")} maxLength={120} rows={2} />
-              </div>
-            </div>
-          </div>
-
-          {/* 03 Yan Yazılar */}
-          <div className="kt-bolum">
-            <div className="kt-bolum-bas">
-              <span className="kt-bolum-no">03</span>
-              <span className="kt-bolum-ad">{t("cover.editor.section03")}</span>
-            </div>
-            <p className="kt-surukle-ipucu">{t("cover.editor.dragTip")}</p>
-
-            {(["sol1", "sag1", "sol2", "sag2"] as YaziKey[]).map((key) => {
-              const etiket = t(`cover.editor.textLabel_${key}`);
-              return (
-                <div key={key} className="kt-yan-grup">
-                  <div className="kt-yan-bas">
-                    <span className="kt-yan-etiket">{etiket}</span>
-                    <label className="kt-renk-kap">
-                      <span>{t("cover.editor.colorLabel")}</span>
-                      <input type="color" value={yazilar[key].renk}
-                        onChange={e => yaziGuncelle(key, "renk", e.target.value)}
-                        className="kt-renk-giris" />
-                    </label>
-                  </div>
-                  <textarea className="kt-giris" rows={2} maxLength={80}
-                    value={yazilar[key].metin}
-                    onChange={e => yaziGuncelle(key, "metin", kelimeSiniri(e.target.value))}
-                    placeholder={`${etiket}...`} />
-                  <select className="kt-font-sec" value={yazilar[key].font}
-                    onChange={e => yaziGuncelle(key, "font", e.target.value)}>
-                    {FONTLAR.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
-                  </select>
-                  <div className="kt-ctrl-satir">
-                    <span className="kt-ctrl-etiket" style={{ color: "var(--kt-etiket)" }}>{t("cover.editor.size")}</span>
-                    <button className="kt-ctrl-btn"
-                      onClick={() => yaziGuncelle(key, "boyut", Math.max(0.8, +(yazilar[key].boyut - 0.1).toFixed(1)))}>−</button>
-                    <span className="kt-ctrl-deger" style={{ color: "var(--kt-etiket)" }}>
-                      {yazilar[key].boyut.toFixed(1)}
-                    </span>
-                    <button className="kt-ctrl-btn"
-                      onClick={() => yaziGuncelle(key, "boyut", Math.min(5, +(yazilar[key].boyut + 0.1).toFixed(1)))}>+</button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
           {/* 04 Arka Plan Rengi */}
           <div className="kt-bolum">
             <div className="kt-bolum-bas">
@@ -782,24 +716,7 @@ window.addEventListener('load',function(){
             </div>
           )}
 
-          {/* Mobil butonlar */}
-          <div className="kt-panel-aksiyonlar">
-            <button className="kt-btn kt-btn-ghost" onClick={handleSifirla}>{t("cover.editor.resetBtn")}</button>
-            <button className="kt-btn kt-btn-koyu" onClick={handleIndir} disabled={dışaAktariliyor || !bgFoto}>
-              {dışaAktariliyor ? t("cover.editor.processing") : t("cover.editor.downloadBtn")}
-            </button>
-          </div>
-
-          {!embedded && (
-            <div className="kt-devam">
-              <div className="kt-devam-cizgi" />
-              <button className="kt-devam-btn" onClick={handleKaydetDevam} disabled={kaydediliyor}>
-                {kaydediliyor ? t("cover.editor.saving") : t("cover.editor.saveBtn")}
-                <span className="kt-ok">→</span>
-              </button>
-            </div>
-          )}
-
+          {/* Butonlar */}
         </div>
       </section>
 
@@ -860,10 +777,10 @@ window.addEventListener('load',function(){
 
             {/* Sürüklenebilir yan yazılar */}
             {([
-              { key: "sol1" as YaziKey, hizala: "left",  genislik: "50%" },
-              { key: "sag1" as YaziKey, hizala: "right", genislik: "40%" },
-              { key: "sol2" as YaziKey, hizala: "left",  genislik: "50%" },
-              { key: "sag2" as YaziKey, hizala: "right", genislik: "40%" },
+              { key: "sol1" as YaziKey, hizala: "left", genislik: "40%" },
+              { key: "sag1" as YaziKey, hizala: "left", genislik: "40%" },
+              { key: "sol2" as YaziKey, hizala: "left", genislik: "40%" },
+              { key: "sag2" as YaziKey, hizala: "left", genislik: "40%" },
             ]).map(({ key, hizala, genislik }) => (
               <textarea
                 key={key}
@@ -880,7 +797,7 @@ window.addEventListener('load',function(){
                   color:      yazilar[key].renk,
                   fontSize:   `${yazilar[key].boyut}cqh`,
                   fontFamily: yazilar[key].font,
-                  textAlign:  hizala as "left" | "right",
+                  textAlign:  yazilar[key].x >= 40 ? "right" : yazilar[key].x >= 20 ? "center" : "left",
                   width:      genislik,
                 }}
               />
@@ -915,6 +832,81 @@ window.addEventListener('load',function(){
               {kaydediliyor ? t("cover.editor.saving") : t("cover.editor.saveBtnShort")}
             </button>
           )}
+        </div>
+      </section>
+
+      {/* ══════ SAĞ PANEL ══════ */}
+      <section className="kt-panel kt-sag-panel">
+        <div className="kt-panel-ic">
+
+          {/* 02 Metinler */}
+          <div className="kt-bolum">
+            <div className="kt-bolum-bas">
+              <span className="kt-bolum-no">02</span>
+              <span className="kt-bolum-ad">{t("cover.editor.section02")}</span>
+            </div>
+            <div className="kt-alanlar">
+              <div className="kt-alan kt-alan-tam">
+                <div className="kt-etiket-satir">
+                  <label className="kt-etiket">{t("cover.editor.nameLabel")}</label>
+                  <label className="kt-renk-kap">
+                    <span>{t("cover.editor.colorLabel")}</span>
+                    <input type="color" value={baslikRenk}
+                      onChange={e => setBaslikRenk(e.target.value)}
+                      className="kt-renk-giris" />
+                  </label>
+                </div>
+                <input className="kt-giris" type="text" value={ad}
+                  onChange={e => setAd(e.target.value)}
+                  placeholder={t("cover.editor.namePlaceholder")} maxLength={40} />
+              </div>
+            </div>
+          </div>
+
+          {/* 03 Yan Yazılar */}
+          <div className="kt-bolum">
+            <div className="kt-bolum-bas">
+              <span className="kt-bolum-no">03</span>
+              <span className="kt-bolum-ad">{t("cover.editor.section03")}</span>
+            </div>
+            <p className="kt-surukle-ipucu">{t("cover.editor.dragTip")}</p>
+
+            {(["sol1", "sag1", "sol2", "sag2"] as YaziKey[]).map((key) => {
+              const etiket = t(`cover.editor.textLabel_${key}`);
+              return (
+                <div key={key} className="kt-yan-grup">
+                  <div className="kt-yan-bas">
+                    <span className="kt-yan-etiket">{etiket}</span>
+                    <label className="kt-renk-kap">
+                      <span>{t("cover.editor.colorLabel")}</span>
+                      <input type="color" value={yazilar[key].renk}
+                        onChange={e => yaziGuncelle(key, "renk", e.target.value)}
+                        className="kt-renk-giris" />
+                    </label>
+                  </div>
+                  <textarea className="kt-giris" rows={2} maxLength={80}
+                    value={yazilar[key].metin}
+                    onChange={e => yaziGuncelle(key, "metin", kelimeSiniri(e.target.value))}
+                    placeholder={`${etiket}...`} />
+                  <select className="kt-font-sec" value={yazilar[key].font}
+                    onChange={e => yaziGuncelle(key, "font", e.target.value)}>
+                    {FONTLAR.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+                  </select>
+                  <div className="kt-ctrl-satir">
+                    <span className="kt-ctrl-etiket" style={{ color: "var(--kt-etiket)" }}>{t("cover.editor.size")}</span>
+                    <button className="kt-ctrl-btn"
+                      onClick={() => yaziGuncelle(key, "boyut", Math.max(0.8, +(yazilar[key].boyut - 0.1).toFixed(1)))}>−</button>
+                    <span className="kt-ctrl-deger" style={{ color: "var(--kt-etiket)" }}>
+                      {yazilar[key].boyut.toFixed(1)}
+                    </span>
+                    <button className="kt-ctrl-btn"
+                      onClick={() => yaziGuncelle(key, "boyut", Math.min(5, +(yazilar[key].boyut + 0.1).toFixed(1)))}>+</button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
       </section>
 

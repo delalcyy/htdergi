@@ -696,7 +696,7 @@
       "bgLayer": "Arka",
       "fgLayer": "Ön",
       "nameLabel": "Ad Soyad",
-      "colorLabel": "Renk",
+      "colorLabel": "Yazı Rengi",
       "subtitleLabel": "Alt Başlık",
       "optional": "(İsteğe bağlı)",
       "namePlaceholder": "Adınız Soyadınız",
