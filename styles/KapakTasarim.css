@@ -543,9 +543,6 @@
 /* ════════════════════════════════
    MOBİL ARAÇ ÇUBUĞU BUTONU
    ════════════════════════════════ */
-.kt-mobil-ust-bar,
-.kt-mobil-alt-bar { display: none; } /* masaüstünde gizli */
-
 .kt-araç-btn {
   flex: 1;
   display: flex;
@@ -678,8 +675,10 @@
   background: var(--kt-altin-acik);
 }
 
-/* Masaüstünde drawer/overlay gizli */
+/* Masaüstünde drawer/overlay ve mobil barlar gizli */
 @media (min-width: 880px) {
   .kt-drawer,
   .kt-drawer-overlay { display: none; }
+  .kt-mobil-ust-bar,
+  .kt-mobil-alt-bar { display: none; }
 }
