@@ -40,6 +40,22 @@
   min-height: 0;
 }
 
+/* Ana sayfa geri linki — sol panelde */
+.kt-geri-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--kt-soluk);
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color .15s;
+}
+.kt-geri-link:hover { color: var(--kt-ink); }
+
 /* ════════════════════════════════
    PANEL (editör tarafı)
    ════════════════════════════════ */
@@ -353,8 +369,9 @@
 
 /* Alt bilgi */
 .kt-kapak-alt {
-  position: absolute; left: 2cqw; right: 2cqw; bottom: 6cqh;
+  position: absolute; left: 0.5cqw; right: 2cqw; bottom: 6cqh;
   display: flex; flex-direction: column; align-items: flex-start;
+  pointer-events: none;
 }
 .kt-kapak-baslik {
   font-family: var(--kt-serif); font-weight: 700; font-size: 5cqh;
@@ -362,6 +379,8 @@
   white-space: normal; word-break: break-word; overflow-wrap: break-word;
   text-transform: uppercase;
   text-shadow: 0 1px 6px rgba(0,0,0,.7);
+  pointer-events: auto !important;
+  cursor: pointer;
 }
 .kt-baslik-ta {
   background: transparent !important;

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import "@/styles/footer.css";
 
@@ -13,7 +14,10 @@ export default function Footer() {
         <div className="ftr-top">
           {/* Marka */}
           <div className="ftr-brand">
-            <Link href="/" className="ftr-logo">Hatıra Dergi</Link>
+            <Link href="/" className="ftr-logo">
+              <Image src="/logo6.png" alt="Hatıra Dergi" width={120} height={38} style={{ objectFit: "contain", height: "38px", width: "auto", display: "block", filter: "invert(1) hue-rotate(180deg)" }} />
+              <span className="ftr-logo-text">HATIRA DERGİ</span>
+            </Link>
             <p className="ftr-tagline">{t("footer.tagline")}</p>
             <div className="ftr-social">
               <a href="#" className="ftr-social-link" aria-label="Instagram">
@@ -100,11 +104,11 @@ export default function Footer() {
         </div>
 
         <div className="ftr-bottom">
-          <span>© {new Date().getFullYear()} Hatıra Dergi. {t("footer.copyright")}</span>
+          <span style={{ color: "#fff" }}>Hatıra Dergi © {new Date().getFullYear()} • Tüm Hakları Saklıdır</span>
           <div className="ftr-legal">
-            <Link href="/gizlilik" className="ftr-legal-link">Gizlilik</Link>
-            <Link href="/teslimat-iade" className="ftr-legal-link">Teslimat &amp; İade</Link>
-            <Link href="/mesafeli-satis-sozlesmesi" className="ftr-legal-link">Mesafeli Satış</Link>
+            <Link href="/gizlilik" className="ftr-legal-link" style={{ color: "#ccc" }}>Gizlilik</Link>
+            <Link href="/teslimat-iade" className="ftr-legal-link" style={{ color: "#ccc" }}>Teslimat &amp; İade</Link>
+            <Link href="/mesafeli-satis-sozlesmesi" className="ftr-legal-link" style={{ color: "#ccc" }}>Mesafeli Satış</Link>
           </div>
         </div>
       </div>

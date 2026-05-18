@@ -22,14 +22,30 @@
 /* ── Marka kolonu ────────────────────────────────────── */
 
 .ftr-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  margin-bottom: 0.875rem;
+}
+
+.ftr-logo-text {
   font-family: var(--font-playfair), Georgia, serif;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #fff;
-  text-decoration: none;
-  letter-spacing: 0.02em;
-  display: block;
-  margin-bottom: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ftr-logo-img-wrap {
+  background: #fff;
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .ftr-tagline {
@@ -155,7 +171,7 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   font-size: 0.75rem;
-  color: #444;
+  color: #ffffff !important;
 }
 
 .ftr-legal {
@@ -165,13 +181,13 @@
 
 .ftr-legal-link {
   font-size: 0.75rem;
-  color: #444;
+  color: #ffffff !important;
   text-decoration: none;
   transition: color 0.15s;
 }
 
 .ftr-legal-link:hover {
-  color: #888;
+  color: #fff;
 }
 
 /* ── Responsive ──────────────────────────────────────── */
@@ -193,22 +209,49 @@
 
 @media (max-width: 640px) {
   .ftr-inner {
-    padding: 3rem 1.25rem 1.5rem;
+    padding: 2.5rem 1.25rem 1.5rem;
   }
 
   .ftr-top {
     grid-template-columns: 1fr 1fr;
-    gap: 1.75rem;
-    padding-bottom: 2rem;
+    gap: 1.5rem;
+    padding-bottom: 1.75rem;
   }
 
   .ftr-brand {
     grid-column: 1 / -1;
   }
 
+  .ftr-tagline {
+    max-width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .ftr-col-title {
+    font-size: 0.7rem;
+  }
+
+  .ftr-link, .ftr-info {
+    font-size: 0.8rem;
+  }
+
+  .ftr-payment-logos {
+    gap: 8px;
+  }
+
+  .ftr-pay-badge {
+    height: 28px;
+    padding: 4px 8px;
+  }
+
   .ftr-bottom {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+
+  .ftr-legal {
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 }

@@ -841,6 +841,13 @@ window.addEventListener('load',function(){
 
       {/* ══════ MOBİL ÜST BAR ══════ */}
       <div className="kt-mobil-ust-bar">
+        <a href="/" className="kt-araç-btn" title="Ana Sayfa">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Çıkış</span>
+        </a>
         <button className={`kt-araç-btn${acikDrawer === "bg-foto" ? " kt-araç-btn--aktif" : ""}`}
           onClick={() => setAcikDrawer(acikDrawer === "bg-foto" ? null : "bg-foto")}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -1165,7 +1172,6 @@ window.addEventListener('load',function(){
                 {altBaslik.trim() && (
                   <div className="kt-kapak-altbaslik">{altBaslik.trim()}</div>
                 )}
-                <div className="kt-kapak-edition">İLKBAHAR 2026</div>
               </div>
               <div className="kt-kapak-barkod">{BARKOD}</div>
             </div>
@@ -1198,6 +1204,14 @@ window.addEventListener('load',function(){
       {/* ══════ SAĞ PANEL ══════ */}
       <section className="kt-panel kt-sag-panel">
         <div className="kt-panel-ic">
+
+          {/* Ana Sayfa linki — masaüstünde sağ panelin üstünde */}
+          <a href="/" className="kt-geri-link">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            Ana Sayfaya Dön
+          </a>
 
           {/* 02 Metinler */}
           <div className="kt-bolum">

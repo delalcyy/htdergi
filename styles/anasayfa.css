@@ -245,6 +245,7 @@ font-family: var(--font-cormorant), serif;
 
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 960px) {
+  .hp-hero { padding: 48px 0 64px; }
   .hp-hero-wrap { grid-template-columns: 1fr; }
   .hp-cover-stage { margin: 0 auto; max-width: 340px; }
   .hp-cover-stage::after { display: none; }
