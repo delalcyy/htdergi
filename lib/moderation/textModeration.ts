@@ -1,10 +1,22 @@
 import { blockedWords } from "./blockedWords";
 
-// Metni normalize et: Türkçe karakter, büyük/küçük harf,
-// boşluk, noktalama ve araya eklenen karakterler sıfırlanır.
-function normalize(text: string): string {
+/**
+ * Metni normalize eder:
+ * 1. Leet speak sayıları harfe çevirir  (4→a, 3→e, 1→i, 0→o, 5→s)
+ * 2. Türkçe karakterleri ASCII'ye çevirir (ı→i, ş→s, ç→c, ö→o, ü→u, ğ→g)
+ * 3. Küçük harfe çevirir
+ * 4. Harf olmayan her şeyi siler (boşluk, noktalama, özel karakter, rakam)
+ */
+export function normalizeText(text: string): string {
   return text
     .toLowerCase()
+    // Leet speak
+    .replace(/4|@/g, "a")
+    .replace(/3/g, "e")
+    .replace(/1|!/g, "i")
+    .replace(/0/g, "o")
+    .replace(/5|\$/g, "s")
+    // Türkçe karakterler
     .replace(/İ/g, "i")
     .replace(/ı/g, "i")
     .replace(/ğ/g, "g")
@@ -12,20 +24,43 @@ function normalize(text: string): string {
     .replace(/ç/g, "c")
     .replace(/ö/g, "o")
     .replace(/ü/g, "u")
-    .replace(/[^a-z]/g, ""); // tüm boşluk, noktalama, rakam vs. çıkar
+    // Harf olmayan her şeyi sil
+    .replace(/[^a-z]/g, "");
 }
 
-// Yasaklı kelimeleri bir kere normalize et
-const normalizedBlocked = blockedWords.map(normalize);
+/**
+ * Yasaklı kelimeden regex pattern üretir.
+ * Her harf tekrarlı eşleşebilsin: "amcik" → /a+m+c+i+k+/
+ * Böylece "ammcık", "a.m.c.ı.k", "amciiiik" hepsi yakalanır.
+ */
+function buildPattern(word: string): RegExp | null {
+  const normalized = normalizeText(word);
+  if (!normalized) return null;
+  const pattern = normalized
+    .split("")
+    .map((c) => c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "+")
+    .join("");
+  return new RegExp(pattern);
+}
 
-// Tek bir metinde yasaklı kelime var mı?
+// Modül yüklendiğinde tüm pattern'leri bir kez derle
+const compiled: RegExp[] = blockedWords
+  .map(buildPattern)
+  .filter((p): p is RegExp => p !== null);
+
+/**
+ * Tek bir metinde yasaklı kelime var mı?
+ * amcık / ammcık / a.m.c.ı.k / 4mcık / amciiiik → hepsi yakalanır
+ */
 export function containsBlockedWord(text: string | null | undefined): boolean {
   if (!text) return false;
-  const normalized = normalize(text);
-  return normalizedBlocked.some((blocked) => normalized.includes(blocked));
+  const normalized = normalizeText(text);
+  return compiled.some((pattern) => pattern.test(normalized));
 }
 
-// Birden fazla alanı tek çağrıyla kontrol et
+/**
+ * Birden fazla alanı tek çağrıyla kontrol et
+ */
 export function moderateTexts(
   texts: (string | null | undefined)[]
 ): boolean {
