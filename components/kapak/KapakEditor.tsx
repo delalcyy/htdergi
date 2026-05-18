@@ -161,6 +161,28 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
 
   useEffect(() => { setMounted(true); }, []);
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "PrintScreen" || e.code === "PrintScreen") {
+        e.preventDefault();
+        setToast("Bu alanda ekran görüntüsü alınamaz.");
+        if (toastTimer.current) clearTimeout(toastTimer.current);
+        toastTimer.current = setTimeout(() => setToast(null), 2200);
+      }
+    };
+    document.addEventListener("keydown", handler, true);
+    return () => document.removeEventListener("keydown", handler, true);
+  }, []);
+
+  useEffect(() => {
+    const blockTouch = (e: TouchEvent) => {
+      const t = e.target as Element;
+      if (!t?.closest?.(".kt-drawer-ic")) e.preventDefault();
+    };
+    document.addEventListener("touchmove", blockTouch, { passive: false });
+    return () => document.removeEventListener("touchmove", blockTouch);
+  }, []);
+
   // Tüm fontları önceden yükle — seçince anında görünsün
   useEffect(() => {
     FONTLAR.forEach(f => {
@@ -190,7 +212,7 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
   const dosyaRef   = useRef<HTMLInputElement>(null);
   const onDosyaRef = useRef<HTMLInputElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const yaziRefs   = useRef<Record<YaziKey, HTMLTextAreaElement | null>>({
+  const yaziRefs   = useRef<Record<YaziKey, HTMLElement | null>>({
     sol1: null, sag1: null, sol2: null, sag2: null,
   });
 
@@ -205,7 +227,7 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
       const rect = kapakRef.current.getBoundingClientRect();
       kapakW = rect.width;
       kapakH = rect.height;
-      kapakRef.current.querySelectorAll<HTMLTextAreaElement>("textarea.kt-yazi-ta")
+      kapakRef.current.querySelectorAll<HTMLElement>(".kt-yazi-ta")
         .forEach(ta => {
           const cs = window.getComputedStyle(ta);
           const tr = ta.getBoundingClientRect();
@@ -238,8 +260,8 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
         if (onBase64) img.src = onBase64;
       });
 
-      /* Textarea → div: tüm computed değerler px olarak uygulanır */
-      el.querySelectorAll<HTMLTextAreaElement>("textarea.kt-yazi-ta").forEach((ta, idx) => {
+      /* Yazi div → yeni div: tüm computed değerler px olarak uygulanır */
+      el.querySelectorAll<HTMLElement>(".kt-yazi-ta").forEach((ta, idx) => {
         const s = taStyles[idx];
         const div = _doc.createElement("div");
         /* Pozisyon ve boyut tamamen computed px değerlerden: yüzde/cqh bağımlılığı yok */
@@ -269,7 +291,23 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
           "z-index:250",
           "pointer-events:none",
         ].join(";");
-        div.textContent = ta.value;
+        div.textContent = ta.textContent;
+        ta.parentNode?.replaceChild(div, ta);
+      });
+
+      /* Ad soyad textarea → div */
+      el.querySelectorAll<HTMLTextAreaElement>("textarea.kt-baslik-ta").forEach(ta => {
+        const cs = window.getComputedStyle(ta);
+        const div = _doc.createElement("div");
+        div.style.cssText = [
+          `font-size:${cs.fontSize}`, `font-family:${cs.fontFamily}`,
+          `font-weight:${cs.fontWeight}`, `color:${cs.color}`,
+          `line-height:${cs.lineHeight}`, `letter-spacing:${cs.letterSpacing}`,
+          `text-transform:uppercase`, `word-break:break-word`,
+          "background:transparent", "border:none", "padding:0",
+          "white-space:pre-wrap", "width:100%",
+        ].join(";");
+        div.textContent = ta.value.toUpperCase() || "AD SOYAD";
         ta.parentNode?.replaceChild(div, ta);
       });
     };
@@ -387,7 +425,6 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
       const cy = t ? t.clientY : (ev as MouseEvent).clientY;
       if (!surukleniyor && (Math.abs(cx - sx) > 8 || Math.abs(cy - sy) > 8)) {
         surukleniyor = true;
-        yaziRefs.current[anahtar]?.blur();
         window.getSelection()?.removeAllRanges();
       }
       if (!surukleniyor) return;
@@ -406,6 +443,11 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
       document.removeEventListener("mouseup", birak);
       document.removeEventListener("touchmove", hareket);
       document.removeEventListener("touchend", birak);
+      /* Sürükleme olmadıysa tap → drawer aç */
+      if (!surukleniyor) {
+        setSecilenYazi(anahtar);
+        setAcikDrawer("yan-yazilar");
+      }
     }
     document.addEventListener("mousemove", hareket);
     document.addEventListener("mouseup", birak);
@@ -710,7 +752,7 @@ window.addEventListener('load',function(){
             </div>
             <input className="kt-giris" type="text" value={ad}
               onChange={e => setAd(e.target.value)}
-              placeholder={t("cover.editor.namePlaceholder")} maxLength={40} />
+              placeholder={t("cover.editor.namePlaceholder")} />
           </div>
         </div>
       );
@@ -977,8 +1019,31 @@ window.addEventListener('load',function(){
             className="kt-kapak"
             ref={kapakRef}
             style={{ cursor: (bgFoto || onFoto) ? "grab" : "default" }}
+            onContextMenu={e => e.preventDefault()}
             onMouseDown={e => suruklHedef === "fg" && onFoto ? onSuruklBasla(e) : bgSuruklBasla(e)}
-            onTouchStart={e => suruklHedef === "fg" && onFoto ? onSuruklBasla(e) : bgSuruklBasla(e)}
+            onTouchStart={e => {
+              if (e.touches.length === 2 && (bgFoto || onFoto)) {
+                e.preventDefault();
+                const t1 = e.touches[0], t2 = e.touches[1];
+                const initDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+                const initZoom = suruklHedef === "fg" && onFoto ? onZoom : bgZoom;
+                function pinchMove(ev: TouchEvent) {
+                  if (ev.touches.length !== 2) return;
+                  if (ev.cancelable) ev.preventDefault();
+                  const d = Math.hypot(ev.touches[1].clientX - ev.touches[0].clientX, ev.touches[1].clientY - ev.touches[0].clientY);
+                  const z = Math.max(0.3, Math.min(3, +(initZoom * d / initDist).toFixed(2)));
+                  suruklHedef === "fg" && onFoto ? setOnZoom(z) : setBgZoom(z);
+                }
+                function pinchEnd() {
+                  document.removeEventListener("touchmove", pinchMove);
+                  document.removeEventListener("touchend", pinchEnd);
+                }
+                document.addEventListener("touchmove", pinchMove, { passive: false });
+                document.addEventListener("touchend", pinchEnd);
+              } else {
+                suruklHedef === "fg" && onFoto ? onSuruklBasla(e) : bgSuruklBasla(e);
+              }
+            }}
           >
             {/* Arka plan */}
             <div className="kt-kapak-bg">
@@ -990,9 +1055,9 @@ window.addEventListener('load',function(){
               )}
             </div>
 
-            {/* Boş durum */}
+            {/* Boş durum — tıklayınca fotoğraf yükle */}
             {!bgFoto && (
-              <div className="kt-kapak-bos">
+              <div className="kt-kapak-bos" onClick={() => dosyaRef.current?.click()} style={{ cursor: "pointer" }}>
                 <div className="kt-kapak-bos-ikon">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -1025,20 +1090,17 @@ window.addEventListener('load',function(){
 
             {/* Sürüklenebilir yan yazılar */}
             {([
-              { key: "sol1" as YaziKey, hizala: "left", genislik: "40%" },
-              { key: "sag1" as YaziKey, hizala: "left", genislik: "40%" },
-              { key: "sol2" as YaziKey, hizala: "left", genislik: "40%" },
-              { key: "sag2" as YaziKey, hizala: "left", genislik: "40%" },
-            ]).map(({ key, hizala, genislik }) => (
-              <textarea
+              { key: "sol1" as YaziKey, genislik: "40%" },
+              { key: "sag1" as YaziKey, genislik: "40%" },
+              { key: "sol2" as YaziKey, genislik: "40%" },
+              { key: "sag2" as YaziKey, genislik: "40%" },
+            ]).map(({ key, genislik }) => (
+              <div
                 key={key}
                 ref={el => { yaziRefs.current[key] = el; }}
                 className="kt-yazi-ta"
-                value={yazilar[key].metin}
-                onChange={e => yaziGuncelle(key, "metin", kelimeSiniri(e.target.value))}
                 onMouseDown={e => yaziSuruklBasla(e, key)}
                 onTouchStart={e => yaziSuruklBasla(e, key)}
-                rows={4} maxLength={80}
                 style={{
                   left:       `${yazilar[key].x}%`,
                   top:        `${yazilar[key].y}%`,
@@ -1048,14 +1110,22 @@ window.addEventListener('load',function(){
                   textAlign:  yazilar[key].x >= 40 ? "right" : yazilar[key].x >= 20 ? "center" : "left",
                   width:      genislik,
                 }}
-              />
+              >
+                {yazilar[key].metin}
+              </div>
             ))}
 
             {/* Alt bilgi */}
             <div className="kt-kapak-icerik">
               <div className="kt-kapak-alt">
-                <div className="kt-kapak-baslik" style={{ color: baslikRenk }}>
-                  {gosterAd.toUpperCase()}
+                <div
+                  className="kt-kapak-baslik kt-baslik-tap"
+                  style={{ color: baslikRenk, cursor: "pointer" }}
+                  onMouseDown={e => e.stopPropagation()}
+                  onTouchEnd={e => { e.stopPropagation(); e.preventDefault(); setAcikDrawer("isim"); }}
+                  onClick={() => setAcikDrawer("isim")}
+                >
+                  {ad.trim() || <span style={{ opacity: 0.72 }}>AD SOYAD</span>}
                 </div>
                 {altBaslik.trim() && (
                   <div className="kt-kapak-altbaslik">{altBaslik.trim()}</div>
@@ -1106,7 +1176,7 @@ window.addEventListener('load',function(){
                 </div>
                 <input className="kt-giris" type="text" value={ad}
                   onChange={e => setAd(e.target.value)}
-                  placeholder={t("cover.editor.namePlaceholder")} maxLength={40} />
+                  placeholder={t("cover.editor.namePlaceholder")} />
               </div>
             </div>
           </div>

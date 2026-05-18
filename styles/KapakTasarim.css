@@ -353,13 +353,43 @@
 
 /* Alt bilgi */
 .kt-kapak-alt {
-  position: absolute; left: 2cqw; right: 28cqw; bottom: 6cqh;
+  position: absolute; left: 2cqw; right: 2cqw; bottom: 6cqh;
   display: flex; flex-direction: column; align-items: flex-start;
 }
 .kt-kapak-baslik {
   font-family: var(--kt-serif); font-weight: 700; font-size: 5cqh;
   line-height: 1.02; letter-spacing: -0.005em;
-  word-break: break-word; text-transform: uppercase;
+  white-space: nowrap; text-transform: uppercase;
+  text-shadow: 0 1px 6px rgba(0,0,0,.7);
+}
+.kt-baslik-ta {
+  background: transparent !important;
+  border: 1px solid transparent;
+  outline: none; resize: none;
+  padding: 0; margin: 0;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  box-sizing: border-box;
+  display: block;
+  height: 5.5cqh;
+  text-transform: uppercase;
+  font-family: var(--kt-serif); font-weight: 700; font-size: 5cqh;
+  line-height: 1.02; letter-spacing: -0.005em;
+  white-space: nowrap;
+  pointer-events: auto !important;
+  touch-action: pan-x;
+  cursor: text;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+}
+.kt-baslik-ta::-webkit-scrollbar { display: none; }
+.kt-baslik-ta::placeholder { color: rgba(255,255,255,.35); text-transform: uppercase; }
+.kt-baslik-ta:hover { border-color: rgba(255,255,255,.4); }
+.kt-baslik-ta:focus {
+  border-color: rgba(255,255,255,.85);
+  background: rgba(0,0,0,.2) !important;
 }
 .kt-kapak-altbaslik {
   font-size: 2.4cqh; line-height: 1.5; color: rgba(255,255,255,.9);
@@ -412,10 +442,22 @@
   color: var(--kt-etiket); font-family: var(--kt-sans);
 }
 
-/* Mobil scroll fix */
+/* Sayfa kaymasını tamamen engelle */
 .kt-app {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+.kt-kapak {
+  touch-action: none;
+}
+.kt-drawer-ic {
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+.kt-mobil-ust-bar,
+.kt-mobil-alt-bar {
+  touch-action: manipulation;
 }
 
 /* ════════════════════════════════
@@ -493,18 +535,26 @@
 
   .kt-onizleme {
     flex: 1;
-    padding: 74px 16px;
+    padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    background: var(--kt-paper-alt);
   }
 
   .kt-kapak-sahne {
-    max-width: none;
+    max-width: 100%;
     width: auto;
     height: 100%;
-    max-height: calc(100vh - 148px);
+    max-height: 100%;
+    padding: 0;
+  }
+
+  .kt-kapak-baslik {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   .kt-panel-aksiyonlar { display: flex; }
@@ -514,8 +564,8 @@
     flex-shrink: 0;
     height: 64px;
     display: flex !important;
-    background: red !important;
-    border-bottom: 1px solid var(--kt-cizgi);
+    background: var(--kt-ink);
+    border-bottom: none;
     justify-content: space-around;
     align-items: stretch;
   }
@@ -525,8 +575,8 @@
     flex-shrink: 0;
     height: 64px;
     display: flex !important;
-    background: red !important;
-    border-top: 1px solid var(--kt-cizgi);
+    background: var(--kt-ink);
+    border-top: none;
     justify-content: space-around;
     align-items: stretch;
     padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -556,14 +606,18 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--kt-soluk);
+  color: rgba(255,255,255,.65);
   padding: 8px 4px;
   transition: color .15s, background .15s;
+}
+.kt-araç-btn span,
+.kt-araç-btn svg {
+  color: inherit;
 }
 .kt-araç-btn:hover,
 .kt-araç-btn--aktif {
   color: var(--kt-altin);
-  background: var(--kt-altin-acik);
+  background: rgba(255,255,255,.08);
 }
 .kt-araç-btn:disabled {
   opacity: .4;
@@ -679,4 +733,18 @@
   .kt-drawer-overlay { display: none; }
   .kt-mobil-ust-bar,
   .kt-mobil-alt-bar { display: none; }
+}
+
+/* ════════════════════════════════
+   EKRAN GÖRÜNTÜsÜ ENGELİ
+   ════════════════════════════════ */
+.kt-kapak-sahne {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.kt-kapak-img,
+.kt-kapak-on {
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
 }
