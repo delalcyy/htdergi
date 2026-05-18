@@ -23,7 +23,7 @@ export default function MesafeliSatisSozlesmesiPage() {
     <div style={S.page}>
       <span style={S.eyebrow}>Yasal Bilgiler</span>
       <h1 style={S.h1}>Mesafeli Satış Sözleşmesi</h1>
-      <span style={S.date}>Son güncelleme: Mayıs 2025</span>
+      <span style={S.date}>Son güncelleme: Mayıs 2026</span>
 
       <p style={S.p}>
         İşbu Mesafeli Satış Sözleşmesi (&quot;Sözleşme&quot;), 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği kapsamında, <strong>Hatıra Dergi</strong> (&quot;Satıcı&quot;) ile ürün veya hizmet satın alan kullanıcı (&quot;Alıcı&quot;) arasında kurulmaktadır.

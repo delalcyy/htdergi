@@ -23,7 +23,7 @@ export default function TeslimatIadePage() {
     <div style={S.page}>
       <span style={S.eyebrow}>Yasal Bilgiler</span>
       <h1 style={S.h1}>Teslimat ve İade Şartları</h1>
-      <span style={S.date}>Son güncelleme: Mayıs 2025</span>
+      <span style={S.date}>Son güncelleme: Mayıs 2026</span>
 
       <p style={S.p}>
         Hatıra Dergi, kişiye özel dijital dergi kapağı ve röportaj içeriği hazırlayan bir platformdur. Sunulan ürünler dijital nitelikte olup fiziksel teslimat söz konusu değildir. Bu sayfa, teslimat süreci ve iade koşullarına ilişkin şartlarımızı açıklamaktadır.

@@ -21,7 +21,7 @@ export default function GizlilikPage() {
     <div style={S.page}>
       <span style={S.eyebrow}>Yasal Bilgiler</span>
       <h1 style={S.h1}>Gizlilik Sözleşmesi</h1>
-      <span style={S.date}>Son güncelleme: Mayıs 2025</span>
+      <span style={S.date}>Son güncelleme: Mayıs 2026</span>
 
       <p style={S.p}>
         Hatıra Dergi olarak kişisel verilerinizin güvenliğine büyük önem veriyoruz. Bu Gizlilik Sözleşmesi, <strong>hatiradergi.com</strong> adresinde sunulan hizmetleri kullanırken toplanan, işlenen ve saklanan kişisel verilerinize ilişkin uygulamalarımızı açıklamaktadır.
