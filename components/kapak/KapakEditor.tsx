@@ -266,6 +266,9 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
     }
 
     return (_doc: Document, el: HTMLElement) => {
+      /* Watermark'ı export'tan kaldır */
+      el.querySelectorAll(".kt-watermark").forEach(wm => wm.remove());
+
       /* el = klonlanmış kt-kapak-sahne.
          İçindeki kt-kapak'a piksel boyutunu sabitle → cqh/cqw doğru hesaplanır */
       const innerKapak = el.querySelector<HTMLElement>(".kt-kapak");
@@ -1165,6 +1168,13 @@ window.addEventListener('load',function(){
                 <div className="kt-kapak-edition">İLKBAHAR 2026</div>
               </div>
               <div className="kt-kapak-barkod">{BARKOD}</div>
+            </div>
+
+            {/* Watermark — preview'da görünür, export'ta buildOnclone tarafından kaldırılır */}
+            <div className="kt-watermark" aria-hidden="true">
+              {Array.from({ length: 24 }, (_, i) => (
+                <span key={i} className="kt-watermark-text">HATIRA DERGİ ÖNİZLEME</span>
+              ))}
             </div>
 
           </div>
