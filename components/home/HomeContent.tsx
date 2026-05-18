@@ -21,10 +21,6 @@ export default function HomeContent() {
       <section className="hp-hero">
         <div className="hp-hero-wrap">
           <div className="hp-hero-left">
-            <div className="hp-kicker">
-              <span className="hp-kicker-dot" />
-              {t("home.hero.kicker")}
-            </div>
             <h1 className="hp-h1">
               {t("home.hero.quote")}<br />
               <em>{t("home.hero.quoteEm")}</em>

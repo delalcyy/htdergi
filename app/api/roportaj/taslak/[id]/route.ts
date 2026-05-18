@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getSessionUser, assertOwnership } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { moderateTexts } from "@/lib/moderation/textModeration";
 
 const answerSchema = z.object({
   questionId: z.string().uuid(),
@@ -41,6 +42,10 @@ export async function PUT(request: NextRequest, { params }: Params) {
   const parsed = updateSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ success: false, error: parsed.error.issues[0]?.message }, { status: 400 });
+  }
+
+  if (moderateTexts(parsed.data.answers.map((a) => a.answerText))) {
+    return NextResponse.json({ success: false, error: "Bu içerik yayın kurallarımıza uygun değil." }, { status: 400 });
   }
 
   // Sadece bu categorye ait aktif soru ID'lerini kabul et

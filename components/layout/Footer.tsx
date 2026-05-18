@@ -66,11 +66,45 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Ödeme & güven logoları */}
+        <div className="ftr-payment">
+          <div className="ftr-payment-logos">
+            {/* Visa */}
+            <div className="ftr-pay-badge">
+              <svg viewBox="0 0 60 20" width="48" height="16" aria-label="Visa">
+                <text x="0" y="16" fontFamily="Arial,sans-serif" fontWeight="900" fontSize="17" fill="#1a1f71" letterSpacing="-0.5">VISA</text>
+              </svg>
+            </div>
+            {/* Mastercard */}
+            <div className="ftr-pay-badge">
+              <svg viewBox="0 0 38 24" width="38" height="24" aria-label="Mastercard">
+                <circle cx="14" cy="12" r="10" fill="#eb001b" />
+                <circle cx="24" cy="12" r="10" fill="#f79e1b" />
+                <path d="M19 5.3a10 10 0 0 1 0 13.4A10 10 0 0 1 19 5.3z" fill="#ff5f00" />
+              </svg>
+            </div>
+            {/* iyzico */}
+            <div className="ftr-pay-badge ftr-pay-badge--iyzico">
+              <span>iyzico</span>
+              <span className="ftr-pay-ile">ile Öde</span>
+            </div>
+            {/* Güvenli Ödeme */}
+            <div className="ftr-pay-badge ftr-pay-badge--ssl">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span>Güvenli Ödeme</span>
+            </div>
+          </div>
+        </div>
+
         <div className="ftr-bottom">
           <span>© {new Date().getFullYear()} Hatıra Dergi. {t("footer.copyright")}</span>
           <div className="ftr-legal">
-            <Link href="/gizlilik" className="ftr-legal-link">{t("footer.privacy")}</Link>
-            <Link href="/kullanim-sartlari" className="ftr-legal-link">{t("footer.terms")}</Link>
+            <Link href="/gizlilik" className="ftr-legal-link">Gizlilik</Link>
+            <Link href="/teslimat-iade" className="ftr-legal-link">Teslimat &amp; İade</Link>
+            <Link href="/mesafeli-satis-sozlesmesi" className="ftr-legal-link">Mesafeli Satış</Link>
           </div>
         </div>
       </div>

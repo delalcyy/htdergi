@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { updateDraft, type DraftData } from "@/lib/kapak/draft-store";
+import { moderateTexts, containsBlockedWord } from "@/lib/moderation/textModeration";
 import "@/styles/KapakTasarim.css";
 
 export type KapakEditorHandle = {
@@ -154,6 +155,7 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
   const [dışaAktariliyor, setDışaAktariliyor] = useState(false);
   const [kaydediliyor, setKaydediliyor]       = useState(false);
   const [toast, setToast]                     = useState<string | null>(null);
+  const [yasakHata, setYasakHata]             = useState<string | null>(null);
   const [suruklUst, setSuruklUst]             = useState(false);
   const [mounted, setMounted]                 = useState(false);
   const [acikDrawer, setAcikDrawer]           = useState<DrawerTipi | null>(null);
@@ -162,16 +164,37 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "PrintScreen" || e.code === "PrintScreen") {
+    const ssToast = () => {
+      setToast("Bu alanda ekran görüntüsü alınamaz.");
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+      toastTimer.current = setTimeout(() => setToast(null), 2200);
+    };
+
+    // Klavye: PrintScreen + yaygın kombinasyonlar
+    const onKey = (e: KeyboardEvent) => {
+      if (
+        e.key === "PrintScreen" || e.code === "PrintScreen" ||
+        (e.metaKey && e.shiftKey && (e.key === "3" || e.key === "4" || e.key === "5")) ||
+        (e.ctrlKey && e.key === "PrintScreen")
+      ) {
         e.preventDefault();
-        setToast("Bu alanda ekran görüntüsü alınamaz.");
-        if (toastTimer.current) clearTimeout(toastTimer.current);
-        toastTimer.current = setTimeout(() => setToast(null), 2200);
+        ssToast();
       }
     };
-    document.addEventListener("keydown", handler, true);
-    return () => document.removeEventListener("keydown", handler, true);
+
+    // Sayfa gizlenince (bazı cihazlarda SS anında tetiklenir)
+    const onVisibility = () => {
+      if (document.hidden) ssToast();
+    };
+
+    document.addEventListener("keydown", onKey, true);
+    document.addEventListener("keyup", onKey, true);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      document.removeEventListener("keydown", onKey, true);
+      document.removeEventListener("keyup", onKey, true);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, []);
 
   useEffect(() => {
@@ -529,6 +552,13 @@ window.addEventListener('load',function(){
   /* ── Kaydet & devam ── */
   async function handleKaydetDevam() {
     if (kaydediliyor) return;
+
+    const tumMetinler = [ad, altBaslik, ...Object.values(yazilar).map(y => y.metin)];
+    if (moderateTexts(tumMetinler)) {
+      gosterToast("Bu içerik yayın kurallarımıza uygun değil.");
+      return;
+    }
+
     setKaydediliyor(true);
     try {
       updateDraft(draft.id, {
@@ -751,8 +781,9 @@ window.addEventListener('load',function(){
               </label>
             </div>
             <input className="kt-giris" type="text" value={ad}
-              onChange={e => setAd(e.target.value)}
+              onChange={e => { setAd(e.target.value); setYasakHata(containsBlockedWord(e.target.value) ? "Bu içerik yayın kurallarımıza uygun değil." : null); }}
               placeholder={t("cover.editor.namePlaceholder")} />
+            {yasakHata && <span style={{ color: "#c0392b", fontSize: 12, marginTop: 4 }}>{yasakHata}</span>}
           </div>
         </div>
       );
@@ -778,8 +809,9 @@ window.addEventListener('load',function(){
           </div>
           <textarea className="kt-giris" rows={2} maxLength={80}
             value={yazilar[secilenYazi].metin}
-            onChange={e => yaziGuncelle(secilenYazi, "metin", kelimeSiniri(e.target.value))}
+            onChange={e => { yaziGuncelle(secilenYazi, "metin", kelimeSiniri(e.target.value)); setYasakHata(containsBlockedWord(e.target.value) ? "Bu içerik yayın kurallarımıza uygun değil." : null); }}
             placeholder={`${t(`cover.editor.textLabel_${secilenYazi}`)}...`} />
+          {yasakHata && <span style={{ color: "#c0392b", fontSize: 12 }}>{yasakHata}</span>}
           <select className="kt-font-sec" value={yazilar[secilenYazi].font}
             onChange={e => yaziGuncelle(secilenYazi, "font", e.target.value)}>
             {FONTLAR.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
@@ -1125,7 +1157,7 @@ window.addEventListener('load',function(){
                   onTouchEnd={e => { e.stopPropagation(); e.preventDefault(); setAcikDrawer("isim"); }}
                   onClick={() => setAcikDrawer("isim")}
                 >
-                  {ad.trim() || <span style={{ opacity: 0.72 }}>AD SOYAD</span>}
+                  {ad.trim() || "AD SOYAD"}
                 </div>
                 {altBaslik.trim() && (
                   <div className="kt-kapak-altbaslik">{altBaslik.trim()}</div>
@@ -1175,8 +1207,9 @@ window.addEventListener('load',function(){
                   </label>
                 </div>
                 <input className="kt-giris" type="text" value={ad}
-                  onChange={e => setAd(e.target.value)}
+                  onChange={e => { setAd(e.target.value); setYasakHata(containsBlockedWord(e.target.value) ? "Bu içerik yayın kurallarımıza uygun değil." : null); }}
                   placeholder={t("cover.editor.namePlaceholder")} />
+                {yasakHata && <span style={{ color: "#c0392b", fontSize: 12, marginTop: 4, display: "block" }}>{yasakHata}</span>}
               </div>
             </div>
           </div>
@@ -1204,7 +1237,7 @@ window.addEventListener('load',function(){
                   </div>
                   <textarea className="kt-giris" rows={2} maxLength={80}
                     value={yazilar[key].metin}
-                    onChange={e => yaziGuncelle(key, "metin", kelimeSiniri(e.target.value))}
+                    onChange={e => { yaziGuncelle(key, "metin", kelimeSiniri(e.target.value)); setYasakHata(containsBlockedWord(e.target.value) ? "Bu içerik yayın kurallarımıza uygun değil." : null); }}
                     placeholder={`${etiket}...`} />
                   <select className="kt-font-sec" value={yazilar[key].font}
                     onChange={e => yaziGuncelle(key, "font", e.target.value)}>

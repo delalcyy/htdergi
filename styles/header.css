@@ -42,13 +42,24 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
+  width: auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
 
   text-decoration: none !important;
+}
+
+.hdr-logo-text {
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #111;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .hdr-nav-link {
@@ -117,6 +128,110 @@
 }
 
 
+/* ── Mobil sarmalayıcı — masaüstünde gizli ── */
+.hdr-mobile {
+  display: none;
+}
+
+/* ── Hamburger butonu ── */
+.hdr-hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #111;
+  padding: 0;
+  border-radius: 4px;
+}
+.hdr-hamburger:hover { background: #f5f3ef; }
+
+/* ── Overlay ── */
+.hdr-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+}
+
+/* ── Açılan menü paneli ── */
+.hdr-mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80vw;
+  max-width: 320px;
+  background: #fff;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  padding: 72px 0 32px;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  overflow-y: auto;
+}
+
+/* ── Nav linkleri ── */
+.hdr-mobile-nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.hdr-mobile-link {
+  display: block;
+  padding: 16px 28px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #111;
+  text-decoration: none;
+  border-bottom: 1px solid #ece8e1;
+}
+.hdr-mobile-link:hover { color: #b08d3c; background: #faf8f3; }
+
+/* ── Alt aksiyonlar ── */
+.hdr-mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 28px 0;
+}
+.hdr-mobile-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border: 1.5px solid #111;
+  color: #111;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+.hdr-mobile-secondary:hover { background: #f5f3ef; }
+
+.hdr-mobile-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  background: #b08d3c;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+.hdr-mobile-primary:hover { background: #9a7a32; }
+
 @media (min-width: 901px) {
   .mobile-menu,
   .mobile-menu-trigger,
@@ -146,6 +261,15 @@
     position: static;
     transform: none;
     width: auto;
-    font-size: 22px !important;
+  }
+
+  .hdr-logo-text {
+    font-size: 15px;
+  }
+
+  /* Mobil menüyü göster */
+  .hdr-mobile {
+    display: flex;
+    align-items: center;
   }
 }

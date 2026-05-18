@@ -3,6 +3,7 @@ import { getSessionUser, assertOwnership } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { coverDraftSchema } from "@/lib/validation/kapak";
 import { writeAuditLog } from "@/lib/audit";
+import { moderateTexts } from "@/lib/moderation/textModeration";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -30,6 +31,10 @@ export async function PUT(request: NextRequest, { params }: Params) {
   const parsed = coverDraftSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ success: false, error: parsed.error.issues[0]?.message }, { status: 400 });
+  }
+
+  if (moderateTexts([parsed.data.personName, parsed.data.title, parsed.data.subtitle, parsed.data.dateLabel])) {
+    return NextResponse.json({ success: false, error: "Bu içerik yayın kurallarımıza uygun değil." }, { status: 400 });
   }
 
   // templateId değiştirilmek isteniyorsa aktif mi kontrol et

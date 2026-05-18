@@ -27,6 +27,7 @@ export default function Header() {
 
         <Link href="/" className="hdr-logo">
           <Image src="/logo6.png" alt="Hatıra Dergi" height={48} width={240} style={{ objectFit: "contain", height: "48px", width: "auto" }} priority />
+          <span className="hdr-logo-text">HATIRA DERGİ</span>
         </Link>
 
         <div className="hdr-actions">

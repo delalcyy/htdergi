@@ -358,8 +358,9 @@
 }
 .kt-kapak-baslik {
   font-family: var(--kt-serif); font-weight: 700; font-size: 5cqh;
-  line-height: 1.02; letter-spacing: -0.005em;
-  white-space: nowrap; text-transform: uppercase;
+  line-height: 1.1; letter-spacing: -0.005em;
+  white-space: normal; word-break: break-word; overflow-wrap: break-word;
+  text-transform: uppercase;
   text-shadow: 0 1px 6px rgba(0,0,0,.7);
 }
 .kt-baslik-ta {
@@ -551,11 +552,6 @@
     padding: 0;
   }
 
-  .kt-kapak-baslik {
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
 
   .kt-panel-aksiyonlar { display: flex; }
 
@@ -738,13 +734,20 @@
 /* ════════════════════════════════
    EKRAN GÖRÜNTÜsÜ ENGELİ
    ════════════════════════════════ */
-.kt-kapak-sahne {
+.kt-app,
+.kt-kapak-sahne,
+.kt-kapak {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 .kt-kapak-img,
-.kt-kapak-on {
+.kt-kapak-on,
+.kt-kapak-logo-img {
   -webkit-user-drag: none;
   -moz-user-drag: none;
+  pointer-events: none;
+  -webkit-touch-callout: none;
 }

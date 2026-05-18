@@ -4,6 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { writeAuditLog } from "@/lib/audit";
 import { sendOrderConfirmationEmail, sendNewOrderNotificationToAdmin } from "@/lib/mail";
+import { moderateTexts } from "@/lib/moderation/textModeration";
 
 const schema = z.object({
   ad:           z.string().max(60).default(""),
@@ -31,6 +32,10 @@ export async function POST(request: NextRequest) {
 
   const { ad, soyad, categoryName, answers, coverBase64, photo1Base64, photo2Base64 } = parsed.data;
   const personName = `${ad} ${soyad}`.trim() || null;
+
+  if (moderateTexts([ad, soyad, ...Object.values(answers)])) {
+    return NextResponse.json({ success: false, error: "Bu içerik yayın kurallarımıza uygun değil." }, { status: 400 });
+  }
 
   const category = await prisma.interviewCategory.findFirst({
     where: { name: categoryName, isActive: true },

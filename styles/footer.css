@@ -97,6 +97,54 @@
   line-height: 1.6;
 }
 
+/* ── Ödeme logoları ──────────────────────────────────── */
+
+.ftr-payment {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #1e1e1e;
+  border-top: 1px solid #1e1e1e;
+  margin-bottom: 1.25rem;
+}
+
+.ftr-payment-logos {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ftr-pay-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  height: 32px;
+}
+
+.ftr-pay-badge--iyzico {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111;
+  gap: 3px;
+}
+
+.ftr-pay-ile {
+  font-size: 10px;
+  font-weight: 400;
+  color: #555;
+}
+
+.ftr-pay-badge--ssl {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2a7a2a;
+  background: #f0faf0;
+  border: 1px solid #c8e6c9;
+  gap: 5px;
+}
+
 /* ── Alt bar ─────────────────────────────────────────── */
 
 .ftr-bottom {

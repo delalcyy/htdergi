@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { moderateTexts } from "@/lib/moderation/textModeration";
 
 const schema = z.object({
   firstName:     z.string().min(2).max(50).regex(/^[\p{L}\s]+$/u),
@@ -28,6 +29,10 @@ export async function PUT(request: NextRequest) {
   }
 
   const { firstName, lastName, phone, age, city, district, supportedTeam } = parsed.data;
+
+  if (moderateTexts([firstName, lastName, city, district, supportedTeam])) {
+    return NextResponse.json({ success: false, error: "Bu içerik yayın kurallarımıza uygun değil." }, { status: 400 });
+  }
 
   await prisma.user.update({
     where: { id: user.id },
