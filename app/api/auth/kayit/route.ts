@@ -14,7 +14,7 @@ const schema = z.object({
   age:           z.number().int().min(1).max(120),
   city:          z.string().min(2).max(80),
   district:      z.string().min(2).max(80),
-  supportedTeam: z.string().min(2).max(100),
+  supportedTeam: z.string().max(100),
   password:      z.string().min(8).max(72),
 });
 

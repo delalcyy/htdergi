@@ -68,7 +68,8 @@ export async function getSessionUser(req?: NextRequest): Promise<SessionUser | n
       status: user.status,
       emailVerified: user.emailVerified,
     };
-  } catch {
+  } catch (err) {
+    console.error("[getSessionUser] DB hatası:", err);
     return null;
   }
 }

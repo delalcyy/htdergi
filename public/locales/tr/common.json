@@ -135,7 +135,7 @@
     "storyP1": "Hatıra Dergi, sevdiklerinize ya da kendinize bambaşka bir sürpriz yapmak isteyenler için kuruldu. Çünkü inanıyoruz ki her özel an — bir doğum günü, bir mezuniyet, bir kariyer dönüm noktası — sadece bir fotoğraftan fazlasını hak eder.",
     "storyP2": "fashiontv magazine estetiğinden ilham alarak tasarladığımız platformda, siz yalnızca fotoğrafınızı yükler ve sorularımıza yanıt verirsiniz; gerisi bizden. Dakikalar içinde elinizde baskıya hazır, profesyonel bir dergi sayfası olur.",
     "storyP3": "Tasarlanan her kapak, benzersiz bir seri numarasıyla belgelenir. Bu numara yalnızca sizin anınıza aittir — tıpkı o anın kendisi gibi tekrarlanamaz ve değiştirilemez.",
-    "quoteText": "Bir gün herkes ünlü olacak. Biz o günün gelmesini beklemiyoruz — o günü bugün yaratıyoruz.",
+    "quoteText": "Bir gün herkes ünlü olacak. Neden o gün, bugün olmasın.",
     "quoteAuthor": "Hatıra Dergi",
     "quoteAuthorTitle": "Kurucu Ekip Manifestosu",
     "mvEyebrow": "Yönümüz",
@@ -487,7 +487,7 @@
       {
         "icon": "◑",
         "title": "İptal Kolaylığı",
-        "text": "İstediğiniz zaman aboneliğinizi iptal edebilirsiniz, ek ücret alınmaz."
+        "text": "İstediğiniz zaman aboneliğinizi iptal edebilirsiniz, ek ücret alınmaz. Kapak tasarımları kişiye özel üretildiğinden iptal hakkı bulunmamaktadır."
       }
     ],
     "faqEyebrow": "Sık Sorulan Sorular",

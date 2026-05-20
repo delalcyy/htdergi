@@ -33,10 +33,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: "invalid_credentials" }, { status: 401 });
   }
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-    select: { id: true, email: true, passwordHash: true, role: true, status: true, deletedAt: true, emailVerified: true },
-  });
+  let user;
+  try {
+    user = await prisma.user.findUnique({
+      where: { email },
+      select: { id: true, email: true, passwordHash: true, role: true, status: true, deletedAt: true, emailVerified: true },
+    });
+  } catch (err) {
+    console.error("[giris] DB hatası:", err);
+    return NextResponse.json({ success: false, error: "Sunucu hatası, lütfen tekrar deneyin." }, { status: 500 });
+  }
 
   if (!user || user.deletedAt || user.status === "SUSPENDED") {
     return NextResponse.json({ success: false, error: "invalid_credentials" }, { status: 401 });
@@ -51,10 +57,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: "email_not_verified", email }, { status: 403 });
   }
 
-  const token = await new SignJWT({ sub: user.id, email: user.email, role: user.role })
-    .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("8h")
-    .sign(JWT_SECRET);
+  let token: string;
+  try {
+    token = await new SignJWT({ sub: user.id, email: user.email, role: user.role })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("8h")
+      .sign(JWT_SECRET);
+  } catch (err) {
+    console.error("[giris] JWT hatası:", err);
+    return NextResponse.json({ success: false, error: "Sunucu hatası, lütfen tekrar deneyin." }, { status: 500 });
+  }
 
   const response = NextResponse.json({ success: true, data: null });
   response.cookies.set("__auth_token", token, COOKIE_OPTS);

@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: "Aboneliğimi iptal etmek istiyorum. Ne yapmalıyım?",
-    a: "Abonelik iptali için bizimle iletişime geçebilirsiniz. Mevcut abonelik süreniz dolana kadar erişiminiz devam eder.",
+    a: "Abonelik iptali için bizimle iletişime geçebilirsiniz. Mevcut abonelik süreniz dolana kadar erişiminiz devam eder. Kapak tasarımları kişiye özel üretildiğinden, tasarım siparişlerinde iptal hakkı bulunmamaktadır.",
   },
 ];
 

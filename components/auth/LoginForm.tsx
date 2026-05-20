@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { loginSchema, type LoginInput } from "@/lib/validation/auth";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/panel";
   const [serverError, setServerError] = useState("");
@@ -31,13 +30,26 @@ export default function LoginForm() {
     setServerError("");
     setUnverifiedEmail("");
 
-    const res = await fetch("/api/auth/giris", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: data.email, password: data.password }),
-    });
+    let res: Response;
+    let json: { success: boolean; error?: string; email?: string };
 
-    const json = await res.json();
+    try {
+      res = await fetch("/api/auth/giris", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email, password: data.password }),
+      });
+    } catch {
+      setServerError("Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin.");
+      return;
+    }
+
+    try {
+      json = await res.json();
+    } catch {
+      setServerError("Sunucudan beklenmeyen yanıt alındı. Lütfen tekrar deneyin.");
+      return;
+    }
 
     if (!json.success) {
       if (json.error === "email_not_verified") {
@@ -47,14 +59,13 @@ export default function LoginForm() {
       } else if (res.status === 429) {
         setServerError(json.error || "Çok fazla deneme. Lütfen bekleyin.");
       } else {
-        setServerError("Giriş sırasında hata oluştu. Lütfen tekrar deneyin.");
+        setServerError(json.error || "Giriş sırasında hata oluştu. Lütfen tekrar deneyin.");
       }
       return;
     }
 
-    const safeFrom = from.startsWith("/") ? from : "/panel";
-    router.push(safeFrom);
-    router.refresh();
+    const safeFrom = from.startsWith("/") && !from.startsWith("//") ? from : "/panel";
+    window.location.href = safeFrom;
   }
 
   async function handleResend() {
@@ -85,19 +96,19 @@ export default function LoginForm() {
       )}
 
       {unverifiedEmail && (
-        <Alert className="auth-alert">
+        <Alert variant="destructive" className="auth-alert">
           <AlertDescription>
-            E-posta adresiniz doğrulanmamış. Gelen kutunuzu kontrol edin.{" "}
+            <strong>E-posta doğrulanmamış!</strong> Kayıt sırasında gönderilen doğrulama bağlantısına tıklamanız gerekiyor.{" "}
             {resendState === "sent" ? (
-              <span style={{ color: "#16a34a", fontWeight: 600 }}>Yeniden gönderildi.</span>
+              <span style={{ color: "#16a34a", fontWeight: 600 }}>Yeni bağlantı gönderildi, gelen kutunuzu kontrol edin.</span>
             ) : (
               <button
                 type="button"
                 onClick={handleResend}
                 disabled={resendState === "sending"}
-                style={{ color: "#2563eb", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: "inherit" }}
+                style={{ fontWeight: 700, textDecoration: "underline", background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: "inherit", color: "inherit" }}
               >
-                {resendState === "sending" ? "Gönderiliyor..." : "Yeniden gönder"}
+                {resendState === "sending" ? "Gönderiliyor..." : "Doğrulama bağlantısını yeniden gönder"}
               </button>
             )}
           </AlertDescription>
