@@ -48,16 +48,13 @@ export default function HomeContent() {
       {/* ── Marquee ── */}
       <div className="hp-marquee">
         <div className="hp-marquee-inner">
-          <div className="hp-marquee-track">
-            {categories.map((c, i) => (
-              <span key={i}>{c} <span className="hp-sep">✦</span></span>
-            ))}
-          </div>
-          <div className="hp-marquee-track" aria-hidden="true">
-            {categories.map((c, i) => (
-              <span key={i}>{c} <span className="hp-sep">✦</span></span>
-            ))}
-          </div>
+          {[0, 1, 2, 3].map((rep) => (
+            <div key={rep} className="hp-marquee-track" aria-hidden={rep > 0 ? "true" : undefined}>
+              {categories.map((c, i) => (
+                <span key={i}>{c} <span className="hp-sep">✦</span></span>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
 

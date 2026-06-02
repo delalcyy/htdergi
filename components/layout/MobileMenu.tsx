@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 
 type Props = {
   isLoggedIn: boolean;
@@ -52,6 +53,9 @@ export default function MobileMenu({ isLoggedIn }: Props) {
               <Link href="/nasil-calisir" className="hdr-mobile-link" onClick={close}>{t("nav.howItWorks")}</Link>
               <Link href="/iletisim" className="hdr-mobile-link" onClick={close}>{t("nav.contact")}</Link>
             </nav>
+            <div style={{ padding: "12px 24px 0" }}>
+              <LanguageSwitcher />
+            </div>
             <div className="hdr-mobile-actions">
               {isLoggedIn ? (
                 <>

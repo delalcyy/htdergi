@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const { searchParams } = new URL(request.url);
 
+  const paymentIdParam = searchParams.get("paymentId") || null;
   const purchaseType = searchParams.get("type") || "cover";
   const planId = searchParams.get("planId") || null;
   const discountCodeId = searchParams.get("discountCodeId") || null;
@@ -25,32 +26,34 @@ export async function POST(request: NextRequest) {
   }
 
   if (!token) {
-    return NextResponse.redirect(new URL("/panel?odeme=hata", appUrl));
+    return NextResponse.redirect(new URL("/odeme-sonucu?durum=hata", appUrl), 303);
   }
 
   let iyzicoResult: Record<string, unknown>;
   try {
     iyzicoResult = await checkoutFormRetrieve({
       locale: LOCALE,
-      conversationId: token,
+      conversationId: paymentIdParam || token,
       token,
     });
   } catch (err) {
     console.error("[odeme/callback] İyzico doğrulama hatası:", err);
-    return NextResponse.redirect(new URL("/panel?odeme=hata", appUrl));
+    return NextResponse.redirect(new URL("/odeme-sonucu?durum=hata", appUrl), 303);
   }
 
-  const conversationId = iyzicoResult.conversationId as string;
   const paymentStatus = iyzicoResult.paymentStatus as string;
   const providerPaymentId = iyzicoResult.paymentId as string | undefined;
 
-  const payment = await prisma.payment.findUnique({ where: { id: conversationId } });
+  // paymentId URL param'dan alınır — İyzico'nun conversationId echo'suna güvenme
+  const resolvedId = paymentIdParam || (iyzicoResult.conversationId as string);
+  const payment = await prisma.payment.findUnique({ where: { id: resolvedId } });
   if (!payment) {
-    return NextResponse.redirect(new URL("/panel?odeme=hata", appUrl));
+    return NextResponse.redirect(new URL("/odeme-sonucu?durum=hata", appUrl), 303);
   }
 
   if (payment.status === "COMPLETED") {
-    return NextResponse.redirect(new URL("/kapak-tasarla/editor", appUrl));
+    const tip = purchaseType === "subscription" ? "subscription" : "cover";
+    return NextResponse.redirect(new URL(`/odeme-sonucu?durum=basarili&tip=${tip}`, appUrl), 303);
   }
 
   if (paymentStatus !== "SUCCESS") {
@@ -62,7 +65,7 @@ export async function POST(request: NextRequest) {
         providerResponse: iyzicoResult as object,
       },
     });
-    return NextResponse.redirect(new URL("/panel?odeme=basarisiz", appUrl));
+    return NextResponse.redirect(new URL("/odeme-sonucu?durum=basarisiz", appUrl), 303);
   }
 
   await prisma.$transaction(async (tx) => {
@@ -138,7 +141,8 @@ export async function POST(request: NextRequest) {
     meta: { provider: "iyzico", providerPaymentId },
   });
 
-  return NextResponse.redirect(new URL("/kapak-tasarla/editor", appUrl));
+  const tip = purchaseType === "subscription" ? "subscription" : "cover";
+  return NextResponse.redirect(new URL(`/odeme-sonucu?durum=basarili&tip=${tip}`, appUrl), 303);
 }
 
 // İyzico bazen GET ile de callback yapabilir

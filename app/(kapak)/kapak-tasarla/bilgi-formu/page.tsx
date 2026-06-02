@@ -1,10 +1,22 @@
 import "@/styles/kapak.css";
 import { Suspense } from "react";
 import BilgiFormu from "@/components/kapak/BilgiFormu";
+import { getSessionUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export const metadata = { title: "Bilgi Formu | Hatıra Dergi" };
 
-export default function BilgiFormuPage() {
+type Props = { searchParams: Promise<{ planId?: string }> };
+
+export default async function BilgiFormuPage({ searchParams }: Props) {
+  const user = await getSessionUser();
+  if (!user) {
+    const params = await searchParams;
+    const from = params.planId
+      ? `/kapak-tasarla/bilgi-formu?planId=${params.planId}`
+      : "/kapak-tasarla/bilgi-formu";
+    redirect(`/auth/giris?from=${encodeURIComponent(from)}`);
+  }
   return (
     <div className="kapak-page">
       <div className="kapak-container">

@@ -13,9 +13,15 @@ type Props = {
 
 export default async function OdemePage({ searchParams }: Props) {
   const user = await getSessionUser();
-  if (!user) redirect("/auth/giris");
-
   const params = await searchParams;
+  if (!user) {
+    const { planId: pid, type: t } = params;
+    const qs = new URLSearchParams();
+    if (pid) qs.set("planId", pid);
+    if (t) qs.set("type", t);
+    const from = `/kapak-tasarla/odeme?${qs.toString()}`;
+    redirect(`/auth/giris?from=${encodeURIComponent(from)}`);
+  }
   const { planId, type } = params;
 
   let plan = null;

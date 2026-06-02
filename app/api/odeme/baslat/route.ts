@@ -100,6 +100,7 @@ export async function POST(request: NextRequest) {
 
   // Satın alım meta verisini callbackUrl'e ekle — İyzico bu URL'e POST eder
   const callbackParams = new URLSearchParams({
+    paymentId: payment.id,
     type: purchaseType,
     ...(planId ? { planId } : {}),
     ...(discountCodeId ? { discountCodeId } : {}),

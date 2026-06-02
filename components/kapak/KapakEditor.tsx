@@ -131,6 +131,7 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
   const [onX, setOnX]                     = useState(0);
   const [onY, setOnY]                     = useState(0);
   const [suruklHedef, setSuruklHedef]     = useState<"bg" | "fg">("bg");
+  const [onArkaPlanSiliniyor, setOnArkaPlanSiliniyor] = useState(false);
 
   /* Renkler */
   const [bgRenk, setBgRenk]               = useState("#111111");
@@ -369,17 +370,35 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
     bgDosyaIsle(e.dataTransfer.files?.[0]);
   }
 
-  /* ── Ön plan PNG ── */
-  function onDosyaIsle(e: React.ChangeEvent<HTMLInputElement>) {
+  /* ── Ön plan (otomatik arka plan silme — server-side) ── */
+  async function onDosyaIsle(e: React.ChangeEvent<HTMLInputElement>) {
     const dosya = e.target.files?.[0];
     if (!dosya) return;
     if (onFoto) URL.revokeObjectURL(onFoto);
     setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0);
-    setOnFoto(URL.createObjectURL(dosya));
-    setSuruklHedef("fg");
-    const r = new FileReader();
-    r.onload = () => setOnBase64(r.result as string);
-    r.readAsDataURL(dosya);
+    setOnArkaPlanSiliniyor(true);
+    try {
+      const form = new FormData();
+      form.append("gorsel", dosya);
+      const res = await fetch("/api/arka-plan-sil", { method: "POST", body: form });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const sonucBlob = await res.blob();
+      const url = URL.createObjectURL(sonucBlob);
+      setOnFoto(url);
+      setSuruklHedef("fg");
+      const r = new FileReader();
+      r.onload = () => setOnBase64(r.result as string);
+      r.readAsDataURL(sonucBlob);
+    } catch {
+      const url = URL.createObjectURL(dosya);
+      setOnFoto(url);
+      setSuruklHedef("fg");
+      const r = new FileReader();
+      r.onload = () => setOnBase64(r.result as string);
+      r.readAsDataURL(dosya);
+    } finally {
+      setOnArkaPlanSiliniyor(false);
+    }
   }
 
   /* ── Sürükleme: arka plan ── */
@@ -687,14 +706,25 @@ window.addEventListener('load',function(){
 
       case "on-foto": return (
         <div className="kt-bolum">
-          <div className="kt-yukle kt-yukle-on" onClick={() => onDosyaRef.current?.click()}>
+          <div className="kt-yukle kt-yukle-on" onClick={() => !onArkaPlanSiliniyor && onDosyaRef.current?.click()}
+            style={onArkaPlanSiliniyor ? { opacity: 0.6, cursor: "not-allowed" } : undefined}>
             <div className="kt-yukle-ikon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8880" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>
-              </svg>
+              {onArkaPlanSiliniyor ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8880" strokeWidth="1.6">
+                  <circle cx="12" cy="12" r="10" strokeDasharray="31.4" strokeDashoffset="10">
+                    <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8880" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>
+                </svg>
+              )}
             </div>
-            <span className="kt-yukle-baslik">{t("cover.editor.fgTitle")}</span>
-            <span className="kt-yukle-hint">{t("cover.editor.fgHint")}</span>
+            <span className="kt-yukle-baslik">
+              {onArkaPlanSiliniyor ? t("cover.editor.removingBg") : t("cover.editor.fgTitle")}
+            </span>
+            {!onArkaPlanSiliniyor && <span className="kt-yukle-hint">{t("cover.editor.fgHint")}</span>}
           </div>
           {onFoto && (
             <>
@@ -839,6 +869,10 @@ window.addEventListener('load',function(){
   const content = (
     <div className={`kt-app${embedded ? " kt-app--embedded" : ""}`}>
 
+      {/* Gizli file input'lar — her zaman DOM'da kalmalı (mobilde panel display:none olunca ref çalışmaz) */}
+      <input ref={dosyaRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onBgDegis} />
+      <input ref={onDosyaRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onDosyaIsle} />
+
       {/* ══════ MOBİL ÜST BAR ══════ */}
       <div className="kt-mobil-ust-bar">
         <a href="/" className="kt-araç-btn" title="Ana Sayfa">
@@ -910,7 +944,6 @@ window.addEventListener('load',function(){
               </div>
               <span className="kt-yukle-baslik">{t("cover.editor.uploadTitle")}</span>
               <span className="kt-yukle-hint">{t("cover.editor.uploadHint")}</span>
-              <input ref={dosyaRef} type="file" accept="image/*" style={{ display: "none" }} onChange={onBgDegis} />
             </div>
 
             {bgFoto && (
@@ -947,15 +980,25 @@ window.addEventListener('load',function(){
             )}
 
             {/* Ön plan */}
-            <div className="kt-yukle kt-yukle-on" onClick={() => onDosyaRef.current?.click()}>
+            <div className="kt-yukle kt-yukle-on" onClick={() => !onArkaPlanSiliniyor && onDosyaRef.current?.click()}
+              style={onArkaPlanSiliniyor ? { opacity: 0.6, cursor: "not-allowed" } : undefined}>
               <div className="kt-yukle-ikon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8880" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>
-                </svg>
+                {onArkaPlanSiliniyor ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8880" strokeWidth="1.6">
+                    <circle cx="12" cy="12" r="10" strokeDasharray="31.4" strokeDashoffset="10">
+                      <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+                    </circle>
+                  </svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b8880" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>
+                  </svg>
+                )}
               </div>
-              <span className="kt-yukle-baslik">{t("cover.editor.fgTitle")}</span>
-              <span className="kt-yukle-hint">{t("cover.editor.fgHint")}</span>
-              <input ref={onDosyaRef} type="file" accept="image/png" style={{ display: "none" }} onChange={onDosyaIsle} />
+              <span className="kt-yukle-baslik">
+                {onArkaPlanSiliniyor ? t("cover.editor.removingBg") : t("cover.editor.fgTitle")}
+              </span>
+              {!onArkaPlanSiliniyor && <span className="kt-yukle-hint">{t("cover.editor.fgHint")}</span>}
             </div>
 
             {onFoto && (

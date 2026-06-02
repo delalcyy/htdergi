@@ -114,15 +114,9 @@ font-family: var(--font-cormorant), serif;
 .hp-btn-primary:hover .hp-arr,
 .hp-btn-ghost:hover .hp-arr { transform: translateX(4px); }
 
-.hp-cover-stage { position: relative; max-width: 460px; margin-left: auto; }
-.hp-cover-stage::after {
-  content: ""; position: absolute; inset: auto -18px -18px auto;
-  width: 65%; height: 65%; border: 1px solid var(--hp-gold); z-index: -1;
-}
+.hp-cover-stage { position: relative; max-width: 460px; margin-left: auto; margin-top: -20px; }
 .hp-cover-img {
-  position: relative; z-index: 2;
   width: 100%; height: auto; display: block; border-radius: 4px;
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.35), 0 10px 30px -10px rgba(0,0,0,0.2);
 }
 
 /* ── Marquee ──────────────────────────────────────────── */
@@ -138,7 +132,7 @@ font-family: var(--font-cormorant), serif;
 }
 .hp-marquee-track > span { font-family: var(--hp-serif); font-style: italic; font-size: 1.1rem; color: rgba(255,255,255,0.55); margin-right: 56px; }
 .hp-sep { color: var(--hp-gold); font-style: normal !important; }
-@keyframes hp-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes hp-marquee { from { transform: translateX(0); } to { transform: translateX(-25%); } }
 
 /* ── Sections ────────────────────────────────────────── */
 .hp-section { padding: clamp(72px, 9vw, 128px) 0; }

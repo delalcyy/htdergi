@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import AbonelikStaticContent from "@/components/abonelik/AbonelikStaticContent";
 import type { SubscriptionPlan } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Abonelik Planları | Hatıra Dergi",
   description: "Size uygun paketi seçin ve dergi kapağının yıldızı olun.",

@@ -32,23 +32,9 @@ const navGroups = [
     ],
   },
   {
-    section: "İçerik",
-    items: [
-      { href: "/admin/sablonlar", label: "Kapak Şablonları" },
-      { href: "/admin/roportaj-kategorileri", label: "Röportaj Kategorileri" },
-      { href: "/admin/roportajlar", label: "Röportaj Formları" },
-    ],
-  },
-  {
     section: "Güvenlik",
     items: [
       { href: "/admin/audit-log", label: "Audit Log" },
-    ],
-  },
-  {
-    section: "Editör",
-    items: [
-      { href: "/kapak-tasarla", label: "Kapak Tasarla (Test)" },
     ],
   },
 ];
@@ -88,6 +74,9 @@ export default function AdminSidebar() {
       </nav>
 
       <div className="admin-sidebar-footer">
+        <Link href="/" className="admin-nav-item" style={{ marginBottom: 8, display: "block" }}>
+          ← Anasayfa
+        </Link>
         <button onClick={handleLogout}>Çıkış Yap</button>
       </div>
     </aside>
