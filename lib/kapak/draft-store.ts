@@ -5,9 +5,19 @@ export type DraftData = {
   templateId: string;
   personName: string | null;
   subtitle: string | null;
+  coverSerial?: string;
   createdAt: string;
   updatedAt: string;
 };
+
+function generateCoverSerial(): string {
+  // 869 = Türkiye GS1 prefiksi + 9 rastgele rakam + EAN-13 kontrol hanesi
+  const core = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
+  const digits = [8, 6, 9, ...core];
+  const sum = digits.reduce((acc, d, i) => acc + d * (i % 2 === 0 ? 1 : 3), 0);
+  digits.push((10 - (sum % 10)) % 10);
+  return digits.join("");
+}
 
 const KEY = "ht_kapak_taslaklar";
 
@@ -26,7 +36,7 @@ function saveAll(data: Record<string, DraftData>): void {
 export function createDraft(templateId: string): DraftData {
   const id = `draft-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
   const now = new Date().toISOString();
-  const draft: DraftData = { id, templateId, personName: null, subtitle: null, createdAt: now, updatedAt: now };
+  const draft: DraftData = { id, templateId, personName: null, subtitle: null, coverSerial: generateCoverSerial(), createdAt: now, updatedAt: now };
   const all = loadAll();
   all[id] = draft;
   saveAll(all);

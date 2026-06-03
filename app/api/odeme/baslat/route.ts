@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
   const addressLine = primaryAddress?.addressLine || "Türkiye";
   const city = primaryAddress?.city || "Istanbul";
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const appUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
   // Satın alım meta verisini callbackUrl'e ekle — İyzico bu URL'e POST eder
   const callbackParams = new URLSearchParams({

@@ -32,6 +32,12 @@ const navGroups = [
     ],
   },
   {
+    section: "İletişim",
+    items: [
+      { href: "/admin/toplu-mail", label: "Toplu Mail Gönder" },
+    ],
+  },
+  {
     section: "Güvenlik",
     items: [
       { href: "/admin/audit-log", label: "Audit Log" },

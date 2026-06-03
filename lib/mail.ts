@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const FROM = process.env.SMTP_FROM || process.env.MAIL_FROM || "Hatıra Dergi <info@hatiradergi.com>";
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://hatiradergi.com";
+const APP_URL = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_APP_URL || "https://hatiradergi.com";
 
 export async function sendMail(options: Mail.Options) {
   return transporter.sendMail({ from: FROM, ...options });
@@ -216,6 +216,34 @@ export async function sendPasswordChangedEmail(to: string) {
         <p style="color:#444;line-height:1.6;">Bu işlemi siz yapmadıysanız hemen <a href="${APP_URL}/auth/sifremi-unuttum" style="color:#1a1a1a;font-weight:600;">şifrenizi sıfırlayın</a> ve hesabınızı güvenceye alın.</p>
         <a href="${APP_URL}/auth/giris" style="display:inline-block;padding:12px 28px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:6px;margin:20px 0;font-weight:600;">
           Hesabıma Giriş Yap
+        </a>
+        <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+        <p style="color:#aaa;font-size:12px;">Hatıra Dergi — hatiradergi.com</p>
+      </div>
+    `,
+  });
+}
+
+export async function sendSubscriptionConfirmationEmail(params: {
+  to: string;
+  name: string;
+  planName: string;
+  expiresAt: Date;
+}) {
+  const expiresStr = params.expiresAt.toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+  return sendMail({
+    to: params.to,
+    subject: "Hatıra Dergi — Aboneliğiniz Başladı!",
+    html: `
+      <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#fff;">
+        <h2 style="color:#1a1a1a;margin-bottom:8px;">Aboneliğiniz Aktif!</h2>
+        <p style="color:#444;line-height:1.6;">Merhaba ${params.name}, <strong>${params.planName}</strong> aboneliğiniz başarıyla başlatıldı.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;margin:20px 0;background:#f9f9f9;padding:16px;border-radius:6px;">
+          <tr><td style="padding:6px 0;color:#888;width:140px;">Plan</td><td style="padding:6px 0;font-weight:600">${params.planName}</td></tr>
+          <tr><td style="padding:6px 0;color:#888;">Bitiş Tarihi</td><td style="padding:6px 0;font-weight:600">${expiresStr}</td></tr>
+        </table>
+        <a href="${APP_URL}/kapak-tasarla/editor" style="display:inline-block;padding:12px 28px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:6px;margin:8px 0;font-weight:600;">
+          Kapak Tasarlamaya Başla
         </a>
         <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
         <p style="color:#aaa;font-size:12px;">Hatıra Dergi — hatiradergi.com</p>

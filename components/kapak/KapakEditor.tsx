@@ -49,20 +49,64 @@ const FONTLAR = [
   { label: "Lora",               value: "'Lora', Georgia, serif" },
 ];
 
-const BARKOD = (
-  <svg viewBox="0 0 60 22" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#111">
-      {[
-        [1,1.2],[3.5,0.6],[5,1.8],[8,0.6],[9.5,1.2],[12,0.6],[13.5,2],
-        [17,0.6],[18.5,1.2],[21,0.8],[23,1.6],[26,0.6],[27.5,1.2],[30,0.8],
-        [32,1.4],[34.5,0.6],[36,1.2],[38.5,0.6],[40,1.8],[43,0.6],[44.5,1.2],
-        [47,0.8],[49,1.6],[52,0.6],[53.5,1.2],[56,0.6],[57.5,1.4],
-      ].map(([x, w], i) => (
-        <rect key={i} x={x} y="1" width={w} height="20" />
-      ))}
-    </g>
-  </svg>
-);
+// EAN-13 kodlama tabloları
+const EAN_L = ['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
+const EAN_G = ['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
+const EAN_R = ['1110010','1100110','1101100','1000010','1011100','1001110','1010000','1000100','1001000','1110100'];
+const EAN_FIRST = ['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+
+// Guard bar pozisyonları (bit index aralıkları)
+const GUARD_RANGES = [[7,9],[52,56],[99,101]] as const;
+
+function BarkodSVG({ serial }: { serial: string }) {
+  const raw = serial.replace(/\D/g, '').padEnd(13, '0').slice(0, 13);
+  const d = raw.split('').map(Number);
+  const fp = EAN_FIRST[d[0]] ?? 'LLLLLL';
+
+  let bits = '0000000';
+  bits += '101';
+  for (let i = 1; i <= 6; i++) bits += fp[i-1] === 'G' ? EAN_G[d[i]] : EAN_L[d[i]];
+  bits += '01010';
+  for (let i = 7; i <= 12; i++) bits += EAN_R[d[i]];
+  bits += '101';
+  bits += '0000000';
+
+  function isGuard(pos: number) {
+    return GUARD_RANGES.some(([s, e]) => pos >= s && pos <= e);
+  }
+
+  const rects: { x: number; w: number; guard: boolean }[] = [];
+  let i = 0, x = 0;
+  while (i < bits.length) {
+    const bit = bits[i];
+    let run = 0;
+    const sx = x;
+    while (i < bits.length && bits[i] === bit) { run++; i++; }
+    if (bit === '1') rects.push({ x: sx, w: run, guard: isGuard(sx) });
+    x += run;
+  }
+
+  return (
+    <>
+      {/* Barlar: guard barlar data barlardan biraz uzun */}
+      <svg viewBox="0 0 109 46" preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ width: '100%', height: '16px', display: 'block' }}>
+        {rects.map(({ x: bx, w, guard }, idx) => (
+          <rect key={idx} x={bx} y={0} width={w} height={guard ? 46 : 38} fill="#111" />
+        ))}
+      </svg>
+      {/* Rakamlar: quiet(d0) | start-guard | sol-6 | center-guard | sağ-6 | end+quiet */}
+      <div className="kt-barkod-digits">
+        <span className="kt-barkod-d0">{d[0]}</span>
+        <span className="kt-barkod-sg" />
+        <span className="kt-barkod-sol">{d.slice(1, 7).join('')}</span>
+        <span className="kt-barkod-orta" />
+        <span className="kt-barkod-sag">{d.slice(7, 13).join('')}</span>
+      </div>
+    </>
+  );
+}
 
 /* ── Tip tanımları ── */
 type Yazi = {
@@ -247,10 +291,25 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
     const taStyles: TaStyle[] = [];
     let kapakW = 0;
     let kapakH = 0;
+    // Barkod'un orijinal DOM'daki pixel konumu ve boyutu
+    type BarkodInfo = { right: number; bottom: number; width: number; height: number; svgH: number };
+    let barkodInfo: BarkodInfo | null = null;
     if (kapakRef.current) {
       const rect = kapakRef.current.getBoundingClientRect();
       kapakW = rect.width;
       kapakH = rect.height;
+      const origBarkod = kapakRef.current.querySelector<HTMLElement>(".kt-kapak-barkod");
+      if (origBarkod) {
+        const br = origBarkod.getBoundingClientRect();
+        const svg = origBarkod.querySelector("svg");
+        barkodInfo = {
+          right:  rect.right  - br.right,
+          bottom: rect.bottom - br.bottom,
+          width:  br.width,
+          height: br.height,
+          svgH:   svg ? svg.getBoundingClientRect().height : 16,
+        };
+      }
       kapakRef.current.querySelectorAll<HTMLElement>(".kt-yazi-ta")
         .forEach(ta => {
           const cs = window.getComputedStyle(ta);
@@ -269,6 +328,53 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
     return (_doc: Document, el: HTMLElement) => {
       /* Watermark'ı export'tan kaldır */
       el.querySelectorAll(".kt-watermark").forEach(wm => wm.remove());
+
+      /* Barkod: HTML digits clone'da kayıyor — rakamları SVG içine text node olarak ekle */
+      if (barkodInfo) {
+        const barkod = el.querySelector<HTMLElement>(".kt-kapak-barkod");
+        if (barkod) {
+          const bw = barkodInfo.width;
+          const dw = bw - 4;
+          // Rakamları HTML span'lardan oku
+          const d0txt  = barkod.querySelector(".kt-barkod-d0")?.textContent  ?? "";
+          const soltxt = barkod.querySelector(".kt-barkod-sol")?.textContent ?? "";
+          const sagtxt = barkod.querySelector(".kt-barkod-sag")?.textContent ?? "";
+          // HTML digits div'i kaldır — SVG içine taşınacak
+          barkod.querySelector(".kt-barkod-digits")?.remove();
+          // Barkod konteyneri sabitle
+          barkod.style.cssText = `position:absolute;right:${barkodInfo.right}px;bottom:${barkodInfo.bottom}px;width:${bw}px;background:#fff;border-radius:1px;padding:3px 2px 1px;box-sizing:border-box;`;
+          const svg = barkod.querySelector<SVGElement>("svg");
+          if (svg) {
+            // Mevcut boyutlar: viewBox "0 0 109 46", bars h=38(data)/46(guard)
+            // Genişletilmiş viewBox: 0 0 109 60 (14 unit ekstra, text alanı için)
+            const newVBH = 60;
+            const totalPxH = barkodInfo.svgH + 5; // bars + text alanı px
+            svg.setAttribute("viewBox", `0 0 109 ${newVBH}`);
+            svg.style.cssText = `width:${dw}px;height:${totalPxH}px;display:block;`;
+            // font-size SVG birimi: 5px hedef / (totalPxH/newVBH px_per_unit)
+            const fsvg = (5 * newVBH / totalPxH).toFixed(1);
+            const textY = "51"; // viewBox içinde text baseline
+            const svgNS = "http://www.w3.org/2000/svg";
+            const addT = (x: number, txt: string, tlen: number) => {
+              if (!txt) return;
+              const t = _doc.createElementNS(svgNS, "text");
+              t.setAttribute("x", String(x));
+              t.setAttribute("y", textY);
+              t.setAttribute("text-anchor", "middle");
+              t.setAttribute("font-size", fsvg);
+              t.setAttribute("font-family", "Courier New, monospace");
+              t.setAttribute("fill", "#111");
+              t.setAttribute("textLength", String(tlen));
+              t.setAttribute("lengthAdjust", "spacing");
+              t.textContent = txt;
+              svg.appendChild(t);
+            };
+            addT(3.5,  d0txt,  6);  // ilk rakam — quiet zone
+            addT(31,   soltxt, 38); // sol 6 rakam — left data area
+            addT(78,   sagtxt, 38); // sağ 6 rakam — right data area
+          }
+        }
+      }
 
       /* el = klonlanmış kt-kapak-sahne.
          İçindeki kt-kapak'a piksel boyutunu sabitle → cqh/cqw doğru hesaplanır */
@@ -1216,7 +1322,9 @@ window.addEventListener('load',function(){
                   <div className="kt-kapak-altbaslik">{altBaslik.trim()}</div>
                 )}
               </div>
-              <div className="kt-kapak-barkod">{BARKOD}</div>
+              <div className="kt-kapak-barkod">
+                <BarkodSVG serial={draft.coverSerial || "8690000000000"} />
+              </div>
             </div>
 
             {/* Watermark — preview'da görünür, export'ta buildOnclone tarafından kaldırılır */}
