@@ -24,9 +24,8 @@ export const infoFormSchema = z.object({
   district: z.string().min(2, "İlçe zorunludur").max(50),
   postalCode: z
     .string()
-    .regex(/^[0-9]{5}$/, "Posta kodu 5 rakam olmalıdır")
-    .optional()
-    .nullable(),
+    .min(1, "Posta kodu zorunludur")
+    .regex(/^[0-9]{5}$/, "Posta kodu 5 rakam olmalıdır"),
 });
 
 export type CoverDraftInput = z.infer<typeof coverDraftSchema>;
