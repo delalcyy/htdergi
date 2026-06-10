@@ -117,18 +117,16 @@ export default function RegisterForm() {
           {errors.phone && <span className="auth-error">{errors.phone.message}</span>}
         </div>
 
-        {/* Yaş */}
+        {/* Doğum Tarihi */}
         <div className="auth-field">
-          <Label htmlFor="age">Yaş</Label>
+          <Label htmlFor="birthDate">Doğum Tarihi</Label>
           <Input
-            id="age"
-            type="number"
-            min={1}
-            max={120}
-            {...register("age", { valueAsNumber: true })}
-            placeholder="Yaşınız"
+            id="birthDate"
+            type="date"
+            max={new Date().toISOString().split("T")[0]}
+            {...register("birthDate")}
           />
-          {errors.age && <span className="auth-error">{errors.age.message}</span>}
+          {errors.birthDate && <span className="auth-error">{errors.birthDate.message}</span>}
         </div>
 
         {/* İl */}
@@ -216,6 +214,19 @@ export default function RegisterForm() {
             autoComplete="new-password"
           />
           {errors.password && <span className="auth-error">{errors.password.message}</span>}
+        </div>
+
+        {/* E-posta pazarlama izni */}
+        <div className="auth-field" style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+          <input
+            id="emailMarketingConsent"
+            type="checkbox"
+            {...register("emailMarketingConsent")}
+            style={{ marginTop: "3px", flexShrink: 0 }}
+          />
+          <label htmlFor="emailMarketingConsent" style={{ fontSize: "13px", color: "#4b5563", cursor: "pointer", lineHeight: "1.5" }}>
+            Hatıra Dergi&apos;nin kampanya, duyuru ve içeriklerinden e-posta ile haberdar olmak istiyorum.
+          </label>
         </div>
 
         <Button type="submit" className="auth-submit" disabled={isSubmitting}>

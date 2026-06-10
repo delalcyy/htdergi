@@ -5,7 +5,7 @@ export const metadata = { title: "Toplu Mail | Admin" };
 
 export default async function TopluMailPage() {
   const toplamKullanici = await prisma.user.count({
-    where: { emailVerified: true, deletedAt: null, status: "ACTIVE" },
+    where: { emailVerified: true, deletedAt: null, status: "ACTIVE", emailMarketingConsent: true },
   });
 
   return (
@@ -13,7 +13,7 @@ export default async function TopluMailPage() {
       <div style={{ marginBottom: 28 }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>Toplu Mail Gönder</h1>
         <p style={{ color: "#6b7280", fontSize: 14, marginTop: 6 }}>
-          E-postası doğrulanmış tüm aktif kullanıcılara mail gönder.
+          Yalnızca e-posta bildirimi iznini kabul etmiş aktif kullanıcılara mail gönderilir.
         </p>
       </div>
       <TopluMailForm toplamKullanici={toplamKullanici} />

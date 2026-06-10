@@ -11,11 +11,12 @@ const schema = z.object({
   lastName:      z.string().min(2).max(50),
   email:         z.string().email().max(255),
   phone:         z.string().min(10).max(20),
-  age:           z.number().int().min(1).max(120),
+  birthDate:     z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   city:          z.string().min(2).max(80),
   district:      z.string().min(2).max(80),
-  supportedTeam: z.string().max(100),
-  password:      z.string().min(8).max(72),
+  supportedTeam:         z.string().max(100),
+  password:              z.string().min(8).max(72),
+  emailMarketingConsent: z.boolean().optional().default(false),
 });
 
 export async function POST(request: NextRequest) {
@@ -38,7 +39,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { firstName, lastName, email, phone, age, city, district, supportedTeam, password } = parsed.data;
+  const { firstName, lastName, email, phone, birthDate, city, district, supportedTeam, password, emailMarketingConsent } = parsed.data;
+  const age = Math.floor((Date.now() - new Date(birthDate).getTime()) / (365.25 * 24 * 60 * 60 * 1000));
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest) {
   let user;
   try {
     user = await prisma.user.create({
-      data: { email, passwordHash, firstName, lastName, phone, age, city, district, supportedTeam },
+      data: { email, passwordHash, firstName, lastName, phone, age, city, district, supportedTeam, emailMarketingConsent: emailMarketingConsent ?? false },
     });
   } catch (err) {
     console.error("Kayıt DB hatası:", err);

@@ -21,11 +21,16 @@ export const registerSchema = z.object({
     .min(10, "Geçerli bir telefon girin")
     .max(20, "Telefon çok uzun")
     .regex(/^[0-9+\s\-()]+$/, "Geçersiz telefon formatı"),
-  age: z
-    .number()
-    .int("Yaş tam sayı olmalıdır")
-    .min(1, "Geçerli bir yaş girin")
-    .max(120, "Geçerli bir yaş girin"),
+  birthDate: z
+    .string()
+    .min(1, "Doğum tarihi zorunludur")
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Geçerli bir tarih seçin")
+    .refine((v) => {
+      const d = new Date(v);
+      if (isNaN(d.getTime())) return false;
+      const age = Math.floor((Date.now() - d.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+      return age >= 6 && age <= 120;
+    }, "Geçerli bir doğum tarihi girin"),
   city: z
     .string()
     .min(2, "İl zorunludur")
@@ -47,6 +52,7 @@ export const registerSchema = z.object({
     .max(72, "Şifre çok uzun")
     .regex(/[A-Z]/, "En az bir büyük harf içermeli")
     .regex(/[0-9]/, "En az bir rakam içermeli"),
+  emailMarketingConsent: z.boolean().optional().default(false),
 });
 
 export const loginSchema = z.object({

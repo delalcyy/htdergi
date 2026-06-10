@@ -83,6 +83,7 @@ model User {
   role             UserRole   @default(FREE)
   status           UserStatus @default(ACTIVE)
   emailVerified        Boolean    @default(false) @map("email_verified")
+  emailMarketingConsent Boolean   @default(false) @map("email_marketing_consent")
   createdAt            DateTime   @default(now()) @map("created_at")
   updatedAt        DateTime   @updatedAt @map("updated_at")
   deletedAt        DateTime?  @map("deleted_at")

@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
   const { konu, icerik } = parsed.data;
 
   const kullanicilar = await prisma.user.findMany({
-    where: { emailVerified: true, deletedAt: null, status: "ACTIVE" },
+    where: { emailVerified: true, deletedAt: null, status: "ACTIVE", emailMarketingConsent: true },
     select: { email: true, firstName: true, lastName: true },
   });
 
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
         <div style="color:#333;line-height:1.7;white-space:pre-wrap;">${icerik.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div>
         <hr style="border:none;border-top:1px solid #eee;margin:28px 0;">
         <p style="color:#aaa;font-size:12px;">Hatıra Dergi — hatiradergi.com</p>
-        <p style="color:#ccc;font-size:11px;">Bu e-postayı almak istemiyorsanız hesabınızı silebilirsiniz.</p>
+        <p style="color:#ccc;font-size:11px;">Bu e-postayı almak istemiyorsanız <a href="https://hatiradergi.com/panel/profil" style="color:#ccc;">profil sayfanızdan</a> e-posta bildirim iznini kaldırabilirsiniz.</p>
       </div>
     `;
     try {
