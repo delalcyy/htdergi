@@ -83,7 +83,8 @@ model User {
   role             UserRole   @default(FREE)
   status           UserStatus @default(ACTIVE)
   emailVerified        Boolean    @default(false) @map("email_verified")
-  emailMarketingConsent Boolean   @default(false) @map("email_marketing_consent")
+  emailMarketingConsent Boolean?  @map("email_marketing_consent")
+  seriNo               String?    @unique @map("seri_no")
   createdAt            DateTime   @default(now()) @map("created_at")
   updatedAt        DateTime   @updatedAt @map("updated_at")
   deletedAt        DateTime?  @map("deleted_at")
@@ -259,7 +260,7 @@ model CoverDraft {
   personName       String?          @map("person_name")
   dateLabel        String?          @map("date_label")
   uploadedImageUrl String?          @map("uploaded_image_url")
-  coverSerial      String           @unique @map("cover_serial")
+  coverSerial      String           @map("cover_serial")
   status           CoverDraftStatus @default(DRAFT)
   createdAt        DateTime         @default(now()) @map("created_at")
   updatedAt        DateTime         @updatedAt @map("updated_at")
@@ -440,6 +441,15 @@ model PasswordResetToken {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("password_reset_tokens")
+}
+
+model DergiAyar {
+  id            Int      @id @default(autoincrement())
+  arkaKapakUrl  String?  @map("arka_kapak_url") @db.Text
+  sirtUrl       String?  @map("sirt_url") @db.Text
+  guncellendi   DateTime @default(now()) @updatedAt @map("guncellendi")
+
+  @@map("dergi_ayar")
 }
 
 model CargoTracking {

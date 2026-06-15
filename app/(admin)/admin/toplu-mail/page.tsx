@@ -4,9 +4,17 @@ import TopluMailForm from "@/components/admin/TopluMailForm";
 export const metadata = { title: "Toplu Mail | Admin" };
 
 export default async function TopluMailPage() {
-  const toplamKullanici = await prisma.user.count({
-    where: { emailVerified: true, deletedAt: null, status: "ACTIVE", emailMarketingConsent: true },
-  });
+  const mailWhere = { emailVerified: true, deletedAt: null, status: "ACTIVE" as const, emailMarketingConsent: true };
+  const aktifWhere = { deletedAt: null, status: "ACTIVE" as const };
+
+  const [toplamKullanici, sehirRows, takimRows] = await Promise.all([
+    prisma.user.count({ where: mailWhere }),
+    prisma.user.findMany({ where: { ...aktifWhere, city: { not: null } }, select: { city: true }, distinct: ["city"], orderBy: { city: "asc" } }),
+    prisma.user.findMany({ where: { ...aktifWhere, supportedTeam: { not: null } }, select: { supportedTeam: true }, distinct: ["supportedTeam"], orderBy: { supportedTeam: "asc" } }),
+  ]);
+
+  const sehirler = sehirRows.map(r => r.city!);
+  const takimlar = takimRows.map(r => r.supportedTeam!);
 
   return (
     <div>
@@ -16,7 +24,12 @@ export default async function TopluMailPage() {
           Yalnızca e-posta bildirimi iznini kabul etmiş aktif kullanıcılara mail gönderilir.
         </p>
       </div>
-      <TopluMailForm toplamKullanici={toplamKullanici} />
+
+      <TopluMailForm
+        toplamKullanici={toplamKullanici}
+        sehirler={sehirler}
+        takimlar={takimlar}
+      />
     </div>
   );
 }

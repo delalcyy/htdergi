@@ -119,7 +119,7 @@ type Yazi = {
 };
 
 type YaziKey = "sol1" | "sag1" | "sol2" | "sag2";
-type DrawerTipi = "bg-foto" | "on-foto" | "bg-renk" | "logo-renk" | "isim" | "yan-yazilar";
+type DrawerTipi = "bg-foto" | "on-foto" | "bg-renk" | "logo-renk" | "isim" | "yan-yazilar" | "sirt";
 
 const VARSAYILAN_YAZILAR_TR: Record<YaziKey, Yazi> = {
   sol1: { metin: "MODANIN KALBİ\nTÜRKİYE'DE ATACAK", renk: "#ffffff", boyut: 1.9, font: FONTLAR[0].value, x: 1,  y: 55 },
@@ -181,6 +181,11 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
   const [bgRenk, setBgRenk]               = useState("#111111");
   const [logoFiltre, setLogoFiltre]       = useState("none");
   const [baslikRenk, setBaslikRenk]       = useState("#ffffff");
+
+  /* Sırt */
+  const [sirtYazi, setSirtYazi]       = useState("");
+  const [sirtYaziRenk, setSirtYaziRenk] = useState("#ffffff");
+  const [sirtFont, setSirtFont]       = useState(FONTLAR[0].value);
 
   /* Metinler */
   const [ad, setAd]               = useState(userName);
@@ -610,64 +615,133 @@ const KapakEditor = forwardRef<KapakEditorHandle, Props>(function KapakEditor(
     setYazilar(prev => ({ ...prev, [anahtar]: { ...prev[anahtar], [alan]: deger } }));
   }
 
-  /* ── PNG indir ── */
+  /* ── Birleşik PDF (arka kapak + sırt + ön kapak) ── */
   async function handleIndir() {
     if (dışaAktariliyor) return;
+
+    /* window.open senkron (click handler'da) çağrılmalı — await sonrası popup engellenir */
+    const printWin = window.open("", "_blank");
+    if (!printWin) {
+      gosterToast("Açılır pencere engellendi — tarayıcı izni verin.");
+      return;
+    }
+    printWin.document.write("<html><body style='font-family:Arial;text-align:center;padding:60px;color:#888;font-size:15px'>Kapak hazırlanıyor…</body></html>");
+
     setDışaAktariliyor(true);
     try {
       const html2canvas = (await import("html2canvas")).default;
-      const canvas = await html2canvas(sahneRef.current!, {
+
+      /* Ön kapak canvas */
+      const onCanvas = await html2canvas(sahneRef.current!, {
         scale: 3, useCORS: true, backgroundColor: null,
         logging: false, scrollX: 0, scrollY: 0,
         onclone: buildOnclone(),
       });
-      const dataUrl = canvas.toDataURL("image/png");
-      /* Gerçek canvas boyutundan sayfa oranını hesapla */
-      const pw = canvas.width;
-      const ph = canvas.height;
-      const printWin = window.open("", "_blank");
-      if (!printWin) {
-        gosterToast("Açılır pencere engellendi — tarayıcı izni verin.");
-        return;
+
+      const kapakW = onCanvas.width;
+      const kapakH = onCanvas.height;
+
+      /* Dergi boyutları: 215mm × 285mm, sırt 5mm → oran: sırt = kapakW * (5/215) */
+      const sirtW = Math.round(kapakW * 5 / 215);
+
+      /* Arka kapak görselini çek */
+      let arkaKapakUrl: string | null = null;
+      try {
+        const res = await fetch("/api/admin/dergi-ayar");
+        if (res.ok) {
+          const json = await res.json();
+          arkaKapakUrl = json.data?.arkaKapakUrl ?? null;
+        }
+      } catch { /* görsel yüklenemezse devam et */ }
+
+      /* Yardımcı: URL'den Image nesnesi yükle */
+      function gorselYukle(url: string): Promise<HTMLImageElement> {
+        return new Promise((res, rej) => {
+          const img = new window.Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => res(img);
+          img.onerror = rej;
+          img.src = url;
+        });
       }
-      printWin.document.write(`<!DOCTYPE html>
+
+      /* Birleşik canvas: [arka kapak | sırt | ön kapak] */
+      const toplamW = kapakW + sirtW + kapakW;
+      const birlesik = document.createElement("canvas");
+      birlesik.width = toplamW;
+      birlesik.height = kapakH;
+      const ctx = birlesik.getContext("2d")!;
+
+      /* Arka kapak + sırt — tek görsel (sırt dahil) */
+      if (arkaKapakUrl) {
+        try {
+          const arkaImg = await gorselYukle(arkaKapakUrl);
+          ctx.drawImage(arkaImg, 0, 0, kapakW + sirtW, kapakH);
+        } catch {
+          ctx.fillStyle = "#f5f5f5";
+          ctx.fillRect(0, 0, kapakW, kapakH);
+          ctx.fillStyle = "#111111";
+          ctx.fillRect(kapakW, 0, sirtW, kapakH);
+        }
+      } else {
+        ctx.fillStyle = "#f5f5f5";
+        ctx.fillRect(0, 0, kapakW, kapakH);
+        ctx.fillStyle = "#111111";
+        ctx.fillRect(kapakW, 0, sirtW, kapakH);
+        if (sirtYazi.trim()) {
+          ctx.save();
+          ctx.translate(kapakW + sirtW / 2, kapakH / 2);
+          ctx.rotate(-Math.PI / 2);
+          const fontSize = Math.max(10, Math.floor(sirtW * 0.55));
+          const fontName = (sirtFont.match(/'([^']+)'/)?.[1] ?? sirtFont.split(",")[0]).trim().replace(/'/g, "");
+          ctx.font = `600 ${fontSize}px "${fontName}", sans-serif`;
+          ctx.fillStyle = sirtYaziRenk;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(sirtYazi, 0, 0);
+          ctx.restore();
+        }
+      }
+
+      /* Ön kapak */
+      ctx.drawImage(onCanvas, kapakW + sirtW, 0, kapakW, kapakH);
+
+      /* PDF olarak indir — window.print() ile OS print dialog */
+      const isimTemiz = (ad || "kapak").trim().replace(/[<>&"]/g, "").replace(/\s+/g, "-").substring(0, 40);
+      const imgData = birlesik.toDataURL("image/jpeg", 0.92);
+      const kapakHTML = `<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="utf-8"/>
-<title>Kapak — Hatıra Dergi</title>
+<title>Kapak — ${isimTemiz || "kapak"}</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:#c8c8c8;display:flex;flex-direction:column;align-items:center;padding:20px 0 36px;gap:16px;font-family:Arial,sans-serif;}
-.no-print{display:flex;gap:10px;align-self:flex-start;margin-left:16px;}
-.btn{padding:8px 18px;border:none;cursor:pointer;font-size:13px;font-family:inherit;border-radius:3px;}
-.btn-print{background:#111;color:#fff;}
-.btn-close{background:#ddd;color:#333;}
-.wrap{background:#fff;box-shadow:0 3px 16px rgba(0,0,0,.25);line-height:0;}
-.wrap img{display:block;width:100%;height:auto;}
-@media print{
-  .no-print{display:none;}
-  html,body{margin:0;padding:0;background:#fff;width:100%;height:100%;}
-  .wrap{box-shadow:none;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
-  .wrap img{width:100%;height:100%;object-fit:fill;display:block;}
-  @page{margin:0;size:${pw}px ${ph}px;}
-}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#888;display:flex;flex-direction:column;align-items:center;padding:20px;gap:12px;font-family:Arial,sans-serif;}
+.no-print{display:flex;gap:8px;}
+.btn{padding:7px 16px;border:none;cursor:pointer;font-size:13px;border-radius:3px;font-family:inherit;}
+.btn-p{background:#111;color:#fff;}
+.btn-c{background:#ddd;color:#333;}
+.wrap{line-height:0;box-shadow:0 3px 16px rgba(0,0,0,.3);}
+.wrap img{display:block;max-width:96vw;height:auto;}
+@page{size:435mm 285mm landscape;margin:0;}
+@media print{.no-print{display:none;}html,body{margin:0;padding:0;background:#fff;}.wrap{box-shadow:none;}.wrap img{width:100%;height:auto;}}
 </style>
 </head>
 <body>
 <div class="no-print">
-  <button id="p" class="btn btn-print">🖨️ PDF Olarak Yazdır / İndir</button>
-  <button id="c" class="btn btn-close">Kapat</button>
+  <button id="bp" class="btn btn-p">PDF Olarak Kaydet</button>
+  <button id="bc" class="btn btn-c">Kapat</button>
 </div>
-<div class="wrap"><img src="${dataUrl}" alt="Kapak"/></div>
+<div class="wrap"><img src="${imgData}" /></div>
 <script>
-window.addEventListener('load',function(){
-  document.getElementById('p').onclick=function(){window.print();};
-  document.getElementById('c').onclick=function(){window.close();};
-  setTimeout(function(){window.print();},400);
-});
+document.getElementById('bp').onclick=function(){window.print();};
+document.getElementById('bc').onclick=function(){window.close();};
+setTimeout(function(){window.print();},600);
 </script>
 </body>
-</html>`);
+</html>`;
+      printWin.document.open();
+      printWin.document.write(kapakHTML);
       printWin.document.close();
       gosterToast(t("cover.editor.toastDownloaded"));
     } catch {
@@ -747,6 +821,7 @@ window.addEventListener('load',function(){
     setOnFoto(null); setOnBase64(null); setOnZoom(1); setOnDon(0); setOnAyna(false); setOnX(0); setOnY(0); setSuruklHedef("bg");
     setBgRenk("#111111"); setLogoFiltre("none"); setBaslikRenk("#ffffff");
     setAd(userName); setAltBaslik("");
+    setSirtYazi(""); setSirtYaziRenk("#ffffff"); setSirtFont(FONTLAR[0].value);
     setYazilar({ ...VARSAYILAN_YAZILAR_TR });
     gosterToast(t("cover.editor.toastReset"));
   }
@@ -759,6 +834,7 @@ window.addEventListener('load',function(){
     "logo-renk":   "Logo Rengi",
     "isim":        "İsim & Başlık",
     "yan-yazilar": "Yan Yazılar",
+    "sirt":        "Sırt Yazısı",
   };
 
   function renderDrawerIcerik() {
@@ -963,6 +1039,28 @@ window.addEventListener('load',function(){
             <button className="kt-ctrl-btn"
               onClick={() => yaziGuncelle(secilenYazi, "boyut", Math.min(5, +(yazilar[secilenYazi].boyut + 0.1).toFixed(1)))}>+</button>
           </div>
+        </div>
+      );
+
+      case "sirt": return (
+        <div className="kt-bolum">
+          <div className="kt-alan">
+            <div className="kt-etiket-satir">
+              <label className="kt-etiket">Sırt Yazısı</label>
+              <label className="kt-renk-kap">
+                <span>Renk</span>
+                <input type="color" value={sirtYaziRenk}
+                  onChange={e => setSirtYaziRenk(e.target.value)} className="kt-renk-giris" />
+              </label>
+            </div>
+            <input className="kt-giris" type="text" value={sirtYazi}
+              onChange={e => setSirtYazi(e.target.value)} maxLength={60}
+              placeholder="Dergi adı, yıl vb." />
+          </div>
+          <select className="kt-font-sec" value={sirtFont}
+            onChange={e => setSirtFont(e.target.value)}>
+            {FONTLAR.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+          </select>
         </div>
       );
 
@@ -1205,6 +1303,28 @@ window.addEventListener('load',function(){
       <section className="kt-onizleme">
         <span className="kt-on-etiket">{t("cover.editor.previewLabel")}</span>
 
+        <div className="kt-sirt-wrap">
+        {/* Sırt önizleme şeridi */}
+        <div style={{
+          width: "1.4rem", flexShrink: 0,
+          background: "#111111",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          overflow: "hidden",
+          borderRadius: "2px 0 0 2px",
+        }}>
+          {sirtYazi && (
+            <span style={{
+              transform: "rotate(-90deg)",
+              whiteSpace: "nowrap",
+              fontSize: "8px",
+              color: sirtYaziRenk,
+              fontFamily: sirtFont,
+              fontWeight: 600,
+              letterSpacing: "0.02em",
+            }}>{sirtYazi}</span>
+          )}
+        </div>
+
         <div className="kt-kapak-sahne" ref={sahneRef} style={{ background: bgRenk }}>
           <div
             className="kt-kapak"
@@ -1336,6 +1456,7 @@ window.addEventListener('load',function(){
 
           </div>
         </div>
+        </div>{/* flex wrapper */}
 
         <span className="kt-on-boyut">{t("cover.editor.previewSize")}</span>
 
@@ -1433,6 +1554,33 @@ window.addEventListener('load',function(){
             })}
           </div>
 
+          {/* 06 Sırt Yazısı */}
+          <div className="kt-bolum">
+            <div className="kt-bolum-bas">
+              <span className="kt-bolum-no">06</span>
+              <span className="kt-bolum-ad">Sırt Yazısı</span>
+            </div>
+            <div className="kt-alanlar">
+              <div className="kt-alan kt-alan-tam">
+                <div className="kt-etiket-satir">
+                  <label className="kt-etiket">Metin</label>
+                  <label className="kt-renk-kap">
+                    <span>{t("cover.editor.colorLabel")}</span>
+                    <input type="color" value={sirtYaziRenk}
+                      onChange={e => setSirtYaziRenk(e.target.value)} className="kt-renk-giris" />
+                  </label>
+                </div>
+                <input className="kt-giris" type="text" value={sirtYazi}
+                  onChange={e => setSirtYazi(e.target.value)} maxLength={60}
+                  placeholder="Dergi adı, yıl vb." />
+              </div>
+            </div>
+            <select className="kt-font-sec" value={sirtFont}
+              onChange={e => setSirtFont(e.target.value)}>
+              {FONTLAR.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+            </select>
+          </div>
+
         </div>
       </section>
 
@@ -1451,6 +1599,14 @@ window.addEventListener('load',function(){
           onClick={() => setAcikDrawer(acikDrawer === "isim" ? null : "isim")}>
           <span className="kt-araç-aa">Aa</span>
           <span>İsim</span>
+        </button>
+        <button className={`kt-araç-btn${acikDrawer === "sirt" ? " kt-araç-btn--aktif" : ""}`}
+          onClick={() => setAcikDrawer(acikDrawer === "sirt" ? null : "sirt")}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="4" y="2" width="4" height="20" rx="1"/>
+            <line x1="10" y1="7" x2="20" y2="7"/><line x1="10" y1="12" x2="20" y2="12"/>
+          </svg>
+          <span>Sırt</span>
         </button>
         <button className="kt-araç-btn" onClick={handleIndir} disabled={dışaAktariliyor || !bgFoto}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

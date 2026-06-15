@@ -8,7 +8,9 @@ import MobileMenu from "./MobileMenu";
 import LanguageSwitcher from "@/components/i18n/LanguageSwitcher";
 import "@/styles/header.css";
 
-export default function Header() {
+type Props = { isLoggedIn?: boolean };
+
+export default function Header({ isLoggedIn = false }: Props) {
   const pathname = usePathname();
   const { t } = useTranslation("common");
 
@@ -32,11 +34,15 @@ export default function Header() {
 
         <div className="hdr-actions">
           <LanguageSwitcher />
-          <Link href="/panel" className={`hdr-nav-link ${isActive("/panel") ? "hdr-active" : ""}`}>{t("nav.myPanel")}</Link>
+          {isLoggedIn ? (
+            <Link href="/panel" className={`hdr-nav-link ${isActive("/panel") ? "hdr-active" : ""}`}>{t("nav.myPanel")}</Link>
+          ) : (
+            <Link href="/auth/giris" className={`hdr-nav-link ${isActive("/auth/giris") ? "hdr-active" : ""}`}>{t("footer.linkLogin")}</Link>
+          )}
           <Link href="/kapak-tasarla" className="hdr-btn-primary">{t("nav.designCover")}</Link>
         </div>
 
-        <MobileMenu isLoggedIn={true} />
+        <MobileMenu isLoggedIn={isLoggedIn} />
       </div>
     </header>
   );

@@ -195,7 +195,7 @@ export async function sendWelcomeEmail(to: string) {
         <p style="color:#444;line-height:1.6;">Merhaba,</p>
         <p style="color:#444;line-height:1.6;">Hatıra Dergi'ye hoş geldiniz.</p>
         <p style="color:#444;line-height:1.6;">Kaydınız başarıyla oluşturuldu. Artık hesabınıza giriş yaparak kapak tasarlama, röportaj oluşturma ve Hatıra Dergi deneyiminize başlayabilirsiniz.</p>
-        <a href="${APP_URL}/giris" style="display:inline-block;padding:12px 28px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:6px;margin:20px 0;font-weight:600;">
+        <a href="${APP_URL}/auth/giris" style="display:inline-block;padding:12px 28px;background:#1a1a1a;color:#fff;text-decoration:none;border-radius:6px;margin:20px 0;font-weight:600;">
           Hesabıma Giriş Yap
         </a>
         <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">

@@ -48,6 +48,7 @@ export async function getSessionUser(req?: NextRequest): Promise<SessionUser | n
         role: true,
         status: true,
         emailVerified: true,
+        emailMarketingConsent: true,
         deletedAt: true,
       },
     });
@@ -67,6 +68,7 @@ export async function getSessionUser(req?: NextRequest): Promise<SessionUser | n
       role: user.role,
       status: user.status,
       emailVerified: user.emailVerified,
+      emailMarketingConsent: user.emailMarketingConsent,
     };
   } catch (err) {
     console.error("[getSessionUser] DB hatası:", err);

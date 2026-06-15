@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 import { canAccessPanel } from "@/lib/permissions";
 import PanelSidebar from "@/components/panel/PanelSidebar";
+import EpostaIzniPopup from "@/components/EpostaIzniPopup";
 import "@/styles/panel.css";
 
 export default async function UserLayout({
@@ -22,6 +23,7 @@ export default async function UserLayout({
       <main className="panel-main">
         <div className="panel-content">{children}</div>
       </main>
+      {user!.emailMarketingConsent === null && <EpostaIzniPopup />}
     </div>
   );
 }

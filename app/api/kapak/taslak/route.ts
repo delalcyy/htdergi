@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getSessionUser, hasEditorAccess } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { generateCoverSerial } from "@/lib/cover-serial";
+import { generateUserSerial } from "@/lib/cover-serial";
 import { writeAuditLog } from "@/lib/audit";
 
 const createSchema = z.object({
@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: parsed.error.issues[0]?.message }, { status: 400 });
   }
 
-  // Şablon aktif mi? Kullanıcıdan gelen ID'ye güvenmeden doğrula
   const template = await prisma.coverTemplate.findUnique({
     where: { id: parsed.data.templateId, isActive: true },
   });
@@ -36,21 +35,26 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: "Geçersiz veya devre dışı şablon." }, { status: 400 });
   }
 
-  // Kapak seri numarasını server-side üret — kullanıcı belirleyemez
-  let coverSerial: string;
-  let attempts = 0;
-  do {
-    coverSerial = generateCoverSerial();
-    const existing = await prisma.coverDraft.findUnique({ where: { coverSerial } });
-    if (!existing) break;
-    attempts++;
-  } while (attempts < 5);
+  /* Kullanıcının kalıcı seri numarasını al veya üret */
+  let dbUser = await prisma.user.findUnique({ where: { id: user.id }, select: { seriNo: true } });
+  let coverSerial = dbUser?.seriNo ?? null;
+
+  if (!coverSerial) {
+    // Benzersiz olana kadar üret
+    for (let i = 0; i < 10; i++) {
+      const candidate = generateUserSerial();
+      const existing = await prisma.user.findUnique({ where: { seriNo: candidate } });
+      if (!existing) { coverSerial = candidate; break; }
+    }
+    if (!coverSerial) coverSerial = generateUserSerial();
+    await prisma.user.update({ where: { id: user.id }, data: { seriNo: coverSerial } });
+  }
 
   const draft = await prisma.coverDraft.create({
     data: {
       userId: user.id,
       templateId: template.id,
-      coverSerial: coverSerial!,
+      coverSerial,
       status: "DRAFT",
     },
   });

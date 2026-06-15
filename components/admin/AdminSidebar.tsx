@@ -32,6 +32,12 @@ const navGroups = [
     ],
   },
   {
+    section: "Dergi Ayarları",
+    items: [
+      { href: "/admin/dergi-kapak", label: "Kapak Görselleri" },
+    ],
+  },
+  {
     section: "İletişim",
     items: [
       { href: "/admin/toplu-mail", label: "Toplu Mail Gönder" },

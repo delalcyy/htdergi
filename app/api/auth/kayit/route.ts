@@ -16,7 +16,8 @@ const schema = z.object({
   district:      z.string().min(2).max(80),
   supportedTeam:         z.string().max(100),
   password:              z.string().min(8).max(72),
-  emailMarketingConsent: z.boolean().optional().default(false),
+  kvkkConsent: z.literal(true),
+  epostaIzni: z.union([z.boolean(), z.string()]).transform(v => v === true || v === "on" || v === "true").optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { firstName, lastName, email, phone, birthDate, city, district, supportedTeam, password, emailMarketingConsent } = parsed.data;
+  const { firstName, lastName, email, phone, birthDate, city, district, supportedTeam, password, epostaIzni } = parsed.data;
   const age = Math.floor((Date.now() - new Date(birthDate).getTime()) / (365.25 * 24 * 60 * 60 * 1000));
 
   const existing = await prisma.user.findUnique({ where: { email } });
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
   let user;
   try {
     user = await prisma.user.create({
-      data: { email, passwordHash, firstName, lastName, phone, age, city, district, supportedTeam, emailMarketingConsent: emailMarketingConsent ?? false },
+      data: { email, passwordHash, firstName, lastName, phone, age, city, district, supportedTeam, emailMarketingConsent: epostaIzni ?? false },
     });
   } catch (err) {
     console.error("Kayıt DB hatası:", err);

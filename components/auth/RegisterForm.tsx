@@ -216,16 +216,35 @@ export default function RegisterForm() {
           {errors.password && <span className="auth-error">{errors.password.message}</span>}
         </div>
 
-        {/* E-posta pazarlama izni */}
+        {/* KVKK onayı — zorunlu */}
         <div className="auth-field" style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
           <input
-            id="emailMarketingConsent"
+            id="kvkkConsent"
             type="checkbox"
-            {...register("emailMarketingConsent")}
-            style={{ marginTop: "3px", flexShrink: 0 }}
+            {...register("kvkkConsent")}
+            style={{ marginTop: "3px", flexShrink: 0, accentColor: "#1a1a1a" }}
           />
-          <label htmlFor="emailMarketingConsent" style={{ fontSize: "13px", color: "#4b5563", cursor: "pointer", lineHeight: "1.5" }}>
-            Hatıra Dergi&apos;nin kampanya, duyuru ve içeriklerinden e-posta ile haberdar olmak istiyorum.
+          <label htmlFor="kvkkConsent" style={{ fontSize: "13px", color: "#4b5563", cursor: "pointer", lineHeight: "1.5" }}>
+            <Link href="/gizlilik" target="_blank" style={{ color: "#1a1a1a", fontWeight: 600, textDecoration: "underline" }}>
+              Kişisel Verilerin Korunması (KVKK) Aydınlatma Metni
+            </Link>
+            &apos;ni okudum, kişisel verilerimin işlenmesini kabul ediyorum.
+          </label>
+        </div>
+        {errors.kvkkConsent && (
+          <span className="auth-error" style={{ marginTop: "-8px" }}>{errors.kvkkConsent.message}</span>
+        )}
+
+        {/* E-posta pazarlama izni — isteğe bağlı */}
+        <div className="auth-field" style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+          <input
+            id="epostaIzni"
+            type="checkbox"
+            {...register("epostaIzni")}
+            style={{ marginTop: "3px", flexShrink: 0, accentColor: "#1a1a1a" }}
+          />
+          <label htmlFor="epostaIzni" style={{ fontSize: "13px", color: "#4b5563", cursor: "pointer", lineHeight: "1.5" }}>
+            Hatıra Dergi&apos;nin kampanya, özel teklif ve duyurularından e-posta ile haberdar olmak istiyorum. (İsteğe bağlı)
           </label>
         </div>
 

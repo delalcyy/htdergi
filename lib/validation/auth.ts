@@ -52,7 +52,8 @@ export const registerSchema = z.object({
     .max(72, "Şifre çok uzun")
     .regex(/[A-Z]/, "En az bir büyük harf içermeli")
     .regex(/[0-9]/, "En az bir rakam içermeli"),
-  emailMarketingConsent: z.boolean().optional().default(false),
+  kvkkConsent: z.literal(true, { message: "KVKK metnini okuyup onaylamanız zorunludur." }),
+  epostaIzni: z.boolean().optional(),
 });
 
 export const loginSchema = z.object({

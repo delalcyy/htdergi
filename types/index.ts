@@ -17,6 +17,7 @@ export type SessionUser = {
   role: UserRole;
   status: UserStatus;
   emailVerified: boolean;
+  emailMarketingConsent: boolean | null;
 };
 
 export type ApiResponse<T = void> =

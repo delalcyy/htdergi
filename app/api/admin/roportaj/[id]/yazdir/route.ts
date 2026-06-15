@@ -48,7 +48,7 @@ export async function GET(req: NextRequest, { params }: Params) {
     where: { id },
     include: {
       category: { include: { questions: { where: { isActive: true }, orderBy: { orderIndex: "asc" } } } },
-      user: { select: { firstName: true, lastName: true, email: true } },
+      user: { select: { firstName: true, lastName: true, email: true, seriNo: true } },
       answers: true,
     },
   }).catch(() => null);
@@ -76,6 +76,7 @@ export async function GET(req: NextRequest, { params }: Params) {
   const personName = personNameFromOrder
     || `${draft.user.firstName ?? ""} ${draft.user.lastName ?? ""}`.trim()
     || draft.user.email;
+  const seriNo = draft.user.seriNo ?? "";
   const cat = draft.category.name;
   const qs  = draft.category.questions;
   const ttlLen = personName.length;
@@ -127,7 +128,7 @@ export async function GET(req: NextRequest, { params }: Params) {
   <div class="footer">
     <span class="f-l">Hatıra Dergi</span>
     <span class="f-m">${esc(cat)}</span>
-    <span class="f-r">${String(pgN).padStart(2, "0")}</span>
+    <span class="f-r">${seriNo ? esc(seriNo) + " · " : ""}${String(pgN).padStart(2, "0")}</span>
   </div>
 </div>`;
   }
