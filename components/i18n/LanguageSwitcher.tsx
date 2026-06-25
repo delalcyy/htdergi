@@ -28,6 +28,7 @@ export default function LanguageSwitcher() {
   function change(code: string) {
     i18n.changeLanguage(code);
     localStorage.setItem("hatira_lang", code);
+    localStorage.setItem("hatira_lang_user_set", "1");
     setOpen(false);
   }
 

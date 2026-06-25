@@ -8,7 +8,9 @@
     "myPanel": "Mein Panel",
     "designCover": "Cover gestalten",
     "menuOpen": "Menü öffnen",
-    "menuClose": "Menü schließen"
+    "menuClose": "Menü schließen",
+    "partnerships": "Unsere Magazine",
+    "amedspor": "Amedspor"
   },
   "footer": {
     "tagline": "Bringe deine Erinnerungen auf ein Magazin-Cover. Erstelle deine eigene Sonderausgabe.",
@@ -741,7 +743,9 @@
         "gumus": "Silber",
         "siyah": "Schwarz",
         "acikMavi": "Hellblau",
-        "pembe": "Pink"
+        "pembe": "Pink",
+        "yesil": "Grün",
+        "kirmizi": "Rot"
       },
       "defaultTexts": {
         "sol1": "HERZ DER MODE\nSCHLÄGT IN DER TÜRKEI",

@@ -43,6 +43,21 @@ function validateApiOrigin(request: NextRequest): boolean {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  const hostname = request.headers.get("host") || "";
+  const subdomain = hostname.split(".")[0];
+  if (subdomain === "amedspor") {
+    if (pathname === "/") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/amedspor";
+      return NextResponse.rewrite(url);
+    }
+    if (pathname.startsWith("/kapak-tasarla/editor/")) {
+      const url = request.nextUrl.clone();
+      url.pathname = pathname.replace("/kapak-tasarla/editor/", "/amedspor/kapak-tasarla/editor/");
+      return NextResponse.rewrite(url);
+    }
+  }
+
   if (!validateApiOrigin(request)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -74,6 +89,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/api/:path*",
     "/admin/:path*",
     "/panel/:path*",

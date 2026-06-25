@@ -20,6 +20,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Hatıra Dergi",
   description: "Kendi derginizi tasarlayın, anılarınızı sonsuza taşıyın.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({

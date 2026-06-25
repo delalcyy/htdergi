@@ -11,6 +11,10 @@ import de from "@/public/locales/de/common.json";
 import ru from "@/public/locales/ru/common.json";
 
 if (!i18n.isInitialized) {
+  if (typeof window !== "undefined" && !localStorage.getItem("hatira_lang_user_set")) {
+    localStorage.removeItem("hatira_lang");
+  }
+
   i18n
     .use(LanguageDetector)
     .use(initReactI18next)
@@ -25,7 +29,7 @@ if (!i18n.isInitialized) {
       defaultNS: "common",
       interpolation: { escapeValue: false },
       detection: {
-        order: ["localStorage", "navigator"],
+        order: ["localStorage"],
         lookupLocalStorage: "hatira_lang",
         caches: ["localStorage"],
       },

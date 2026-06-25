@@ -25,6 +25,16 @@ export default function Header({ isLoggedIn = false }: Props) {
           <Link href="/abonelik" className={`hdr-nav-link ${isActive("/abonelik") ? "hdr-active" : ""}`}>{t("nav.subscription")}</Link>
           <Link href="/nasil-calisir" className={`hdr-nav-link ${isActive("/nasil-calisir") ? "hdr-active" : ""}`}>{t("nav.howItWorks")}</Link>
           <Link href="/iletisim" className={`hdr-nav-link ${isActive("/iletisim") ? "hdr-active" : ""}`}>{t("nav.contact")}</Link>
+          <div className="hdr-dropdown-wrap">
+            <span className={`hdr-nav-link hdr-dropdown-trigger ${pathname.startsWith("/amedspor") ? "hdr-active" : ""}`}>
+              {t("nav.partnerships")} <span className="hdr-dropdown-arrow">▾</span>
+            </span>
+            <div className="hdr-dropdown-panel">
+              <Link href="https://amedspor.hatiradergi.com/" className="hdr-dropdown-item" target="_blank" rel="noopener noreferrer">
+                {t("nav.amedspor")}
+              </Link>
+            </div>
+          </div>
         </nav>
 
         <Link href="/" className="hdr-logo">

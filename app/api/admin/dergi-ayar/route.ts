@@ -24,9 +24,11 @@ export async function POST(request: NextRequest) {
 
   const arkaKapakDosya = formData.get("arkaKapak") as File | null;
   const sirtDosya = formData.get("sirt") as File | null;
+  const unluGorselDosya = formData.get("unluGorsel") as File | null;
+  const unluAdi = formData.get("unluAdi") as string | null;
 
   const mevcut = await prisma.dergiAyar.findFirst({ where: { id: 1 } });
-  const guncel: { arkaKapakUrl?: string; sirtUrl?: string } = {};
+  const guncel: { arkaKapakUrl?: string; sirtUrl?: string; unluGorselUrl?: string; unluAdi?: string } = {};
 
   if (arkaKapakDosya && arkaKapakDosya.size > 0) {
     const ext = arkaKapakDosya.name.split(".").pop() ?? "jpg";
@@ -42,6 +44,18 @@ export async function POST(request: NextRequest) {
     const tamYol = path.join(process.cwd(), "public", "dergi-ayar", dosyaAdi);
     await writeFile(tamYol, Buffer.from(await sirtDosya.arrayBuffer()));
     guncel.sirtUrl = `/dergi-ayar/${dosyaAdi}`;
+  }
+
+  if (unluGorselDosya && unluGorselDosya.size > 0) {
+    const ext = unluGorselDosya.name.split(".").pop() ?? "png";
+    const dosyaAdi = `unlu-gorsel-${Date.now()}.${ext}`;
+    const tamYol = path.join(process.cwd(), "public", "dergi-ayar", dosyaAdi);
+    await writeFile(tamYol, Buffer.from(await unluGorselDosya.arrayBuffer()));
+    guncel.unluGorselUrl = `/dergi-ayar/${dosyaAdi}`;
+  }
+
+  if (unluAdi !== null) {
+    guncel.unluAdi = unluAdi;
   }
 
   if (Object.keys(guncel).length === 0) {

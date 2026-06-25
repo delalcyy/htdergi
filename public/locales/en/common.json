@@ -8,7 +8,9 @@
     "myPanel": "My Panel",
     "designCover": "Design Cover",
     "menuOpen": "Open menu",
-    "menuClose": "Close menu"
+    "menuClose": "Close menu",
+    "partnerships": "Our Magazines",
+    "amedspor": "Amedspor"
   },
   "footer": {
     "tagline": "Take your memories to a magazine cover. Create your own special edition.",
@@ -741,7 +743,9 @@
         "gumus": "Silver",
         "siyah": "Black",
         "acikMavi": "Light Blue",
-        "pembe": "Pink"
+        "pembe": "Pink",
+        "yesil": "Green",
+        "kirmizi": "Red"
       },
       "defaultTexts": {
         "sol1": "HEART OF FASHION\nBEATING IN TURKEY",

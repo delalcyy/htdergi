@@ -52,6 +52,12 @@ export default function MobileMenu({ isLoggedIn }: Props) {
               <Link href="/abonelik" className="hdr-mobile-link" onClick={close}>{t("nav.subscription")}</Link>
               <Link href="/nasil-calisir" className="hdr-mobile-link" onClick={close}>{t("nav.howItWorks")}</Link>
               <Link href="/iletisim" className="hdr-mobile-link" onClick={close}>{t("nav.contact")}</Link>
+              <div className="hdr-mobile-link" style={{ paddingBottom: 0, cursor: "default", fontSize: 12, color: "#888", letterSpacing: "0.08em" }}>
+                {t("nav.partnerships")}
+              </div>
+              <Link href="https://amedspor.hatiradergi.com/" className="hdr-mobile-link" onClick={close} target="_blank" rel="noopener noreferrer" style={{ paddingLeft: 40, fontSize: 13 }}>
+                — {t("nav.amedspor")}
+              </Link>
             </nav>
             <div style={{ padding: "12px 24px 0" }}>
               <LanguageSwitcher />

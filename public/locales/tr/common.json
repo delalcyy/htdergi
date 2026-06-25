@@ -8,7 +8,9 @@
     "myPanel": "Panelim",
     "designCover": "Kapak Tasarla",
     "menuOpen": "Menüyü aç",
-    "menuClose": "Menüyü kapat"
+    "menuClose": "Menüyü kapat",
+    "partnerships": "Dergilerimiz",
+    "amedspor": "Amedspor"
   },
   "footer": {
     "tagline": "Anılarını dergi kapağına taşı. Kendi özel sayını oluştur.",
@@ -741,7 +743,9 @@
         "gumus": "Gümüş",
         "siyah": "Siyah",
         "acikMavi": "Açık Mavi",
-        "pembe": "Pembe"
+        "pembe": "Pembe",
+        "yesil": "Yeşil",
+        "kirmizi": "Kırmızı"
       },
       "defaultTexts": {
         "sol1": "MODANIN KALBİ\nTÜRKİYE'DE ATACAK",

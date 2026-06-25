@@ -447,6 +447,8 @@ model DergiAyar {
   id            Int      @id @default(autoincrement())
   arkaKapakUrl  String?  @map("arka_kapak_url") @db.Text
   sirtUrl       String?  @map("sirt_url") @db.Text
+  unluGorselUrl String?  @map("unlu_gorsel_url") @db.Text
+  unluAdi       String?  @map("unlu_adi") @db.Text
   guncellendi   DateTime @default(now()) @updatedAt @map("guncellendi")
 
   @@map("dergi_ayar")

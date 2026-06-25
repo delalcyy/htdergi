@@ -16,6 +16,8 @@ export default async function DergiKapakPage() {
       </div>
       <DergiKapakForm
         mevcutArkaKapak={ayar?.arkaKapakUrl ?? null}
+        mevcutUnluGorsel={ayar?.unluGorselUrl ?? null}
+        mevcutUnluAdi={ayar?.unluAdi ?? null}
       />
     </div>
   );
