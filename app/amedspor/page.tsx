@@ -341,6 +341,45 @@ export default function AmedsporPage() {
         </div>
       </section>
 
+      {/* ── Referanslarımız ── */}
+      <section className="amed-refs">
+        <div className="amed-refs-inner">
+          <p className="amed-refs-eyebrow">Medya Referanslarımız</p>
+          <h2 className="amed-refs-title">Güvenilen Markalar</h2>
+          <div className="amed-refs-grid">
+            {[
+              { slug: "fenerbahce",          label: "Fenerbahçe" },
+              { slug: "galatasaray",         label: "Galatasaray" },
+              { slug: "besiktas",            label: "Beşiktaş" },
+              { slug: "amedspor",            label: "Amedspor" },
+              { slug: "national-geographic", label: "National Geographic" },
+              { slug: "fortune",             label: "Fortune" },
+              { slug: "marie-claire",        label: "Marie Claire" },
+              { slug: "elele",               label: "Elele" },
+              { slug: "bebegimle",           label: "Bebeğimle" },
+              { slug: "heygirl",             label: "HeyGirl" },
+              { slug: "formante",            label: "Formante" },
+              { slug: "instyle",             label: "InStyle" },
+              { slug: "atlas",               label: "Atlas" },
+              { slug: "weddings",            label: "Weddings" },
+              { slug: "evim",                label: "Evim" },
+              { slug: "mens-health",         label: "Men's Health" },
+              { slug: "womens-health",       label: "Women's Health" },
+              { slug: "runners",             label: "Runners" },
+            ].map((r) => (
+              <div key={r.slug} className="amed-ref-item">
+                <img
+                  src={`/referanslar/${r.slug}.png`}
+                  alt={r.label}
+                  className="amed-ref-img"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA ── */}
       <section className="amed-cta">
         <div className="amed-cta-inner">
@@ -1143,6 +1182,61 @@ export default function AmedsporPage() {
           font-size: 14px;
           color: rgba(255,255,255,0.55);
           line-height: 1.6;
+        }
+
+        /* ── Referanslar ── */
+        .amed-refs {
+          padding: 80px 24px;
+          background: #f9f9f7;
+          text-align: center;
+        }
+        .amed-refs-inner { max-width: 1100px; margin: 0 auto; }
+        .amed-refs-eyebrow {
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #005c35;
+          margin-bottom: 8px;
+        }
+        .amed-refs-title {
+          font-size: clamp(22px, 3vw, 32px);
+          font-weight: 700;
+          color: #111;
+          margin-bottom: 48px;
+        }
+        .amed-refs-grid {
+          display: grid;
+          grid-template-columns: repeat(6, 1fr);
+          gap: 24px 32px;
+          align-items: center;
+          justify-items: center;
+        }
+        .amed-ref-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 12px;
+          width: 100%;
+        }
+        .amed-ref-img {
+          max-width: 110px;
+          max-height: 56px;
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          filter: grayscale(1) opacity(0.5);
+          transition: filter 0.2s;
+        }
+        .amed-ref-item:hover .amed-ref-img {
+          filter: grayscale(0) opacity(1);
+        }
+        @media (max-width: 900px) {
+          .amed-refs-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 560px) {
+          .amed-refs-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+          .amed-ref-img { max-width: 72px; max-height: 40px; }
         }
 
         /* ── CTA ── */
