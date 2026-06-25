@@ -357,15 +357,15 @@ export default function AmedsporPage() {
               { file: "marie-claire.jpg",         label: "Marie Claire" },
               { file: "elele.jpeg",               label: "Elele" },
               { file: "bebegimle.png",            label: "Bebeğimle" },
-              { file: "heygirl.png",              label: "HeyGirl" },
-              { file: "formante.png",             label: "Formante" },
+              { file: "heygirl.jpg",              label: "HeyGirl" },
+              { file: "formsante.webp",           label: "Formsante" },
               { file: "instyle.png",              label: "InStyle" },
-              { file: "atlas.png",                label: "Atlas" },
+              { file: "atlas.webp",               label: "Atlas" },
               { file: "weddings.png",             label: "Weddings" },
               { file: "evim.png",                 label: "Evim" },
-              { file: "mens-health.png",          label: "Men's Health" },
-              { file: "womens-health.png",        label: "Women's Health" },
-              { file: "runners.png",              label: "Runners" },
+              { file: "menshealth.jpg",           label: "Men's Health" },
+              { file: "womenshealth.png",         label: "Women's Health" },
+              { file: "runners.jpeg",             label: "Runners" },
             ].map((r) => (
               <div key={r.file} className="amed-ref-item">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -30,7 +30,7 @@ export default function Header({ isLoggedIn = false }: Props) {
               {t("nav.partnerships")} <span className="hdr-dropdown-arrow">▾</span>
             </span>
             <div className="hdr-dropdown-panel hdr-dropdown-panel--wide">
-              {["Amedspor","Fenerbahçe","Galatasaray","Beşiktaş","National Geographic","Fortune","Marie Claire","Elele","Bebeğimle","HeyGirl","Formante","InStyle","Atlas","Weddings","Evim","Men's Health","Women's Health","Runners"].map(name => (
+              {["Amedspor","Fenerbahçe","Galatasaray","Beşiktaş","National Geographic","Fortune","Marie Claire","Elele","Bebeğimle","HeyGirl","Formsante","InStyle","Atlas","Weddings","Evim","Men's Health","Women's Health","Runners"].map(name => (
                 <Link key={name} href="/#referanslar" className="hdr-dropdown-item">{name}</Link>
               ))}
             </div>

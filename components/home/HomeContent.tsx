@@ -170,7 +170,7 @@ export default function HomeContent() {
           </div>
           <div className="hp-ref-grid">
             {[
-              { file: "fenerbahce.jpeg",          label: "Fenerbahçe" },
+              { file: "fenerbahce.jpeg",           label: "Fenerbahçe" },
               { file: "galatasaray.jpeg",          label: "Galatasaray" },
               { file: "besiktas.jpeg",             label: "Beşiktaş" },
               { file: "amedspor.png",              label: "Amedspor" },
@@ -179,15 +179,15 @@ export default function HomeContent() {
               { file: "marie-claire.jpg",          label: "Marie Claire" },
               { file: "elele.jpeg",                label: "Elele" },
               { file: "bebegimle.png",             label: "Bebeğimle" },
-              { file: "heygirl.png",               label: "HeyGirl" },
-              { file: "formante.png",              label: "Formante" },
+              { file: "heygirl.jpg",               label: "HeyGirl" },
+              { file: "formsante.webp",            label: "Formsante" },
               { file: "instyle.png",               label: "InStyle" },
-              { file: "atlas.png",                 label: "Atlas" },
+              { file: "atlas.webp",                label: "Atlas" },
               { file: "weddings.png",              label: "Weddings" },
               { file: "evim.png",                  label: "Evim" },
-              { file: "mens-health.png",           label: "Men's Health" },
-              { file: "womens-health.png",         label: "Women's Health" },
-              { file: "runners.png",               label: "Runners" },
+              { file: "menshealth.jpg",            label: "Men's Health" },
+              { file: "womenshealth.png",          label: "Women's Health" },
+              { file: "runners.jpeg",              label: "Runners" },
             ].map((r) => (
               <div key={r.file} className="hp-ref-item">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
