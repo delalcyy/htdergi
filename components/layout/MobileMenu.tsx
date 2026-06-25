@@ -11,6 +11,7 @@ type Props = {
 
 export default function MobileMenu({ isLoggedIn }: Props) {
   const [open, setOpen] = useState(false);
+  const [refOpen, setRefOpen] = useState(false);
   const { t } = useTranslation("common");
 
   useEffect(() => {
@@ -52,13 +53,22 @@ export default function MobileMenu({ isLoggedIn }: Props) {
               <Link href="/abonelik" className="hdr-mobile-link" onClick={close}>{t("nav.subscription")}</Link>
               <Link href="/nasil-calisir" className="hdr-mobile-link" onClick={close}>{t("nav.howItWorks")}</Link>
               <Link href="/iletisim" className="hdr-mobile-link" onClick={close}>{t("nav.contact")}</Link>
-              <Link href="/#referanslar" className="hdr-mobile-link" onClick={close} style={{ color: "#888", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              <button
+                className="hdr-mobile-link"
+                onClick={() => setRefOpen((v) => !v)}
+                style={{ background: "none", border: "none", width: "100%", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 14, fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: "#111", padding: "16px 28px" }}
+              >
                 {t("nav.partnerships")}
-              </Link>
-              <Link href="/amedspor" className="hdr-mobile-link" onClick={close} style={{ paddingLeft: 36, fontSize: 13 }}>— Amedspor</Link>
-              {["Fenerbahçe","Galatasaray","Beşiktaş","National Geographic","National Geographic Kids","Fortune","Robb Report","Istanbul Life","Marie Claire","Marie Claire Kids","Marie Claire Maison","Marie Claire Weddings","Elele","Bebeğimle","HeyGirl","Formsante","InStyle Home","Lezzet","Bluejean","Psychologies","Atlas","Weddings","Evim","Men's Health","Women's Health","Runners"].map(name => (
-                <Link key={name} href="/#referanslar" className="hdr-mobile-link" onClick={close} style={{ paddingLeft: 36, fontSize: 13 }}>— {name}</Link>
-              ))}
+                <span style={{ fontSize: 10, opacity: 0.5 }}>{refOpen ? "▲" : "▼"}</span>
+              </button>
+              {refOpen && (
+                <>
+                  <Link href="/amedspor" className="hdr-mobile-link" onClick={close} style={{ paddingLeft: 36, fontSize: 13 }}>— Amedspor</Link>
+                  {["Fenerbahçe","Galatasaray","Beşiktaş","National Geographic","National Geographic Kids","Fortune","Robb Report","Istanbul Life","Marie Claire","Marie Claire Kids","Marie Claire Maison","Marie Claire Weddings","Elele","Bebeğimle","HeyGirl","Formsante","InStyle","InStyle Home","Lezzet","Bluejean","Psychologies","Atlas","Weddings","Evim","Men's Health","Women's Health","Runners"].map(name => (
+                    <Link key={name} href="/#referanslar" className="hdr-mobile-link" onClick={close} style={{ paddingLeft: 36, fontSize: 13 }}>— {name}</Link>
+                  ))}
+                </>
+              )}
             </nav>
             <div style={{ padding: "12px 24px 0" }}>
               <LanguageSwitcher />
