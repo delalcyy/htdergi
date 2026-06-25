@@ -58,6 +58,19 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  if (subdomain === "fashiontv") {
+    if (pathname === "/") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/fashiontv";
+      return NextResponse.rewrite(url);
+    }
+    if (pathname.startsWith("/kapak-tasarla/editor/")) {
+      const url = request.nextUrl.clone();
+      url.pathname = pathname.replace("/kapak-tasarla/editor/", "/fashiontv/kapak-tasarla/editor/");
+      return NextResponse.rewrite(url);
+    }
+  }
+
   if (!validateApiOrigin(request)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
