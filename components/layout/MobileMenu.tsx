@@ -52,12 +52,13 @@ export default function MobileMenu({ isLoggedIn }: Props) {
               <Link href="/abonelik" className="hdr-mobile-link" onClick={close}>{t("nav.subscription")}</Link>
               <Link href="/nasil-calisir" className="hdr-mobile-link" onClick={close}>{t("nav.howItWorks")}</Link>
               <Link href="/iletisim" className="hdr-mobile-link" onClick={close}>{t("nav.contact")}</Link>
-              <div className="hdr-mobile-link" style={{ paddingBottom: 0, cursor: "default", fontSize: 12, color: "#888", letterSpacing: "0.08em" }}>
+              <Link href="/#referanslar" className="hdr-mobile-link" onClick={close} style={{ color: "#888", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase" }}>
                 {t("nav.partnerships")}
-              </div>
-              <Link href="https://amedspor.hatiradergi.com/" className="hdr-mobile-link" onClick={close} target="_blank" rel="noopener noreferrer" style={{ paddingLeft: 40, fontSize: 13 }}>
-                — {t("nav.amedspor")}
               </Link>
+              <Link href="/amedspor" className="hdr-mobile-link" onClick={close} style={{ paddingLeft: 36, fontSize: 13 }}>— Amedspor</Link>
+              {["Fenerbahçe","Galatasaray","Beşiktaş","National Geographic","Fortune","Marie Claire","Elele","Bebeğimle","HeyGirl","Formsante","InStyle","Atlas","Weddings","Evim","Men's Health","Women's Health","Runners"].map(name => (
+                <Link key={name} href="/#referanslar" className="hdr-mobile-link" onClick={close} style={{ paddingLeft: 36, fontSize: 13 }}>— {name}</Link>
+              ))}
             </nav>
             <div style={{ padding: "12px 24px 0" }}>
               <LanguageSwitcher />

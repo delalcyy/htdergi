@@ -160,7 +160,7 @@ export default function HomeContent() {
       </section>
 
       {/* ── Referanslarımız ── */}
-      <section className="hp-section hp-section-referanslar">
+      <section className="hp-section hp-section-referanslar" id="referanslar">
         <div className="hp-section-wrap">
           <div className="hp-section-head" style={{ marginBottom: "48px" }}>
             <div>
