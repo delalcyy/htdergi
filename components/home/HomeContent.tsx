@@ -170,29 +170,29 @@ export default function HomeContent() {
           </div>
           <div className="hp-ref-grid">
             {[
-              { slug: "fenerbahce",        label: "Fenerbahçe" },
-              { slug: "galatasaray",       label: "Galatasaray" },
-              { slug: "besiktas",          label: "Beşiktaş" },
-              { slug: "amedspor",          label: "Amedspor" },
-              { slug: "national-geographic", label: "National Geographic" },
-              { slug: "fortune",           label: "Fortune" },
-              { slug: "marie-claire",      label: "Marie Claire" },
-              { slug: "elele",             label: "Elele" },
-              { slug: "bebegimle",         label: "Bebeğimle" },
-              { slug: "heygirl",           label: "HeyGirl" },
-              { slug: "formante",          label: "Formante" },
-              { slug: "instyle",           label: "InStyle" },
-              { slug: "atlas",             label: "Atlas" },
-              { slug: "weddings",          label: "Weddings" },
-              { slug: "evim",              label: "Evim" },
-              { slug: "mens-health",       label: "Men's Health" },
-              { slug: "womens-health",     label: "Women's Health" },
-              { slug: "runners",           label: "Runners" },
+              { file: "fenerbahce.jpeg",          label: "Fenerbahçe" },
+              { file: "galatasaray.jpeg",          label: "Galatasaray" },
+              { file: "besiktas.png",              label: "Beşiktaş" },
+              { file: "amedspor.png",              label: "Amedspor" },
+              { file: "national-geographic.webp",  label: "National Geographic" },
+              { file: "fortune.jpg",               label: "Fortune" },
+              { file: "marie-claire.jpg",          label: "Marie Claire" },
+              { file: "elele.jpeg",                label: "Elele" },
+              { file: "bebegimle.png",             label: "Bebeğimle" },
+              { file: "heygirl.png",               label: "HeyGirl" },
+              { file: "formante.png",              label: "Formante" },
+              { file: "instyle.png",               label: "InStyle" },
+              { file: "atlas.png",                 label: "Atlas" },
+              { file: "weddings.png",              label: "Weddings" },
+              { file: "evim.png",                  label: "Evim" },
+              { file: "mens-health.png",           label: "Men's Health" },
+              { file: "womens-health.png",         label: "Women's Health" },
+              { file: "runners.png",               label: "Runners" },
             ].map((r) => (
-              <div key={r.slug} className="hp-ref-item">
+              <div key={r.file} className="hp-ref-item">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`/referanslar/${r.slug}.png`}
+                  src={`/referanslar/${r.file}`}
                   alt={r.label}
                   className="hp-ref-img"
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}

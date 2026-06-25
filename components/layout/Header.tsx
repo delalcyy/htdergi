@@ -29,10 +29,10 @@ export default function Header({ isLoggedIn = false }: Props) {
             <span className={`hdr-nav-link hdr-dropdown-trigger ${pathname.startsWith("/amedspor") ? "hdr-active" : ""}`}>
               {t("nav.partnerships")} <span className="hdr-dropdown-arrow">▾</span>
             </span>
-            <div className="hdr-dropdown-panel">
-              <Link href="https://amedspor.hatiradergi.com/" className="hdr-dropdown-item" target="_blank" rel="noopener noreferrer">
-                {t("nav.amedspor")}
-              </Link>
+            <div className="hdr-dropdown-panel hdr-dropdown-panel--wide">
+              {["Amedspor","Fenerbahçe","Galatasaray","Beşiktaş","National Geographic","Fortune","Marie Claire","Elele","Bebeğimle","HeyGirl","Formante","InStyle","Atlas","Weddings","Evim","Men's Health","Women's Health","Runners"].map(name => (
+                <Link key={name} href="/#referanslar" className="hdr-dropdown-item">{name}</Link>
+              ))}
             </div>
           </div>
         </nav>

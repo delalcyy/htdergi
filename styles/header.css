@@ -144,6 +144,12 @@
   visibility: visible;
 }
 
+.hdr-dropdown-panel--wide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 320px;
+}
+
 .hdr-dropdown-item {
   display: flex;
   align-items: center;
