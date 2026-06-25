@@ -172,7 +172,7 @@ export default function HomeContent() {
             {[
               { file: "fenerbahce.jpeg",          label: "Fenerbahçe" },
               { file: "galatasaray.jpeg",          label: "Galatasaray" },
-              { file: "besiktas.png",              label: "Beşiktaş" },
+              { file: "besiktas.jpeg",             label: "Beşiktaş" },
               { file: "amedspor.png",              label: "Amedspor" },
               { file: "national-geographic.webp",  label: "National Geographic" },
               { file: "fortune.jpg",               label: "Fortune" },
