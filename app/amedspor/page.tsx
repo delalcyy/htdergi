@@ -368,11 +368,11 @@ export default function AmedsporPage() {
               { file: "runners.png",              label: "Runners" },
             ].map((r) => (
               <div key={r.file} className="amed-ref-item">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/referanslar/${r.file}`}
                   alt={r.label}
                   className="amed-ref-img"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />
               </div>
             ))}
