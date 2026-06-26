@@ -20,9 +20,9 @@ export default function FashionTVPage() {
       <nav className="ftv-nav">
         <div className="ftv-nav-inner">
           <div className="ftv-logo-group">
-            {/* FashionTV logosu */}
-            <div style={{ width: 120, height: 44, background: "rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "rgba(255,255,255,0.3)", letterSpacing: "0.1em" }}>
-              FashionTV Logo
+            {/* FashionTV logosu — buraya gelecek */}
+            <div style={{ height: 40, padding: "0 16px", background: "#f0f0f0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#999" }}>
+              FashionTV
             </div>
             <span className="ftv-nav-sep">×</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -36,28 +36,37 @@ export default function FashionTVPage() {
 
       {/* ── HERO ── */}
       <section className="ftv-hero">
-        <div className="ftv-hero-bg">
-          {/* Hero arka plan görseli buraya gelecek */}
-          <div className="ftv-hero-placeholder">Hero Görseli</div>
-          <div className="ftv-hero-overlay" />
+        <div className="ftv-hero-left">
+          <div className="ftv-hero-content">
+            <div className="ftv-hero-badge">
+              <span className="ftv-hero-badge-dot" />
+              <span className="ftv-hero-badge-text">FashionTV × Hatıra Dergi Özel İşbirliği</span>
+            </div>
+            <h1 className="ftv-hero-h1">
+              Kendi Kapağında<br />
+              <em>Yıldız Ol</em>
+            </h1>
+            <p className="ftv-hero-sub">
+              FashionTV&apos;nin ikonik estetiğiyle kişisel moda dergini tasarla.
+              Hikâyeni anlat, tarzını dünyaya göster.
+            </p>
+            <div className="ftv-hero-btns">
+              <Link href="/kapak-tasarla" className="ftv-btn-primary">
+                Hemen Başla →
+              </Link>
+              <a href="#nasil-calisir" className="ftv-btn-ghost">
+                Nasıl Çalışır?
+              </a>
+            </div>
+          </div>
         </div>
-        <div className="ftv-hero-content">
-          <div className="ftv-hero-badge">FashionTV × Hatıra Dergi Özel İşbirliği</div>
-          <h1 className="ftv-hero-h1">
-            Kendi Kapağında<br />
-            <em>Yıldız Ol</em>
-          </h1>
-          <p className="ftv-hero-sub">
-            FashionTV'nin dünyasında yerini al. Kişisel moda dergini tasarla,
-            kendi hikâyeni en prestijli sayfalarda anlat.
-          </p>
-          <div className="ftv-hero-btns">
-            <Link href="/kapak-tasarla" className="ftv-btn-primary">
-              Hemen Başla <span>→</span>
-            </Link>
-            <a href="#nasil-calisir" className="ftv-btn-ghost">
-              Nasıl Çalışır?
-            </a>
+        <div className="ftv-hero-right">
+          {/* Hero görseli buraya gelecek */}
+          <div className="ftv-hero-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>Hero Görseli</span>
           </div>
         </div>
       </section>
@@ -85,8 +94,7 @@ export default function FashionTVPage() {
           <p className="ftv-section-tag">Süreç</p>
           <h2 className="ftv-section-h2">Üç Adımda<br />Kendi Dergini Yarat</h2>
           <p className="ftv-section-desc">
-            FashionTV estetiğiyle tasarlanmış şablonları kullan, fotoğraflarını yükle,
-            dergini kapat — biz hallederiz.
+            FashionTV estetiğiyle tasarlanmış şablonları kullan, fotoğraflarını yükle — gerisini biz hallederiz.
           </p>
           <div className="ftv-steps-grid">
             {[
@@ -122,16 +130,41 @@ export default function FashionTVPage() {
           <p className="ftv-section-tag">Örnekler</p>
           <h2 className="ftv-section-h2">İlham Veren<br />Kapaklar</h2>
           <p className="ftv-section-desc">
-            Daha önce tasarlanan dergilerden örnekler. Seninkini de buraya taşıyalım.
+            Daha önce oluşturulan dergilerden örnekler. Seninkini de bu koleksiyona ekleyelim.
           </p>
           <div className="ftv-covers-grid">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="ftv-cover-card">
-                {/* Kapak görselleri buraya gelecek */}
                 <div className="ftv-cover-placeholder">
-                  <div className="ftv-cover-placeholder-icon">✦</div>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+                  </svg>
                   <span>Kapak {i}</span>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ÖZELLİKLER ── */}
+      <section className="ftv-section ftv-features">
+        <div className="ftv-section-inner">
+          <p className="ftv-section-tag">Neden Biz?</p>
+          <h2 className="ftv-section-h2">Fark Yaratan<br />Detaylar</h2>
+          <p className="ftv-section-desc">
+            Hatıra Dergi kalitesi ile FashionTV estetiği bir arada.
+          </p>
+          <div className="ftv-features-grid">
+            {[
+              { icon: "✦", title: "Premium Baskı", desc: "Yüksek gramajlı, parlak kâğıt üzerine profesyonel ofset baskı. Her detay kusursuz." },
+              { icon: "◈", title: "Hızlı Üretim", desc: "Onayladıktan sonra 24 saat içinde baskı, kısa sürede kapında. Sürpriz gecikme yok." },
+              { icon: "◉", title: "Sınırsız Özelleştirme", desc: "Başlık, fotoğraf, metin, renk — her şey senin kontrolünde. Tam kişiselleştirilmiş." },
+            ].map((f) => (
+              <div key={f.title} className="ftv-feature">
+                <span className="ftv-feature-icon">{f.icon}</span>
+                <div className="ftv-feature-title">{f.title}</div>
+                <p className="ftv-feature-desc">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -143,20 +176,19 @@ export default function FashionTVPage() {
         <div className="ftv-cta-inner">
           <h2>Senin Dergini<br />Tasarlamaya Hazırız</h2>
           <p>
-            FashionTV'nin ikonik estetiğiyle birleşen Hatıra Dergi kalitesi —
+            FashionTV&apos;nin ikonik estetiğiyle birleşen Hatıra Dergi kalitesi —
             bu fırsatı kaçırmayın.
           </p>
           <Link href="/kapak-tasarla" className="ftv-cta-btn">
-            Şimdi Tasarla <span>→</span>
+            Şimdi Tasarla →
           </Link>
         </div>
       </section>
 
       {/* ── FOOTER ── */}
       <footer className="ftv-footer">
-        <p>
-          © {new Date().getFullYear()} FashionTV × <a href="https://hatiradergi.com">Hatıra Dergi</a>. Tüm hakları saklıdır.
-        </p>
+        <p>© {new Date().getFullYear()} FashionTV × <a href="https://hatiradergi.com">Hatıra Dergi</a>. Tüm hakları saklıdır.</p>
+        <p><a href="https://hatiradergi.com/iletisim">İletişim</a></p>
       </footer>
 
     </div>

@@ -1,21 +1,21 @@
-/* ── Reset / Base ── */
+/* ── Base ── */
 .ftv-page {
   font-family: var(--font-inter), 'Inter', sans-serif;
-  color: #fff;
-  background: #0a0a0a;
+  color: #111;
+  background: #fff;
   min-height: 100vh;
 }
 
 /* ── Topbar ── */
 .ftv-topbar {
-  background: #c9a84c;
+  background: #111;
   text-align: center;
-  padding: 10px 20px;
-  font-size: 12px;
+  padding: 11px 20px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #000;
+  color: #fff;
 }
 
 /* ── Nav ── */
@@ -23,16 +23,15 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .ftv-nav-inner {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 32px;
-  height: 72px;
+  padding: 0 40px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,134 +40,113 @@
 .ftv-logo-group {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .ftv-logo-img {
-  height: 44px;
+  height: 40px;
   width: auto;
   object-fit: contain;
 }
 
 .ftv-nav-sep {
-  font-size: 18px;
-  color: #c9a84c;
-  font-weight: 300;
+  font-size: 20px;
+  color: #ccc;
+  font-weight: 200;
+  line-height: 1;
 }
 
 .ftv-nav-brand {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #fff;
+  color: #111;
 }
 
 .ftv-nav-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 42px;
-  padding: 0 28px;
-  background: #c9a84c;
-  color: #000;
-  font-size: 12px;
+  height: 44px;
+  padding: 0 30px;
+  background: #111;
+  color: #fff;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
   transition: background 0.2s;
 }
-.ftv-nav-cta:hover { background: #e0bc5e; }
+.ftv-nav-cta:hover { background: #333; }
 
 /* ── Hero ── */
 .ftv-hero {
-  position: relative;
-  min-height: 90vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 88vh;
+}
+
+.ftv-hero-left {
+  background: #f4f1ec;
   display: flex;
   align-items: center;
-  overflow: hidden;
-}
-
-.ftv-hero-bg {
-  position: absolute;
-  inset: 0;
-  background: #111;
-}
-
-.ftv-hero-bg-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.5;
-}
-
-.ftv-hero-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-  color: rgba(255,255,255,0.1);
-  font-size: 14px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.ftv-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.2) 100%);
+  padding: 80px 64px;
 }
 
 .ftv-hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 80px 32px;
+  max-width: 520px;
 }
 
 .ftv-hero-badge {
-  display: inline-block;
-  padding: 6px 16px;
-  border: 1px solid #c9a84c;
-  color: #c9a84c;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.ftv-hero-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c00;
+  flex-shrink: 0;
+}
+
+.ftv-hero-badge-text {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  margin-bottom: 32px;
+  color: #555;
 }
 
 .ftv-hero-h1 {
   font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
-  font-size: clamp(42px, 7vw, 80px);
+  font-size: clamp(40px, 5vw, 68px);
   font-weight: 700;
   line-height: 1.05;
-  letter-spacing: -0.01em;
-  color: #fff;
-  margin: 0 0 24px;
-  max-width: 640px;
+  letter-spacing: -0.02em;
+  color: #111;
+  margin: 0 0 28px;
 }
 
 .ftv-hero-h1 em {
   font-style: italic;
-  color: #c9a84c;
+  color: #c00;
 }
 
 .ftv-hero-sub {
-  font-size: 17px;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.75);
-  max-width: 480px;
-  margin: 0 0 40px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #666;
+  margin: 0 0 44px;
 }
 
 .ftv-hero-btns {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
@@ -176,181 +154,216 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 54px;
+  height: 52px;
   padding: 0 36px;
-  background: #c9a84c;
-  color: #000;
-  font-size: 13px;
+  background: #111;
+  color: #fff;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s;
 }
-.ftv-btn-primary:hover { background: #e0bc5e; transform: translateY(-2px); }
+.ftv-btn-primary:hover { background: #333; }
 
 .ftv-btn-ghost {
   display: inline-flex;
   align-items: center;
-  height: 54px;
-  padding: 0 36px;
-  border: 1.5px solid rgba(255,255,255,0.4);
-  color: #fff;
-  font-size: 13px;
+  height: 52px;
+  padding: 0 32px;
+  border: 1.5px solid #ccc;
+  color: #111;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.2s;
 }
-.ftv-btn-ghost:hover { border-color: #c9a84c; background: rgba(201,168,76,0.08); }
+.ftv-btn-ghost:hover { border-color: #111; }
+
+.ftv-hero-right {
+  position: relative;
+  overflow: hidden;
+  background: #ddd;
+}
+
+.ftv-hero-right-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ftv-hero-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #e8e4de;
+  color: #aaa;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
 
 /* ── Stats ── */
 .ftv-stats {
-  background: #111;
-  border-top: 1px solid rgba(201,168,76,0.2);
-  border-bottom: 1px solid rgba(201,168,76,0.2);
-  padding: 40px 32px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  background: #fff;
 }
 
 .ftv-stats-inner {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
+  padding: 0 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0;
 }
 
 .ftv-stat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 20px;
-  border-right: 1px solid rgba(255,255,255,0.08);
+  gap: 6px;
+  padding: 40px 20px;
+  border-right: 1px solid #eee;
 }
 .ftv-stat:last-child { border-right: none; }
 
 .ftv-stat-n {
   font-family: var(--font-playfair), Georgia, serif;
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 700;
-  color: #c9a84c;
+  color: #111;
   line-height: 1;
 }
 
 .ftv-stat-label {
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: #999;
 }
 
 /* ── Bölüm ortak ── */
 .ftv-section {
-  padding: 100px 32px;
+  padding: 100px 40px;
 }
 
 .ftv-section-inner {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
 .ftv-section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #c9a84c;
-  margin-bottom: 16px;
+  color: #c00;
+  margin-bottom: 20px;
+}
+.ftv-section-tag::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: #c00;
 }
 
 .ftv-section-h2 {
   font-family: var(--font-playfair), Georgia, serif;
-  font-size: clamp(30px, 4vw, 48px);
+  font-size: clamp(28px, 3.5vw, 48px);
   font-weight: 700;
-  color: #fff;
-  line-height: 1.15;
+  color: #111;
+  line-height: 1.12;
   margin: 0 0 16px;
 }
 
 .ftv-section-desc {
-  font-size: 16px;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.6);
-  max-width: 560px;
-  margin: 0 0 60px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #777;
+  max-width: 520px;
+  margin: 0 0 56px;
 }
 
 /* ── Nasıl Çalışır ── */
 .ftv-steps {
-  background: #0f0f0f;
+  background: #faf9f7;
 }
 
 .ftv-steps-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 2px;
+  background: #eee;
 }
 
 .ftv-step {
-  padding: 40px 32px;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-top: 2px solid #c9a84c;
-  background: #141414;
+  padding: 48px 40px;
+  background: #faf9f7;
 }
 
 .ftv-step-num {
   font-family: var(--font-playfair), Georgia, serif;
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 700;
-  color: rgba(201,168,76,0.2);
+  color: #eee;
   line-height: 1;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .ftv-step-title {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #fff;
-  margin-bottom: 12px;
+  color: #111;
+  margin-bottom: 14px;
 }
 
 .ftv-step-desc {
   font-size: 14px;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.55);
+  line-height: 1.75;
+  color: #888;
 }
 
 /* ── Kapak Örnekleri ── */
 .ftv-covers {
-  background: #0a0a0a;
+  background: #fff;
 }
 
 .ftv-covers-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 16px;
 }
 
 .ftv-cover-card {
   position: relative;
   aspect-ratio: 3/4;
   overflow: hidden;
-  background: #1a1a1a;
-  border: 1px solid rgba(255,255,255,0.07);
+  background: #f0ede8;
 }
 
 .ftv-cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s;
+  transition: transform 0.5s;
 }
-.ftv-cover-card:hover .ftv-cover-img { transform: scale(1.05); }
+.ftv-cover-card:hover .ftv-cover-img { transform: scale(1.04); }
 
 .ftv-cover-placeholder {
   width: 100%;
@@ -359,51 +372,81 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  color: rgba(255,255,255,0.15);
+  gap: 10px;
+  color: #bbb;
   font-size: 11px;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
-.ftv-cover-placeholder-icon {
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: rgba(255,255,255,0.15);
+.ftv-cover-placeholder svg {
+  opacity: 0.3;
+}
+
+/* ── Özellikler ── */
+.ftv-features {
+  background: #111;
+  color: #fff;
+}
+
+.ftv-features .ftv-section-h2 { color: #fff; }
+.ftv-features .ftv-section-desc { color: rgba(255,255,255,0.5); }
+
+.ftv-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.ftv-feature {
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+
+.ftv-feature-icon {
+  font-size: 24px;
+  margin-bottom: 18px;
+  display: block;
+}
+
+.ftv-feature-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.ftv-feature-desc {
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.5);
 }
 
 /* ── CTA ── */
 .ftv-cta {
-  background: #c9a84c;
-  padding: 100px 32px;
+  background: #c00;
+  padding: 100px 40px;
   text-align: center;
 }
 
-.ftv-cta-inner {
-  max-width: 700px;
-  margin: 0 auto;
-}
+.ftv-cta-inner { max-width: 680px; margin: 0 auto; }
 
 .ftv-cta h2 {
   font-family: var(--font-playfair), Georgia, serif;
-  font-size: clamp(30px, 4vw, 52px);
+  font-size: clamp(30px, 4vw, 56px);
   font-weight: 700;
-  color: #000;
+  color: #fff;
   line-height: 1.1;
   margin: 0 0 20px;
 }
 
 .ftv-cta p {
   font-size: 16px;
-  color: rgba(0,0,0,0.65);
-  margin: 0 0 40px;
-  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  margin: 0 0 44px;
+  line-height: 1.65;
 }
 
 .ftv-cta-btn {
@@ -411,52 +454,54 @@
   align-items: center;
   gap: 10px;
   height: 56px;
-  padding: 0 44px;
-  background: #000;
-  color: #fff;
-  font-size: 13px;
+  padding: 0 48px;
+  background: #fff;
+  color: #c00;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
-.ftv-cta-btn:hover { background: #1a1a1a; transform: translateY(-2px); }
+.ftv-cta-btn:hover { background: #111; color: #fff; }
 
 /* ── Footer ── */
 .ftv-footer {
-  background: #000;
+  background: #111;
   border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 32px;
-  text-align: center;
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .ftv-footer p {
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
-  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.05em;
 }
 
 .ftv-footer a {
   color: rgba(255,255,255,0.5);
   text-decoration: none;
 }
-.ftv-footer a:hover { color: #c9a84c; }
+.ftv-footer a:hover { color: #fff; }
 
 /* ── Responsive ── */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .ftv-hero { grid-template-columns: 1fr; }
+  .ftv-hero-right { min-height: 320px; }
+  .ftv-hero-left { padding: 60px 24px; }
+  .ftv-section { padding: 70px 24px; }
   .ftv-nav-inner { padding: 0 20px; }
-  .ftv-hero-content { padding: 60px 20px; }
-  .ftv-section { padding: 70px 20px; }
 
-  .ftv-stats-inner { grid-template-columns: repeat(2, 1fr); }
-  .ftv-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .ftv-stat:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.08); }
+  .ftv-stats-inner { grid-template-columns: repeat(2, 1fr); padding: 0 24px; }
+  .ftv-stat:nth-child(2) { border-right: none; }
+  .ftv-stat:nth-child(odd) { border-right: 1px solid #eee; }
 
-  .ftv-steps-grid { grid-template-columns: 1fr; gap: 20px; }
+  .ftv-steps-grid { grid-template-columns: 1fr; }
   .ftv-covers-grid { grid-template-columns: repeat(2, 1fr); }
-
-  .ftv-logo-img { height: 32px; }
-  .ftv-nav-brand { font-size: 11px; }
-  .ftv-nav-sep { font-size: 14px; }
+  .ftv-features-grid { grid-template-columns: 1fr; gap: 28px; }
+  .ftv-footer { flex-direction: column; gap: 12px; text-align: center; }
 }
